@@ -58,6 +58,18 @@ export default function RootLayout({
             {children}
           </main>
           
+          {/* Built by credit */}
+          <footer className="fixed bottom-1 left-0 right-0 text-center pointer-events-none z-10">
+            <a 
+              href="https://www.StructuredForGrowth.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-xs text-white/30 hover:text-white/60 transition-colors pointer-events-auto"
+            >
+              Built by Anth
+            </a>
+          </footer>
+          
           {/* Floating accessibility button - always visible */}
           <AccessibilityFAB />
           
