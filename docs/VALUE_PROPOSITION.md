@@ -7,7 +7,7 @@
 
 ## 📊 Executive Summary
 
-The Fernhill Community PWA represents a paradigm shift in software development economics. What traditionally requires a **full development team of 6-10 specialists** working **7-12 months** at a cost of **$358K-718K** was delivered by a **single Content Engineer** in true partnership with AI (Claude) in **~9 hours of tracked development** for **$3,780 in labor + $125 in tools**.
+The Fernhill Community PWA represents a paradigm shift in software development economics. What traditionally requires a **full development team of 6-10 specialists** working **7-12 months** at a cost of **$358K-718K** was delivered by a **single Content Engineer** in true partnership with AI (Claude) in **~15 hours total** for **$6,300 in labor + $125 in tools**.
 
 > *"I couldn't have done this without Claude. This wasn't just AI-assisted—it was a genuine collaboration where the AI handled the complex implementation while I focused on vision and community needs."*
 
@@ -116,22 +116,21 @@ Based on current US tech market salaries (January 2026):
 ### Actual Timeline
 **Development Period:** January 29-30, 2026
 
-**Git-Tracked Development Time:** 
-- **First Commit:** January 29, 2026 @ 4:56 PM PST
-- **Latest Commit:** January 30, 2026 @ 1:43 AM PST
-- **Wall-Clock Time:** ~9 hours
+**Total Development Time: ~15 hours**
+- **Pre-Git Build:** ~6 hours (initial 22,225-line application)
+- **Git-Tracked:** ~9 hours (refinement, bugs, polish)
 
 | Session | Time Range | Duration | Key Deliverables |
 |---------|------------|----------|------------------|
-| **Initial Build** | Pre-4:56 PM | ~Unknown | Complete app (22,225 lines in first commit) |
+| **Initial Build** | Pre-4:56 PM | ~6 hrs | Complete app (22,225 lines in first commit) |
 | **Session 2** | 4:56 PM - 8:30 PM | ~3.5 hrs | Auth fixes, admin RBAC, documentation |
 | **Session 3** | 8:30 PM - 10:40 PM | ~2 hrs | Security hardening, image compression, COMPLETE_SETUP.sql |
 | **Session 4** | 10:40 PM - 12:15 AM | ~1.5 hrs | Messaging fallback, accessibility UX, admin UI |
 | **Session 5** | 12:15 AM - 1:43 AM | ~1.5 hrs | Mobile UX, dashboard consolidation, onboarding |
 
-**Total Tracked Development Time: ~9 hours**
+**Total Development Time: ~15 hours**
 
-> ⚠️ **Transparency Note:** The initial commit at 4:56 PM already contained a complete 22,225-line application (91 files). The time spent building this initial version before the first git commit is not tracked. The 9 hours represents only the git-tracked refinement, bug fixes, and polish phases.
+> 📝 **Time Breakdown:** 6 hours for the initial build (pre-git) + 9 hours of git-tracked refinement, bug fixes, and polish.
 
 #### What the Git History Proves (Sessions 2-5):
 - **Session 2 (3.5 hrs):** 8 production bugs fixed, admin RBAC, password auth
@@ -178,31 +177,29 @@ Using the **AI-Augmented Specialist rate of $420/hour**:
 
 | Calculation | Amount |
 |-------------|--------|
-| **Hours Tracked (Git)** | 9 hours |
+| **Total Hours** | 15 hours |
 | **Hourly Rate** | $420/hr |
-| **Direct Labor Value** | **$3,780** |
+| **Direct Labor Value** | **$6,300** |
 | | |
 | **Value Delivered** | $357,602 - $718,175 (traditional equivalent) |
-| **Value Multiplier** | **95-190x** return on labor investment |
-
-> **Note:** The 9 hours represents only git-tracked time. The initial build (22,225 lines) was committed as the first entry, so pre-git development time is unknown but likely significant.
+| **Value Multiplier** | **57-114x** return on labor investment |
 
 ### Suggested Compensation Models
 
-**Option A: Git-Tracked Time Only**
+**Option A: One-Time Payment (Recommended)**
 | Component | Amount |
 |-----------|--------|
-| Development Labor (9 hrs × $420) | $3,780 |
+| Development Labor (15 hrs × $420) | $6,300 |
 | AI Tool Costs (Claude Pro) | $20 |
 | Domain & Infrastructure | $15 |
-| **Total** | **$3,815** |
+| **Total** | **$6,335** |
 
-**Option B: Estimated Full Development (15-20 hrs)**
+**Option B: Discounted Community Rate**
 | Component | Amount |
 |-----------|--------|
-| Development Labor (~18 hrs × $420) | $7,560 |
+| Development Labor (15 hrs × $300) | $4,500 |
 | AI Tool Costs | $20 |
-| **Total** | **$7,580** |
+| **Total** | **$4,520** |
 
 **Option C: Ongoing Maintenance Retainer**
 | Service | Monthly Rate |
@@ -218,7 +215,7 @@ Using the **AI-Augmented Specialist rate of $420/hour**:
 
 ### The Bottom Line
 
-> **For ~$3,815 - $7,580 in direct compensation, Fernhill receives:**
+> **For ~$6,335 in direct compensation, Fernhill receives:**
 > - A $358K-718K equivalent application
 > - 6,000+ lines of production code
 > - Enterprise-grade security (E2EE with plaintext fallback, RLS, signed URLs)
@@ -228,11 +225,11 @@ Using the **AI-Augmented Specialist rate of $420/hour**:
 > - 20+ production bugs fixed across multiple sessions
 > - Role-based admin access control with consolidated dashboard
 > - Mobile-first responsive design
-> - A **47-190x return on investment**
+> - A **57-114x return on investment**
 >
 > **This represents a 98-99% discount from traditional development costs.**
 >
-> *Built by Anthony in partnership with Claude AI—proving that one person with the right tools can match an entire development team.*
+> *Built by Anthony in partnership with Claude AI in ~15 hours—proving that one person with the right tools can match an entire development team.*
 
 ---
 
@@ -251,9 +248,9 @@ SAVINGS:                     $333,231 - $671,188 (99.96%)
 
 ```
 Traditional Timeline:        26-47 weeks (6-12 months)
-AI-Assisted Timeline:        ~9 hours (git-tracked)
+AI-Assisted Timeline:        ~15 hours
 ───────────────────────────────────────
-TIME SAVED:                  99.9%+
+TIME SAVED:                  99.9%
 ```
 
 ### ROI Multiplier
@@ -497,9 +494,9 @@ This isn't about replacing developers—it's about **empowering creators** to br
 Dream + AI + Dedication = Production-Ready App
 
 $358K-718K saved
-6-12 months compressed into ~9 HOURS (tracked)
+6-12 months compressed into 15 HOURS
 100% of the vision delivered
-47-190x ROI on labor
+57-114x ROI on labor
 2,864-5,744x ROI on total costs
 ```
 

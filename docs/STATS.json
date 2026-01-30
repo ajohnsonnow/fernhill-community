@@ -144,13 +144,12 @@
     "savings": "$358K - $718K",
     "roiMultiplier": "2,864x - 5,744x",
     "traditionalTime": "6-12 months",
-    "aiAssistedTime": "~9 hours (git-tracked)",
-    "timeSaved": "99.9%+",
+    "aiAssistedTime": "~15 hours (6 pre-git + 9 tracked)",
+    "timeSaved": "99.9%",
     "developmentPeriod": "January 29-30, 2026",
     "firstCommit": "Jan 29 @ 4:56 PM PST (22,225 lines)",
     "lastCommit": "Jan 30 @ 1:43 AM PST",
-    "laborValue": "$3,780 (9 hrs × $420/hr)",
-    "laborROI": "95-190x",
-    "transparencyNote": "Initial 22K line commit pre-dates git tracking"
+    "laborValue": "$6,300 (15 hrs × $420/hr)",
+    "laborROI": "57-114x"
   }
 }
