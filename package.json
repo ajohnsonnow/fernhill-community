@@ -18,7 +18,6 @@
     "@supabase/supabase-js": "^2.45.4",
     "browser-image-compression": "^2.0.2",
     "date-fns": "^4.1.0",
-    "face-api.js": "^0.22.2",
     "lucide-react": "^0.462.0",
     "next": "^16.1.6",
     "react": "^19.0.0",
