@@ -223,6 +223,14 @@ export default function ProfilePage() {
             >
               💬 General Feedback
             </a>
+            <a 
+              href="https://docs.google.com/forms/d/e/1FAIpQLSeAGwROK9NUCzMaJlK4g-07p2KcRabBkzj7D9q62dgvCkPypA/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
+            >
+              🛡️ Boundary Violation Report
+            </a>
           </div>
         </div>
 
