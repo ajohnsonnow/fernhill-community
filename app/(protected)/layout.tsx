@@ -31,7 +31,7 @@ export default async function ProtectedLayout({
 
   return (
     <AudioProvider>
-      <div className="min-h-screen bg-sacred-charcoal pb-24">
+      <div className="min-h-screen bg-sacred-charcoal pb-24 has-bottom-nav">
         <TopHeader profile={profile as any} />
         <main className="pt-20">
           {children}
@@ -40,10 +40,6 @@ export default async function ProtectedLayout({
         <InstallPrompt />
         <BottomNav />
       </div>
-      {/* Adjust footer position for pages with bottom nav */}
-      <style jsx global>{`
-        footer { bottom: 4.5rem !important; }
-      `}</style>
     </AudioProvider>
   )
 }

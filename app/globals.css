@@ -69,6 +69,12 @@
 }
 
 @layer components {
+  /* Footer positioning for pages with bottom nav */
+  .has-bottom-nav ~ footer,
+  .has-bottom-nav footer {
+    bottom: 4.5rem !important;
+  }
+  
   /* Warm glass panels */
   .glass-panel {
     @apply bg-fernhill-brown/30 backdrop-blur-md border border-fernhill-sand/10 shadow-xl;
