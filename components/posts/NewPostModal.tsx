@@ -66,6 +66,17 @@ export default function NewPostModal({ isOpen, onClose }: NewPostModalProps) {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('Not authenticated')
 
+      // Check if user requires review
+      const { data: profile } = await (supabase
+        .from('profiles') as any)
+        .select('requires_review, status')
+        .eq('id', user.id)
+        .single()
+
+      const requiresReview = profile?.requires_review !== false && 
+        profile?.status !== 'admin' && 
+        profile?.status !== 'facilitator'
+
       let imageUrl = null
 
       // Upload image if present
@@ -89,19 +100,40 @@ export default function NewPostModal({ isOpen, onClose }: NewPostModalProps) {
         imageUrl = signedUrlData.signedUrl
       }
 
-      // Create the post
-      const { error } = await supabase
-        .from('posts')
-        .insert({
-          author_id: user.id,
-          content: content.trim(),
-          category: category as 'general' | 'mutual_aid_offer' | 'mutual_aid_request' | 'gratitude' | 'organizing',
-          image_url: imageUrl,
-        } as any)
+      if (requiresReview) {
+        // Submit to content queue for review
+        const { error } = await (supabase
+          .from('content_queue') as any)
+          .insert({
+            user_id: user.id,
+            content_type: 'post',
+            content_data: {
+              content: content.trim(),
+              category,
+              image_url: imageUrl,
+            },
+            status: 'pending',
+          })
 
-      if (error) throw error
+        if (error) throw error
 
-      toast.success('Post shared with the tribe! ✨')
+        toast.success('Post submitted for review! A steward will approve it soon. 🌱')
+      } else {
+        // Trusted user - post directly
+        const { error } = await supabase
+          .from('posts')
+          .insert({
+            author_id: user.id,
+            content: content.trim(),
+            category: category as 'general' | 'mutual_aid_offer' | 'mutual_aid_request' | 'gratitude' | 'organizing',
+            image_url: imageUrl,
+          } as any)
+
+        if (error) throw error
+
+        toast.success('Post shared with the tribe! ✨')
+      }
+
       setContent('')
       setCategory('general')
       setImage(null)

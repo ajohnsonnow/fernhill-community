@@ -412,6 +412,23 @@ export default function AdminDashboard() {
         approved_at: new Date().toISOString()
       })
       publishError = error
+    } else if (item.content_type === 'post') {
+      // Publish the post to the posts table
+      const { error } = await (supabase.from('posts') as any).insert({
+        author_id: item.user_id,
+        content: (item.content_data as any).content,
+        category: (item.content_data as any).category,
+        image_url: (item.content_data as any).image_url || null,
+      })
+      publishError = error
+    } else if (item.content_type === 'altar_photo') {
+      // Publish to altar_photos table
+      const { error } = await (supabase.from('altar_photos') as any).insert({
+        user_id: item.user_id,
+        image_url: (item.content_data as any).image_url,
+        caption: (item.content_data as any).caption || null,
+      })
+      publishError = error
     }
 
     if (publishError) {
@@ -879,10 +896,14 @@ export default function AdminDashboard() {
                           <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
                             item.content_type === 'music_set' ? 'bg-purple-500/20 text-purple-300' :
                             item.content_type === 'vibe_tag_suggestion' ? 'bg-blue-500/20 text-blue-300' :
+                            item.content_type === 'post' ? 'bg-green-500/20 text-green-300' :
+                            item.content_type === 'altar_photo' ? 'bg-pink-500/20 text-pink-300' :
                             'bg-gray-500/20 text-gray-300'
                           }`}>
                             {item.content_type === 'music_set' ? '🎵 Music Set' :
                              item.content_type === 'vibe_tag_suggestion' ? '✨ Vibe Tag' :
+                             item.content_type === 'post' ? '📝 Post' :
+                             item.content_type === 'altar_photo' ? '📸 Photo' :
                              item.content_type}
                           </span>
                           <span className={`px-2 py-0.5 text-xs rounded-full ${
@@ -937,6 +958,49 @@ export default function AdminDashboard() {
                               Value: {(item.content_data as any).value} • Category: {(item.content_data as any).category || 'custom'}
                             </p>
                           </div>
+                        </div>
+                      )}
+                      
+                      {item.content_type === 'post' && (
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2">
+                            <span className={`px-2 py-0.5 text-xs rounded-full ${
+                              (item.content_data as any).category === 'mutual_aid_offer' ? 'bg-green-500/20 text-green-300' :
+                              (item.content_data as any).category === 'mutual_aid_request' ? 'bg-orange-500/20 text-orange-300' :
+                              (item.content_data as any).category === 'gratitude' ? 'bg-purple-500/20 text-purple-300' :
+                              (item.content_data as any).category === 'organizing' ? 'bg-blue-500/20 text-blue-300' :
+                              'bg-fernhill-sand/20 text-fernhill-sand'
+                            }`}>
+                              {(item.content_data as any).category}
+                            </span>
+                          </div>
+                          <p className="text-fernhill-cream/90 text-sm whitespace-pre-wrap">
+                            {(item.content_data as any).content}
+                          </p>
+                          {(item.content_data as any).image_url && (
+                            <img 
+                              src={(item.content_data as any).image_url} 
+                              alt="Post image" 
+                              className="mt-2 rounded-lg max-h-40 object-cover"
+                            />
+                          )}
+                        </div>
+                      )}
+                      
+                      {item.content_type === 'altar_photo' && (
+                        <div className="space-y-2">
+                          {(item.content_data as any).image_url && (
+                            <img 
+                              src={(item.content_data as any).image_url} 
+                              alt="Altar photo" 
+                              className="rounded-lg max-h-48 object-cover"
+                            />
+                          )}
+                          {(item.content_data as any).caption && (
+                            <p className="text-fernhill-cream/70 text-sm italic">
+                              "{(item.content_data as any).caption}"
+                            </p>
+                          )}
                         </div>
                       )}
                     </div>
