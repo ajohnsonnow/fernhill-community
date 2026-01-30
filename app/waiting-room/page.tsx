@@ -166,6 +166,14 @@ export default function WaitingRoomPage() {
 
       if (error) throw error
 
+      // Update local profile state so Step 4 displays the info
+      setProfile((prev: any) => ({
+        ...prev,
+        tribe_name: tribeName,
+        vouched_by_name: voucher,
+        mycelial_gifts: gifts,
+      }))
+
       setStep(4)
       toast.success('Your request has been sent to the stewards')
     } catch (error: any) {
