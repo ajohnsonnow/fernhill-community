@@ -36,9 +36,9 @@ export default function AdminLayout({
         .from('profiles')
         .select('status, tribe_name')
         .eq('id', user.id)
-        .single()
+        .single() as { data: { status: string; tribe_name: string } | null; error: any }
 
-      if (error) {
+      if (error || !profile) {
         console.error('Error checking admin status:', error)
         toast.error('Failed to verify admin access')
         router.push('/hearth')
