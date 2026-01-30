@@ -1,7 +1,7 @@
 # 🌿 Fernhill Community App - User Guide
 
-> **Last Updated:** January 29, 2026  
-> **Version:** 1.3.0  
+> **Last Updated:** January 30, 2026  
+> **Version:** 1.4.0  
 > **Platform:** Progressive Web App (iOS, Android, Desktop)
 
 ---

@@ -6,9 +6,9 @@
  */
 
 export const APP_VERSION = {
-  version: '1.3.0',
-  codename: 'Sacred Connections',
-  releaseDate: '2026-01-29',
+  version: '1.4.0',
+  codename: 'Sacred Gate',
+  releaseDate: '2026-01-30',
   buildTime: new Date().toISOString(),
 } as const
 

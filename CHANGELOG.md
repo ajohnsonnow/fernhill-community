@@ -5,6 +5,38 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-01-30
+
+### 🚪 Sacred Gate Release - "Sacred Gate"
+
+Session 5: Admin dashboard consolidation, mobile UX, and onboarding improvements.
+
+### 🏗️ Admin Dashboard Overhaul
+- **Sacred Gate Integration** - Pending user approval moved INTO Users tab (no separate Gate page)
+- **Queue → Content Merge** - Consolidated moderation queue into Content tab
+- **Mobile-First Header** - Hamburger menu for narrow screens, horizontal tabs on desktop
+- **User List Improvements** - Separate sections for Pending Invites vs Active Users
+
+### 📱 Mobile UX Improvements
+- **Responsive Header** - Collapsible hamburger nav for 6-tab dashboard
+- **Modal Z-Index Fix** - Fixed iOS layering issues (nav z-40, modals z-50)
+- **Content Moderation Wiring** - Post moderation now fully functional
+
+### 🔐 Onboarding Flow
+- **Welcome Emails** - Auto-send welcome email when admin approves a user
+- **Photo Upload Simplified** - Replaced camera-based verification with simple photo upload
+- **Profile State Fix** - Local state updates properly after submission
+
+### ♿ Accessibility Tweaks
+- **Settings Default OFF** - Accessibility features now OFF by default (opt-in)
+- **Smaller Dismiss Badge** - Tiny dismiss button at top-right of FAB
+
+### 📚 Documentation
+- **Roles & Permissions** - Comprehensive section added to User Guide
+- **Value Proposition Update** - Revised costs to $358K-718K estimate
+
+---
+
 ## [1.3.0] - 2026-01-29
 
 ### 🌟 Polish & Production Release - "Sacred Connections"

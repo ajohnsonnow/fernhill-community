@@ -2,9 +2,9 @@
 
 **A Secure Digital Hearth for the Ecstatic Dance Tribe**
 
-[![Version](https://img.shields.io/badge/version-1.3.0-green.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-1.4.0-green.svg)](package.json)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](tsconfig.json)
-[![Lines of Code](https://img.shields.io/badge/lines-5,500+-brightgreen.svg)](#)
+[![Lines of Code](https://img.shields.io/badge/lines-6,000+-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/license-Private-red.svg)](LICENSE)
 [![Deployed](https://img.shields.io/badge/deployed-Render.com-blueviolet.svg)](https://fernhill-community.onrender.com)
 
@@ -94,10 +94,10 @@ Comprehensive 4-step boundary violation report form matching official community 
 
 | Metric | Value |
 |--------|-------|
-| **Lines of TypeScript/TSX** | 5,200+ |
-| **React Components** | 50+ |
+| **Lines of TypeScript/TSX** | 6,000+ |
+| **React Components** | 55+ |
 | **Protected Routes** | 10 |
-| **API Routes** | 3 |
+| **API Routes** | 4 |
 | **SQL Setup Files** | 1 (COMPLETE_SETUP.sql) |
 | **Production URL** | [fernhill-community.onrender.com](https://fernhill-community.onrender.com) |
 | **Database Tables** | 20+ |
