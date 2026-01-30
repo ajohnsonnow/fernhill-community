@@ -25,26 +25,26 @@ export default function InstallPrompt() {
     const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
     setIsIOS(iOS)
 
-    // Check if user has dismissed before (within last 7 days)
+    // Check if user has dismissed before (within last 90 days)
     const dismissedAt = localStorage.getItem('pwa-prompt-dismissed')
     if (dismissedAt) {
       const daysSinceDismissed = (Date.now() - parseInt(dismissedAt)) / (1000 * 60 * 60 * 24)
-      if (daysSinceDismissed < 7) return
+      if (daysSinceDismissed < 90) return // Don't nag for 3 months
     }
 
     // For Android/Chrome - listen for beforeinstallprompt
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault()
       setDeferredPrompt(e as BeforeInstallPromptEvent)
-      // Show prompt after a delay so user has time to explore
-      setTimeout(() => setShowPrompt(true), 3000)
+      // Show prompt after user has had time to explore (30 seconds)
+      setTimeout(() => setShowPrompt(true), 30000)
     }
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall)
 
-    // For iOS - show manual instructions after delay
+    // For iOS - show manual instructions after delay (60 seconds)
     if (iOS) {
-      setTimeout(() => setShowPrompt(true), 5000)
+      setTimeout(() => setShowPrompt(true), 60000)
     }
 
     return () => {
