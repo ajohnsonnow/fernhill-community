@@ -499,8 +499,11 @@ export default function AdminDashboard() {
     fetchSettings()
   }
 
-  // Filter users
+  // Filter users - exclude unconfirmed pending invites (no tribe_name) from main list
   const filteredUsers = users.filter(user => {
+    // Skip unconfirmed pending users - they show in Pending Invites section
+    if (user.status === 'pending' && !user.tribe_name) return false
+    
     const matchesSearch = user.tribe_name?.toLowerCase().includes(userSearch.toLowerCase()) ||
       user.full_name?.toLowerCase().includes(userSearch.toLowerCase()) ||
       user.username?.toLowerCase().includes(userSearch.toLowerCase())
@@ -525,7 +528,7 @@ export default function AdminDashboard() {
   }
 
   const tabs = [
-    { id: 'users', label: 'Users', icon: Users, count: stats.totalUsers },
+    { id: 'users', label: 'Users', icon: Users, count: stats.activeUsers },
     { id: 'queue', label: 'Queue', icon: Clock, count: stats.pendingQueue, highlight: stats.pendingQueue > 0 },
     { id: 'content', label: 'Content', icon: MessageSquare, count: stats.totalPosts },
     { id: 'events', label: 'Events', icon: Calendar, count: stats.pendingEvents, highlight: stats.pendingEvents > 0 },
@@ -613,6 +616,40 @@ export default function AdminDashboard() {
         {/* USERS TAB */}
         {activeTab === 'users' && (
           <div className="space-y-4">
+            {/* Pending Invites Section - users who haven't confirmed yet */}
+            {users.filter(u => u.status === 'pending' && !u.tribe_name).length > 0 && (
+              <div className="glass-panel rounded-xl p-4 border border-yellow-500/30">
+                <div className="flex items-center gap-2 mb-3">
+                  <Mail className="w-5 h-5 text-yellow-400" />
+                  <h3 className="font-medium text-yellow-400">Pending Invites</h3>
+                  <span className="text-xs text-fernhill-sand/50">
+                    (Users who haven't confirmed their email yet - auto-purge after 30 days)
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {users.filter(u => u.status === 'pending' && !u.tribe_name).map(user => (
+                    <div key={user.id} className="flex items-center justify-between p-2 bg-fernhill-dark/50 rounded-lg">
+                      <div>
+                        <p className="text-fernhill-cream text-sm">
+                          {user.full_name || 'Unknown'}
+                        </p>
+                        <p className="text-xs text-fernhill-sand/50">
+                          Created {formatDistanceToNow(new Date(user.created_at), { addSuffix: true })}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => setShowDeleteConfirm({ id: user.id, name: user.full_name || 'this invite' })}
+                        className="p-2 rounded-lg hover:bg-red-500/20 text-red-400/60 hover:text-red-400 transition-colors"
+                        title="Delete invite"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Header with Add User button */}
             <div className="flex items-center justify-between">
               <p className="text-fernhill-sand/60 text-sm">{filteredUsers.length} users</p>
