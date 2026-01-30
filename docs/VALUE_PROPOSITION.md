@@ -7,7 +7,7 @@
 
 ## 📊 Executive Summary
 
-The Fernhill Community PWA represents a paradigm shift in software development economics. What traditionally requires a **full development team of 6-10 specialists** working **6-12 months** at a cost of **$333K-671K** was delivered by a **single Content Engineer** in true partnership with AI (Claude) in **~23 hours over 4 sessions** for **$9,660 in labor + $125 in tools**.
+The Fernhill Community PWA represents a paradigm shift in software development economics. What traditionally requires a **full development team of 6-10 specialists** working **7-12 months** at a cost of **$358K-718K** was delivered by a **single Content Engineer** in true partnership with AI (Claude) in **~23 hours over 4 sessions** for **$9,660 in labor + $125 in tools**.
 
 > *"I couldn't have done this without Claude. This wasn't just AI-assisted—it was a genuine collaboration where the AI handled the complex implementation while I focused on vision and community needs."*
 
