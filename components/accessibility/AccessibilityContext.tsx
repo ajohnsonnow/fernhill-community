@@ -68,14 +68,8 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
         console.error('Failed to parse accessibility settings:', e)
       }
     }
-
-    // Check for system preferences
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setSettings(prev => ({ ...prev, reducedMotion: true }))
-    }
-    if (window.matchMedia('(prefers-contrast: more)').matches) {
-      setSettings(prev => ({ ...prev, highContrast: true }))
-    }
+    // Note: We don't auto-enable based on system preferences
+    // Users should explicitly enable accessibility features
   }, [])
 
   // Save settings to localStorage and apply CSS classes when they change

@@ -49,33 +49,35 @@ export default function AccessibilityFAB() {
   return (
     <>
       {/* Floating Action Button - positioned on the LEFT */}
-      <div className="fixed z-40 left-4 bottom-20 flex items-end gap-2">
-        <button
-          onClick={handleOpen}
-          className={`
-            rounded-full shadow-lg transition-all
-            bg-gradient-to-br from-sacred-gold to-amber-500 
-            text-sacred-charcoal hover:scale-110 active:scale-95
-            focus:outline-none focus:ring-4 focus:ring-sacred-gold/50
-            ${settings.largeButtons ? 'p-4' : 'p-3'}
-            ${settings.highContrast ? 'border-2 border-white' : ''}
-          `}
-          aria-label="Open accessibility settings"
-          aria-haspopup="dialog"
-          aria-expanded={isOpen}
-        >
-          <Accessibility className={settings.largeButtons ? 'w-8 h-8' : 'w-6 h-6'} />
-        </button>
-        
-        {/* Dismiss button */}
-        <button
-          onClick={handleDismiss}
-          className="p-0.5 rounded-full bg-fernhill-brown/60 text-fernhill-sand/50 hover:text-fernhill-cream hover:bg-fernhill-brown transition-colors"
-          aria-label="Hide accessibility button"
-          title="Hide (find in Profile → Accessibility)"
-        >
-          <X className="w-3 h-3" />
-        </button>
+      <div className="fixed z-40 left-4 bottom-20">
+        <div className="relative">
+          <button
+            onClick={handleOpen}
+            className={`
+              rounded-full shadow-lg transition-all
+              bg-gradient-to-br from-sacred-gold to-amber-500 
+              text-sacred-charcoal hover:scale-110 active:scale-95
+              focus:outline-none focus:ring-4 focus:ring-sacred-gold/50
+              ${settings.largeButtons ? 'p-4' : 'p-3'}
+              ${settings.highContrast ? 'border-2 border-white' : ''}
+            `}
+            aria-label="Open accessibility settings"
+            aria-haspopup="dialog"
+            aria-expanded={isOpen}
+          >
+            <Accessibility className={settings.largeButtons ? 'w-8 h-8' : 'w-6 h-6'} />
+          </button>
+          
+          {/* Tiny dismiss button at top-right corner */}
+          <button
+            onClick={handleDismiss}
+            className="absolute -top-1 -right-1 w-4 h-4 flex items-center justify-center rounded-full bg-fernhill-dark/80 text-fernhill-sand/60 hover:text-white hover:bg-red-500/80 transition-colors"
+            aria-label="Hide accessibility button"
+            title="Hide (find in Profile)"
+          >
+            <X className="w-2.5 h-2.5" />
+          </button>
+        </div>
       </div>
 
       {/* Settings Modal Overlay */}
