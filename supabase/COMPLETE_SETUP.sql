@@ -61,11 +61,15 @@ ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
 -- Profile policies
 -- NOTE: Using simple "authenticated can read" to avoid ENUM type mismatch errors
+-- The membership_status ENUM cannot be compared with ::text in RLS policies
 DROP POLICY IF EXISTS "Profiles viewable by active members" ON profiles;
 DROP POLICY IF EXISTS "Users can view own profile" ON profiles;
 DROP POLICY IF EXISTS "Active members can view other profiles" ON profiles;
 DROP POLICY IF EXISTS "anyone_can_read" ON profiles;
 DROP POLICY IF EXISTS "Authenticated users can read profiles" ON profiles;
+DROP POLICY IF EXISTS "users_insert_own" ON profiles;
+DROP POLICY IF EXISTS "users_update_own" ON profiles;
+DROP POLICY IF EXISTS "admins_update_any" ON profiles;
 
 CREATE POLICY "Authenticated users can read profiles" ON profiles
   FOR SELECT TO authenticated
@@ -73,7 +77,7 @@ CREATE POLICY "Authenticated users can read profiles" ON profiles
 
 DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile" ON profiles
-  FOR UPDATE USING (auth.uid() = id);
+  FOR UPDATE TO authenticated USING (auth.uid() = id);
 
 -- POSTS
 CREATE TABLE IF NOT EXISTS posts (
