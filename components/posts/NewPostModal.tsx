@@ -80,11 +80,13 @@ export default function NewPostModal({ isOpen, onClose }: NewPostModalProps) {
 
         if (uploadError) throw uploadError
 
-        const { data: { publicUrl } } = supabase.storage
+        // For private buckets, use createSignedUrl instead of getPublicUrl
+        const { data: signedUrlData, error: signedUrlError } = await supabase.storage
           .from('post_images')
-          .getPublicUrl(fileName)
+          .createSignedUrl(fileName, 60 * 60 * 24 * 365) // 1 year expiry
 
-        imageUrl = publicUrl
+        if (signedUrlError) throw signedUrlError
+        imageUrl = signedUrlData.signedUrl
       }
 
       // Create the post

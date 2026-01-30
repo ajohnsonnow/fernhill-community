@@ -401,11 +401,13 @@ function EditProfileModal({ profile, onClose, onSuccess }: EditProfileModalProps
 
         if (uploadError) throw uploadError
 
-        const { data: { publicUrl } } = supabase.storage
+        // For private buckets, use createSignedUrl instead of getPublicUrl
+        const { data: signedUrlData, error: signedUrlError } = await supabase.storage
           .from('avatars')
-          .getPublicUrl(fileName)
+          .createSignedUrl(fileName, 60 * 60 * 24 * 365) // 1 year expiry for avatars
 
-        avatarUrl = publicUrl
+        if (signedUrlError) throw signedUrlError
+        avatarUrl = signedUrlData.signedUrl
       }
 
       const { error } = await (supabase

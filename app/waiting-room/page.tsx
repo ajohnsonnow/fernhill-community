@@ -117,22 +117,24 @@ export default function WaitingRoomPage() {
 
       if (uploadError) throw uploadError
 
-      // Get public URL
-      const { data: urlData } = supabase.storage
+      // For private buckets, use createSignedUrl instead of getPublicUrl
+      const { data: signedUrlData, error: signedUrlError } = await supabase.storage
         .from('avatars')
-        .getPublicUrl(fileName)
+        .createSignedUrl(fileName, 60 * 60 * 24 * 365) // 1 year expiry for avatars
+
+      if (signedUrlError) throw signedUrlError
 
       // Update profile with avatar URL
       const { error: updateError } = await (supabase
         .from('profiles') as any)
         .update({
-          avatar_url: urlData.publicUrl,
+          avatar_url: signedUrlData.signedUrl,
         })
         .eq('id', user.id)
 
       if (updateError) throw updateError
 
-      setFacePhoto(urlData.publicUrl)
+      setFacePhoto(signedUrlData.signedUrl)
       setFaceVerified(verified)
       setStep(3)
       toast.success('Photo saved! Now complete your profile.')
