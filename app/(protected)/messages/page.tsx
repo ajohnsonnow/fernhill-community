@@ -7,6 +7,7 @@ import {
   ArrowLeft, 
   Send, 
   Lock, 
+  Unlock,
   Search,
   Loader2,
   MessageSquare,
@@ -29,8 +30,10 @@ interface Message {
   sender_id: string
   recipient_id: string
   encrypted_content: string
+  sender_public_key: string
   decrypted_content?: string
   is_read: boolean
+  is_encrypted?: boolean
 }
 
 interface Profile {
@@ -200,15 +203,24 @@ export default function MessagesPage() {
       const decryptedMessages = await Promise.all(
         (data || []).map(async (msg: Message) => {
           try {
+            // Check if message is plain text (marked with PLAIN: prefix)
+            if (msg.encrypted_content.startsWith('PLAIN:')) {
+              return { 
+                ...msg, 
+                decrypted_content: msg.encrypted_content.slice(6),
+                is_encrypted: false 
+              }
+            }
+            
             // Only decrypt messages sent to us
-            if (msg.recipient_id === currentUserId) {
+            if (msg.recipient_id === currentUserId && privateKey) {
               const decrypted = await decryptMessage(msg.encrypted_content, privateKey)
-              return { ...msg, decrypted_content: decrypted }
+              return { ...msg, decrypted_content: decrypted, is_encrypted: true }
             }
             // For sent messages, we stored them unencrypted locally (we can't decrypt them)
-            return { ...msg, decrypted_content: '[Sent message - encrypted]' }
+            return { ...msg, decrypted_content: '[Sent message - encrypted]', is_encrypted: true }
           } catch {
-            return { ...msg, decrypted_content: '[Unable to decrypt]' }
+            return { ...msg, decrypted_content: '[Unable to decrypt]', is_encrypted: true }
           }
         })
       )
@@ -239,22 +251,24 @@ export default function MessagesPage() {
         .eq('id', selectedUser.id)
         .single() as { data: { public_key: string | null } | null }
 
-      if (!recipientProfile?.public_key) {
-        toast.error('Recipient has not set up secure messaging')
-        return
+      let contentToSend: string
+
+      if (recipientProfile?.public_key) {
+        // Recipient has encryption set up - encrypt the message
+        const recipientPublicKey = await importPublicKey(recipientProfile.public_key)
+        contentToSend = await encryptMessage(newMessage, recipientPublicKey)
+      } else {
+        // No encryption - send as plain text with PLAIN: prefix marker
+        contentToSend = `PLAIN:${newMessage}`
       }
 
-      // Import recipient's public key and encrypt
-      const recipientPublicKey = await importPublicKey(recipientProfile.public_key)
-      const encryptedContent = await encryptMessage(newMessage, recipientPublicKey)
-
-      // Send encrypted message
+      // Send message
       const { error } = await (supabase
         .from('messages') as any)
         .insert({
           sender_id: currentUserId,
           recipient_id: selectedUser.id,
-          encrypted_content: encryptedContent,
+          encrypted_content: contentToSend,
         })
 
       if (error) throw error
@@ -472,11 +486,14 @@ export default function MessagesPage() {
               }`}
             >
               <p>{msg.decrypted_content || msg.encrypted_content}</p>
-              <p className={`text-xs mt-1 ${
+              <div className={`flex items-center gap-1 text-xs mt-1 ${
                 msg.sender_id === currentUserId ? 'text-fernhill-dark/60' : 'text-fernhill-sand/60'
               }`}>
-                {formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}
-              </p>
+                {msg.is_encrypted === false && (
+                  <span title="Not encrypted"><Unlock className="w-3 h-3" /></span>
+                )}
+                <span>{formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}</span>
+              </div>
             </div>
           </div>
         ))}
