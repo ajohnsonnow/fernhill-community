@@ -639,11 +639,11 @@ function SubmitEventModal({
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-end justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
       onClick={onClose}
     >
       <div 
-        className="w-full max-w-lg bg-fernhill-charcoal rounded-t-3xl rounded-b-xl max-h-[90vh] overflow-hidden animate-slideUp"
+        className="w-full max-w-lg bg-fernhill-charcoal rounded-2xl max-h-[85vh] overflow-hidden animate-slideUp"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -658,7 +658,7 @@ function SubmitEventModal({
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4 overflow-y-auto max-h-[70vh] space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 overflow-y-auto max-h-[calc(85vh-80px)] space-y-4">
           <div>
             <label className="block text-fernhill-sand text-sm mb-2">Event Name *</label>
             <input
