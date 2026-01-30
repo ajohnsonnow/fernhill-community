@@ -115,7 +115,7 @@ export default function ProfilePage() {
               {/* Vibe Status Indicator */}
               <button
                 onClick={() => setShowVibeSelector(true)}
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-2 py-1 rounded-full glass-panel flex items-center justify-center text-sm hover:scale-110 transition-transform border border-sacred-gold/30"
+                className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full glass-panel flex items-center justify-center text-xs hover:scale-110 transition-transform border border-sacred-gold/30"
               >
                 {currentVibe.emoji}
               </button>
