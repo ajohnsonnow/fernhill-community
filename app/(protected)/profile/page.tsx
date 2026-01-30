@@ -544,8 +544,15 @@ function EditProfileModal({ profile, onClose, onSuccess }: EditProfileModalProps
 function SecurityModal({ profile, onClose }: { profile: any; onClose: () => void }) {
   const [showInDirectory, setShowInDirectory] = useState(profile.show_in_directory ?? true)
   const [showBackupKey, setShowBackupKey] = useState(false)
+  const [showChangePassword, setShowChangePassword] = useState(false)
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
   const [recoveryPhrase, setRecoveryPhrase] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [passwordLoading, setPasswordLoading] = useState(false)
   const supabase = createClient()
 
   const handleDirectoryToggle = async () => {
@@ -615,6 +622,40 @@ function SecurityModal({ profile, onClose }: { profile: any; onClose: () => void
       window.location.href = '/login'
     } catch (error) {
       toast.error('Failed to sign out')
+    }
+  }
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault()
+    
+    if (newPassword.length < 6) {
+      toast.error('New password must be at least 6 characters')
+      return
+    }
+    
+    if (newPassword !== confirmPassword) {
+      toast.error('New passwords do not match')
+      return
+    }
+    
+    setPasswordLoading(true)
+    try {
+      // Update password (Supabase handles encryption)
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      })
+
+      if (error) throw error
+
+      toast.success('Password changed successfully! 🔒')
+      setShowChangePassword(false)
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to change password')
+    } finally {
+      setPasswordLoading(false)
     }
   }
 
@@ -712,6 +753,85 @@ function SecurityModal({ profile, onClose }: { profile: any; onClose: () => void
                 <p className="text-xs opacity-60">Revoke access from all sessions</p>
               </div>
             </button>
+          </div>
+
+          {/* Change Password */}
+          <div>
+            <h3 className="text-sm font-medium text-fernhill-sand/60 mb-2 uppercase tracking-wider">Password</h3>
+            {showChangePassword ? (
+              <form onSubmit={handleChangePassword} className="glass-panel-dark rounded-xl p-4 space-y-3">
+                <div>
+                  <label className="block text-xs text-fernhill-sand/60 mb-1">New Password</label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fernhill-sand/40" />
+                    <input
+                      type={showNewPassword ? 'text' : 'password'}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Min 6 characters"
+                      required
+                      minLength={6}
+                      className="w-full pl-10 pr-10 py-2 glass-panel rounded-lg text-fernhill-sand text-sm placeholder-fernhill-sand/30 focus:outline-none focus:ring-2 focus:ring-fernhill-gold/50"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPassword(!showNewPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-fernhill-sand/40 hover:text-fernhill-sand"
+                    >
+                      {showNewPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs text-fernhill-sand/60 mb-1">Confirm New Password</label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fernhill-sand/40" />
+                    <input
+                      type={showNewPassword ? 'text' : 'password'}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Re-enter password"
+                      required
+                      minLength={6}
+                      className="w-full pl-10 py-2 glass-panel rounded-lg text-fernhill-sand text-sm placeholder-fernhill-sand/30 focus:outline-none focus:ring-2 focus:ring-fernhill-gold/50"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-2 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowChangePassword(false)
+                      setNewPassword('')
+                      setConfirmPassword('')
+                    }}
+                    className="flex-1 px-3 py-2 rounded-lg glass-panel text-fernhill-sand/60 text-sm hover:bg-white/5"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={passwordLoading}
+                    className="flex-1 px-3 py-2 rounded-lg glass-panel text-fernhill-gold text-sm hover:bg-fernhill-gold/10 disabled:opacity-50"
+                  >
+                    {passwordLoading ? <Loader2 className="w-4 h-4 animate-spin mx-auto" /> : 'Update'}
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <button
+                onClick={() => setShowChangePassword(true)}
+                className="flex items-center gap-3 p-4 rounded-xl w-full glass-panel-dark text-fernhill-sand hover:bg-white/10 transition-colors"
+              >
+                <Lock className="w-5 h-5" />
+                <div className="flex-1 text-left">
+                  <p className="text-sm font-medium">Change Password</p>
+                  <p className="text-xs opacity-60">Update your login password</p>
+                </div>
+              </button>
+            )}
           </div>
         </div>
       </div>
