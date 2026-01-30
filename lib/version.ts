@@ -6,8 +6,8 @@
  */
 
 export const APP_VERSION = {
-  version: '1.0.1',
-  codename: 'Every Body Dances',
+  version: '1.3.0',
+  codename: 'Sacred Connections',
   releaseDate: '2026-01-29',
   buildTime: new Date().toISOString(),
 } as const

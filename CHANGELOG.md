@@ -5,6 +5,37 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-01-29
+
+### 🌟 Polish & Production Release - "Sacred Connections"
+
+Session 4: Production testing, bug fixes, and UX improvements.
+
+### 💬 Messaging Improvements
+- **Plaintext Fallback** - Users without E2EE keys can now receive messages (stored with PLAIN: prefix)
+- **Encryption Indicator** - Unencrypted messages show 🔓 icon next to timestamp
+- **Auto-detection** - System detects and handles both encrypted and plaintext messages seamlessly
+
+### ♿ Accessibility Improvements
+- **FAB Moved Left** - Accessibility button moved to left side to avoid covering settings
+- **Dismiss Button** - Users can hide the floating button with X, persisted to localStorage
+- **Profile Integration** - Accessibility settings now available in Profile → Accessibility
+- **Restore Option** - "Show floating accessibility button" link in Profile settings
+
+### 🎨 UI/UX Fixes
+- **Admin Dashboard Tabs** - Fixed jumbled tabs on narrow screens (icons only on mobile)
+- **Suggest Event Modal** - Fixed modal being covered by footer (now centered)
+- **Vibe Circle** - Made smaller (24px fixed size) to not overlap avatar
+- **Google Calendar Link** - Added direct link to Fernhill calendar in admin events tab
+
+### 📋 Community Forms
+- **Boundary Violation Report** - Added link to safety reporting form in Profile
+
+### 🗄️ Database
+- **altar_posts.file_path** - Added column for signed URL regeneration
+
+---
+
 ## [1.2.0] - 2026-01-29
 
 ### 🔒 Security & Performance Release - "Safe Space"
