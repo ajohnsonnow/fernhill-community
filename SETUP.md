@@ -102,6 +102,18 @@ You can use a tool like https://realfavicongenerator.net/
 
 ---
 
+## � Production Deployment Status
+
+**Live URL:** https://fernhill-community.onrender.com
+
+### Recent Fixes Applied:
+- ✅ React hydration error #418 fixed (suppressHydrationWarning)
+- ✅ AccessibilityContext body mutations deferred to prevent SSR mismatch
+- ✅ Admin password login bypass added (for rate limit situations)
+- ✅ Supabase Auth URLs configured for production
+
+---
+
 ## 🆘 Troubleshooting
 
 ### "Cannot connect to Supabase"
@@ -117,7 +129,12 @@ You can use a tool like https://realfavicongenerator.net/
 ### "Auth callback error"
 - Make sure redirect URL is set in Supabase Auth settings
 - For local: `http://localhost:3000/auth/callback`
-- For production: `https://your-app.onrender.com/auth/callback`
+- For production: `https://fernhill-community.onrender.com/auth/callback`
+
+### "Rate Limited (429) on Magic Link"
+- Wait 15-60 minutes for Supabase to reset rate limit
+- Use the **Admin Login** bypass at the bottom of the login page
+- Create user with password in Supabase Dashboard → Authentication → Users
 
 ---
 

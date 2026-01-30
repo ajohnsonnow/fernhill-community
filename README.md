@@ -4,8 +4,9 @@
 
 [![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](package.json)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](tsconfig.json)
-[![Lines of Code](https://img.shields.io/badge/lines-10,193-brightgreen.svg)](#)
+[![Lines of Code](https://img.shields.io/badge/lines-4,561-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/license-Private-red.svg)](LICENSE)
+[![Deployed](https://img.shields.io/badge/deployed-Render.com-blueviolet.svg)](https://fernhill-community.onrender.com)
 
 The Fernhill Community App is a best-in-class, private Progressive Web App designed to foster connection, safety, and mutual aid within the ecstatic dance community of Portland, Oregon. Moving away from mainstream social media, this platform prioritizes **Consent, Privacy, and Presence**.
 
@@ -93,11 +94,12 @@ Comprehensive 4-step boundary violation report form matching official community 
 
 | Metric | Value |
 |--------|-------|
-| **Lines of TypeScript/TSX** | 10,193 |
+| **Lines of TypeScript/TSX** | 4,561 |
 | **React Components** | 40+ |
-| **Protected Routes** | 15 |
+| **Protected Routes** | 8 |
 | **API Routes** | 2 |
-| **SQL Migrations** | 9 |
+| **SQL Migrations** | 2 |
+| **Production URL** | [fernhill-community.onrender.com](https://fernhill-community.onrender.com) |
 | **Database Tables** | 20+ |
 | **RLS Policies** | 30+ |
 
