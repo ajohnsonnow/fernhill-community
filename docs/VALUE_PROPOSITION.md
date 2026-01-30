@@ -29,6 +29,24 @@ The Fernhill Community PWA represents a paradigm shift in software development e
 
 ## 🏢 Traditional Development Approach (2026 Market Rates)
 
+### What We Actually Built (Feature Scope)
+
+| Feature Area | Components | Complexity |
+|--------------|------------|------------|
+| **Authentication System** | OAuth + Magic Link + Admin Password Login | High |
+| **End-to-End Encryption** | RSA-OAEP + AES-GCM hybrid with plaintext fallback | Very High |
+| **Private Messaging** | Real-time DMs with encryption key management | High |
+| **Community Feed (Hearth)** | Posts, reactions, categories, auto-purge | Medium |
+| **Events System** | RSVP, Google Calendar sync, location/directions | Medium |
+| **Music Player (Journey)** | Persistent audio across pages, vibe tags | Medium |
+| **Photo Gallery (Altar)** | Private storage, EXIF stripping, image compression | High |
+| **Admin Dashboard** | 6-tab panel, content moderation, user management | High |
+| **Discussion Boards** | Topics, posts, replies, categories | Medium |
+| **Member Directory** | Profiles, skill tags, vibe status, privacy controls | Medium |
+| **Accessibility Suite** | Voice input, TTS, high contrast, font scaling | Medium |
+| **PWA Infrastructure** | Offline support, install prompt, push notifications | Medium |
+| **Security Layer** | RLS policies, signed URLs, private buckets | Very High |
+
 ### Required Team Composition
 
 Based on current US tech market salaries (January 2026):
@@ -40,7 +58,7 @@ Based on current US tech market salaries (January 2026):
 | **Backend Developer** | $155,000 | 3-6 | $38,750-77,500 |
 | **DevOps/Platform Engineer** | $165,000 | 1-2 | $13,750-27,500 |
 | **UI/UX Designer** | $125,000 | 2-3 | $20,833-31,250 |
-| **Security Engineer** | $185,000 | 1-3 | $15,417-46,250 |
+| **Security Engineer (E2EE specialist)** | $195,000 | 2-4 | $32,500-65,000 |
 | **QA/Test Engineer** | $115,000 | 2-4 | $19,167-38,333 |
 | **Product Manager** | $160,000 | 4-8 | $53,333-106,667 |
 | **Technical Writer** | $95,000 | 0.5-1 | $3,958-7,917 |
@@ -49,23 +67,24 @@ Based on current US tech market salaries (January 2026):
 
 | Category | Low Estimate | High Estimate |
 |----------|--------------|---------------|
-| **Personnel** | $271,875 | $548,750 |
-| **Infrastructure/Tools** | $10,000 | $20,000 |
-| **Third-party Services** | $8,000 | $15,000 |
-| **Contractor Buffer (15%)** | $43,481 | $87,563 |
-| **TOTAL** | **$333,356** | **$671,313** |
+| **Personnel** | $288,958 | $581,500 |
+| **Infrastructure/Tools** | $12,000 | $25,000 |
+| **Third-party Services** | $10,000 | $18,000 |
+| **Contractor Buffer (15%)** | $46,644 | $93,675 |
+| **TOTAL** | **$357,602** | **$718,175** |
 
 ### Traditional Timeline
 - **Discovery & Planning:** 2-4 weeks
 - **Design & Architecture:** 3-5 weeks
 - **Core Development:** 12-20 weeks
-- **Security Implementation (E2EE):** 4-8 weeks
+- **E2EE Implementation:** 4-8 weeks *(specialist security work)*
+- **Accessibility Compliance:** 2-3 weeks
 - **Testing & QA:** 4-8 weeks
 - **Deployment & Launch:** 1-2 weeks
 
-**Total Timeline: 26-47 weeks (6-12 months)**
+**Total Timeline: 28-50 weeks (7-12 months)**
 
-> *Note: Modern tools like Supabase, Vercel, and component libraries have significantly reduced development time compared to 5 years ago. A competent team with good tooling could realistically build this in 6-12 months.*
+> *Note: The E2EE messaging system alone would typically require a dedicated security engineer for 1-2 months. Modern tools like Supabase have reduced backend complexity, but the security and encryption work remains highly specialized.*
 
 ---
 
@@ -181,8 +200,8 @@ Using the **AI-Augmented Specialist rate of $420/hour**:
 | **Hourly Rate** | $420/hr |
 | **Direct Labor Value** | **$9,660** |
 | | |
-| **Value Delivered** | $333,356 - $671,313 (traditional equivalent) |
-| **Value Multiplier** | **43-86x** return on labor investment |
+| **Value Delivered** | $357,602 - $718,175 (traditional equivalent) |
+| **Value Multiplier** | **37-74x** return on labor investment |
 
 ### Suggested Compensation Models
 
@@ -216,18 +235,19 @@ Using the **AI-Augmented Specialist rate of $420/hour**:
 ### The Bottom Line
 
 > **For ~$9,695 in direct compensation, Fernhill receives:**
-> - A $333K-671K equivalent application
+> - A $358K-718K equivalent application
 > - 5,500+ lines of production code
-> - Enterprise-grade security (E2EE ready, RLS, password management)
+> - Enterprise-grade security (E2EE with plaintext fallback, RLS, signed URLs)
+> - Full accessibility suite (voice input, TTS, high contrast)
 > - Complete documentation (5 comprehensive guides)
 > - Live production deployment
-> - 8 production bugs fixed
-> - Role-based admin access control
-> - A **43-86x return on investment**
+> - 20+ production bugs fixed across 4 sessions
+> - Role-based admin access control with 6-tab dashboard
+> - A **37-74x return on investment**
 >
-> **This represents a 98-99% discount from traditional development costs.**
+> **This represents a 97-99% discount from traditional development costs.**
 >
-> *Built by Anthony in partnership with Claude AI in ~18.5 hours across 2 sessions—proving that one person with the right tools can match an entire development team.*
+> *Built by Anthony in partnership with Claude AI in ~23 hours across 4 sessions—proving that one person with the right tools can match an entire development team.*
 
 ---
 
