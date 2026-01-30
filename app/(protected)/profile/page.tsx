@@ -3,11 +3,12 @@
 import { useEffect, useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { LogOut, Settings as SettingsIcon, Edit3, Bug, Lightbulb, Heart, Camera, Loader2, X, Shield, Key, Bell, Eye, EyeOff, Smartphone, Monitor, Lock } from 'lucide-react'
+import { LogOut, Settings as SettingsIcon, Edit3, Bug, Lightbulb, Heart, Camera, Loader2, X, Shield, Key, Bell, Eye, EyeOff, Smartphone, Monitor, Lock, Accessibility } from 'lucide-react'
 import { toast } from 'sonner'
 import { compressAvatar } from '@/lib/image-utils'
 import NotificationManager from '@/components/notifications/NotificationManager'
 import { exportPrivateKey, generateRecoveryPhrase } from '@/lib/crypto'
+import { AccessibilitySettingsPanel } from '@/components/accessibility'
 
 const VIBE_OPTIONS = [
   { value: 'offline', label: 'Offline', emoji: '⚫' },
@@ -27,6 +28,7 @@ export default function ProfilePage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false)
   const [showVibeSelector, setShowVibeSelector] = useState(false)
   const [showSecurityModal, setShowSecurityModal] = useState(false)
+  const [showAccessibilityModal, setShowAccessibilityModal] = useState(false)
   const [showDirectoryToggle, setShowDirectoryToggle] = useState(false)
   const supabase = createClient()
   const router = useRouter()
@@ -246,6 +248,16 @@ export default function ProfilePage() {
           </button>
 
           <button
+            onClick={() => setShowAccessibilityModal(true)}
+            className="w-full glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-fernhill-brown/30 transition-colors"
+          >
+            <span className="flex items-center gap-3 text-fernhill-cream">
+              <Accessibility className="w-5 h-5" />
+              Accessibility
+            </span>
+          </button>
+
+          <button
             onClick={() => setShowSecurityModal(true)}
             className="w-full glass-panel rounded-xl p-4 flex items-center justify-between hover:bg-fernhill-brown/30 transition-colors"
           >
@@ -311,6 +323,31 @@ export default function ProfilePage() {
           profile={profile}
           onClose={() => setShowSecurityModal(false)} 
         />
+      )}
+
+      {/* Accessibility Modal */}
+      {showAccessibilityModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+            onClick={() => setShowAccessibilityModal(false)}
+          />
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-auto animate-fade-in">
+            <AccessibilitySettingsPanel 
+              onClose={() => setShowAccessibilityModal(false)} 
+              showCloseButton={true}
+            />
+            <button
+              onClick={() => {
+                localStorage.removeItem('accessibility-fab-dismissed')
+                toast.success('Floating button restored!')
+              }}
+              className="mt-3 w-full text-center text-sm text-fernhill-sand/60 hover:text-fernhill-sand transition-colors"
+            >
+              Show floating accessibility button
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )
