@@ -37,7 +37,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth">
+    // suppressHydrationWarning prevents React errors when browser extensions inject HTML
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         {/* GoatCounter Analytics - Privacy-friendly, no cookies */}
         <script
@@ -46,7 +47,7 @@ export default function RootLayout({
           src="//gc.zgo.at/count.js"
         />
       </head>
-      <body className={inter.className}>
+      <body className={inter.className} suppressHydrationWarning>
         <AccessibilityProvider>
           {/* Skip link for keyboard users */}
           <a href="#main-content" className="skip-link">
