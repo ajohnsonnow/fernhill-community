@@ -1,7 +1,7 @@
 # 🌿 Fernhill Community App - User Guide
 
 > **Last Updated:** January 29, 2026  
-> **Version:** 1.2.0  
+> **Version:** 1.3.0  
 > **Platform:** Progressive Web App (iOS, Android, Desktop)
 
 ---
@@ -44,6 +44,140 @@ Fernhill uses a **human-powered vetting system** to maintain community safety:
 4. **Welcome!** - Once approved, you'll have full access
 
 > 💡 **Tip:** Being vouched for by an existing member speeds up approval!
+
+---
+
+## 👥 Membership Roles & Permissions
+
+Fernhill uses a role-based system to maintain community safety while empowering trusted members.
+
+### Role Hierarchy
+
+| Role | Icon | Description |
+|------|------|-------------|
+| **Pending** | ⏳ | Just signed up, awaiting approval |
+| **Active** | ✅ | Approved community member |
+| **Facilitator** | 🎯 | Trusted helper / event lead |
+| **Admin** | 👑 | Full steward / administrator |
+| **Banned** | 🚫 | Removed from community |
+
+---
+
+### 🟡 Pending Members
+
+*Status after signing up, before approval*
+
+| Permission | Access |
+|------------|--------|
+| View waiting room | ✅ |
+| Submit application | ✅ |
+| View community content | ❌ |
+| Post or message | ❌ |
+| Access any features | ❌ |
+
+---
+
+### 🟢 Active Members
+
+*Full community members in good standing*
+
+| Permission | Access |
+|------------|--------|
+| View all pages (Hearth, Events, Journey, etc.) | ✅ |
+| Create posts and comments | ✅ |
+| Send encrypted messages | ✅ |
+| RSVP to events | ✅ |
+| React to posts | ✅ |
+| Vote in polls | ✅ |
+| Upload photos to Altar | ✅ |
+| Edit own profile | ✅ |
+| Suggest events | ✅ |
+| View member directory | ✅ |
+| Access discussion boards | ✅ |
+| Earn achievement badges | ✅ |
+| Approve/reject members | ❌ |
+| Access admin dashboard | ❌ |
+| Moderate content | ❌ |
+
+---
+
+### 🔵 Facilitators
+
+*Trusted community helpers—event hosts, volunteers, sound techs*
+
+Facilitators have **all Active permissions** plus:
+
+| Permission | Access |
+|------------|--------|
+| Check in attendees at events | ✅ |
+| Manage volunteer shifts | ✅ |
+| Upload to private storage (event photos) | ✅ |
+| View attendance records | ✅ |
+| Create/edit events | ✅ |
+| Moderate some content (context-dependent) | ✅ |
+| Skip content review queue | ✅ |
+| Approve/reject new members | ❌ |
+| Change user roles | ❌ |
+| Ban members | ❌ |
+| Access full admin dashboard | ❌ |
+
+> 💡 **Becoming a Facilitator:** Facilitators are appointed by Admins, typically after demonstrating commitment by volunteering at events or contributing to the community.
+
+---
+
+### 🟣 Admins (Stewards)
+
+*Full community administrators with all permissions*
+
+Admins have **all Facilitator permissions** plus:
+
+| Permission | Access |
+|------------|--------|
+| Approve/reject new member applications | ✅ |
+| Promote members to Facilitator | ✅ |
+| Promote Facilitators to Admin | ✅ |
+| Demote or ban members | ✅ |
+| Access full Admin Dashboard | ✅ |
+| Review & moderate all content | ✅ |
+| Manage safety reports | ✅ |
+| Enable/disable Freeze Mode (emergency) | ✅ |
+| Review event submissions | ✅ |
+| View community analytics | ✅ |
+| Manage system settings | ✅ |
+
+> ⚠️ **Admin Responsibility:** With great power comes great responsibility. Admins are expected to uphold community values and the Sacred Container Agreements.
+
+---
+
+### 🔴 Banned Members
+
+*Removed from the community for violating agreements*
+
+| Permission | Access |
+|------------|--------|
+| Log in to the app | ❌ |
+| View any content | ❌ |
+| Contact members | ❌ |
+
+> 📝 **Appeals:** Banned members may appeal by contacting stewards directly outside the app.
+
+---
+
+### Quick Reference Chart
+
+| Feature | Pending | Active | Facilitator | Admin |
+|---------|:-------:|:------:|:-----------:|:-----:|
+| View content | ❌ | ✅ | ✅ | ✅ |
+| Post/message | ❌ | ✅ | ✅ | ✅ |
+| RSVP/react | ❌ | ✅ | ✅ | ✅ |
+| Upload photos | ❌ | ✅ | ✅ | ✅ |
+| Check-in at events | ❌ | ❌ | ✅ | ✅ |
+| Skip content review | ❌ | ❌ | ✅ | ✅ |
+| Create events | ❌ | ❌ | ✅ | ✅ |
+| Approve members | ❌ | ❌ | ❌ | ✅ |
+| Change roles | ❌ | ❌ | ❌ | ✅ |
+| Ban members | ❌ | ❌ | ❌ | ✅ |
+| Admin Dashboard | ❌ | ❌ | ❌ | ✅ |
 
 ---
 
