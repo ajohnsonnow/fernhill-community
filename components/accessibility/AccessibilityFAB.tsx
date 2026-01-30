@@ -70,11 +70,11 @@ export default function AccessibilityFAB() {
         {/* Dismiss button */}
         <button
           onClick={handleDismiss}
-          className="p-1.5 rounded-full bg-fernhill-brown/80 text-fernhill-sand/60 hover:text-fernhill-cream hover:bg-fernhill-brown transition-colors"
+          className="p-0.5 rounded-full bg-fernhill-brown/60 text-fernhill-sand/50 hover:text-fernhill-cream hover:bg-fernhill-brown transition-colors"
           aria-label="Hide accessibility button"
           title="Hide (find in Profile → Accessibility)"
         >
-          <X className="w-4 h-4" />
+          <X className="w-3 h-3" />
         </button>
       </div>
 
