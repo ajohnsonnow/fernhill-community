@@ -6,7 +6,7 @@
  */
 
 export const APP_VERSION = {
-  version: '1.1.0',
+  version: '1.0.1',
   codename: 'Every Body Dances',
   releaseDate: '2026-01-29',
   buildTime: new Date().toISOString(),
