@@ -89,18 +89,24 @@ export default function AdminGatePage() {
 
   const handleApprove = async (userId: string, tribeName: string) => {
     try {
-      const { error } = await (supabase
-        .from('profiles') as any)
-        .update({ status: 'active' })
-        .eq('id', userId)
+      // Call API to approve and send welcome email
+      const response = await fetch('/api/admin/approve-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId }),
+      })
 
-      if (error) throw error
+      const result = await response.json()
 
-      toast.success(`${tribeName} welcomed to the tribe! 🎉`)
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to approve user')
+      }
+
+      toast.success(`${tribeName} welcomed to the tribe! Email sent 📧🎉`)
       fetchPendingUsers()
       fetchStats()
     } catch (error: any) {
-      toast.error('Failed to approve user')
+      toast.error(error.message || 'Failed to approve user')
     }
   }
 
