@@ -17,8 +17,10 @@ interface PendingUser {
 
 export default function AdminGatePage() {
   const [pendingUsers, setPendingUsers] = useState<PendingUser[]>([])
+  const [allUsers, setAllUsers] = useState<any[]>([]) // Debug: show all users
   const [stats, setStats] = useState({ pending: 0, active: 0, total: 0 })
   const [loading, setLoading] = useState(true)
+  const [showDebug, setShowDebug] = useState(false)
   const supabase = createClient()
 
   useEffect(() => {
@@ -46,15 +48,28 @@ export default function AdminGatePage() {
 
   const fetchPendingUsers = async () => {
     try {
+      // Fetch pending users
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('status', 'pending')
         .order('created_at', { ascending: true })
 
+      console.log('Pending users query result:', { data, error })
+      
       if (error) throw error
       setPendingUsers(data || [])
+      
+      // Debug: fetch ALL users to see what's in the database
+      const { data: allData } = await supabase
+        .from('profiles')
+        .select('id, tribe_name, status, created_at, vouched_by_name')
+        .order('created_at', { ascending: false })
+      
+      console.log('All users:', allData)
+      setAllUsers(allData || [])
     } catch (error: any) {
+      console.error('fetchPendingUsers error:', error)
       toast.error('Failed to fetch pending users')
     } finally {
       setLoading(false)
@@ -142,6 +157,52 @@ export default function AdminGatePage() {
           <h1 className="text-3xl font-bold text-gradient-gold mb-2">Sacred Gate</h1>
           <p className="text-white/60">Review and approve new tribe members</p>
         </div>
+
+        {/* Debug Toggle */}
+        <button 
+          onClick={() => setShowDebug(!showDebug)}
+          className="mb-4 text-xs text-white/40 hover:text-white/60"
+        >
+          {showDebug ? 'Hide' : 'Show'} Debug Info
+        </button>
+
+        {/* Debug Panel */}
+        {showDebug && (
+          <div className="glass-panel rounded-xl p-4 mb-6 text-xs">
+            <h3 className="text-sacred-gold font-bold mb-2">All Users in Database:</h3>
+            <div className="overflow-x-auto">
+              <table className="w-full text-white/70">
+                <thead>
+                  <tr className="border-b border-white/20">
+                    <th className="text-left p-2">Tribe Name</th>
+                    <th className="text-left p-2">Status</th>
+                    <th className="text-left p-2">Vouched By</th>
+                    <th className="text-left p-2">Created</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {allUsers.map(user => (
+                    <tr key={user.id} className="border-b border-white/10">
+                      <td className="p-2">{user.tribe_name || '(no tribe name)'}</td>
+                      <td className="p-2">
+                        <span className={
+                          user.status === 'pending' ? 'text-yellow-400' :
+                          user.status === 'active' ? 'text-green-400' :
+                          user.status === 'admin' ? 'text-sacred-gold' :
+                          'text-white/50'
+                        }>
+                          {user.status}
+                        </span>
+                      </td>
+                      <td className="p-2">{user.vouched_by_name || '-'}</td>
+                      <td className="p-2">{new Date(user.created_at).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-3 gap-4 mb-8">
