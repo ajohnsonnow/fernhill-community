@@ -3,23 +3,20 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
-import { Mail, Sparkles, Shield, MapPin, ExternalLink } from 'lucide-react'
+import { Mail, Sparkles, Shield, MapPin, ExternalLink, Lock, Eye, EyeOff } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { APP_VERSION } from '@/lib/version'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [devLoading, setDevLoading] = useState(false)
-  const [isDev, setIsDev] = useState(false)
+  const [showAdminLogin, setShowAdminLogin] = useState(false)
+  const [adminLoading, setAdminLoading] = useState(false)
   const supabase = createClient()
   const router = useRouter()
-
-  // Check if we're in development mode on client side only
-  useEffect(() => {
-    setIsDev(process.env.NODE_ENV === 'development')
-  }, [])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -33,7 +30,15 @@ export default function LoginPage() {
         },
       })
 
-      if (error) throw error
+      if (error) {
+        // Check for rate limit
+        if (error.message.includes('rate') || error.status === 429) {
+          toast.error('Too many requests. Please wait a few minutes before trying again.')
+        } else {
+          throw error
+        }
+        return
+      }
 
       setSuccess(true)
       toast.success('Check your email for the magic link!')
@@ -44,65 +49,29 @@ export default function LoginPage() {
     }
   }
 
-  // Dev login for local testing only
-  const handleDevLogin = async () => {
-    if (!isDev) return
+  // Admin password login (works in production)
+  const handleAdminLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email || !password) {
+      toast.error('Please enter email and password')
+      return
+    }
     
-    setDevLoading(true)
+    setAdminLoading(true)
     try {
-      // Try to sign in first
       const { error } = await supabase.auth.signInWithPassword({
-        email: 'admin@fernhill.local',
-        password: 'admin123',
+        email,
+        password,
       })
 
-      if (error) {
-        console.log('Sign in error:', error.message)
-        
-        // If user doesn't exist, create them
-        if (error.message.includes('Invalid login credentials')) {
-          const { data, error: signUpError } = await supabase.auth.signUp({
-            email: 'admin@fernhill.local',
-            password: 'admin123',
-            options: {
-              data: {
-                tribe_name: 'Admin'
-              }
-            }
-          })
-          
-          if (signUpError) {
-            console.error('Sign up error:', signUpError)
-            throw signUpError
-          }
-          
-          // If email confirmation is disabled, user should be logged in
-          if (data?.user && !data.user.identities?.length) {
-            toast.error('Email already registered but not confirmed. Check Supabase settings.')
-            setDevLoading(false)
-            return
-          }
-          
-          if (data?.session) {
-            // User created and auto-logged in (email confirm disabled)
-            toast.success('Dev admin created & logged in!')
-            router.push('/hearth')
-            return
-          }
-          
-          toast.success('Dev admin created! Click again to login.')
-          setDevLoading(false)
-          return
-        }
-        throw error
-      }
+      if (error) throw error
 
-      toast.success('Dev admin login successful!')
+      toast.success('Admin login successful!')
       router.push('/hearth')
     } catch (error: any) {
-      toast.error(error.message || 'Dev login failed')
+      toast.error(error.message || 'Login failed')
     } finally {
-      setDevLoading(false)
+      setAdminLoading(false)
     }
   }
 
@@ -142,46 +111,125 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-6">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-fernhill-sand/80 mb-2">
-              Email Address
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-fernhill-sand/40" />
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                required
-                className="input-field pl-11"
-              />
+        {/* Toggle between Magic Link and Admin Login */}
+        {!showAdminLogin ? (
+          <>
+            <form onSubmit={handleLogin} className="space-y-6">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-fernhill-sand/80 mb-2">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-fernhill-sand/40" />
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    required
+                    className="input-field pl-11"
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="animate-spin">⭕</span>
+                    Sending Magic Link...
+                  </span>
+                ) : (
+                  'Enter the Dance'
+                )}
+              </button>
+            </form>
+
+            <div className="mt-8 text-center">
+              <p className="text-fernhill-sand/50 text-sm">
+                No passwords. Just magic. ✨
+              </p>
             </div>
-          </div>
+          </>
+        ) : (
+          <>
+            <form onSubmit={handleAdminLogin} className="space-y-4">
+              <div>
+                <label htmlFor="admin-email" className="block text-sm font-medium text-fernhill-sand/80 mb-2">
+                  Admin Email
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-fernhill-sand/40" />
+                  <input
+                    id="admin-email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@email.com"
+                    required
+                    className="input-field pl-11"
+                  />
+                </div>
+              </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? (
-              <span className="flex items-center justify-center gap-2">
-                <span className="animate-spin">⭕</span>
-                Sending Magic Link...
-              </span>
-            ) : (
-              'Enter the Dance'
-            )}
-          </button>
-        </form>
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-fernhill-sand/80 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-fernhill-sand/40" />
+                  <input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                    className="input-field pl-11 pr-11"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-fernhill-sand/40 hover:text-fernhill-sand"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+              </div>
 
-        <div className="mt-8 text-center">
-          <p className="text-fernhill-sand/50 text-sm">
-            No passwords. Just magic. ✨
-          </p>
-        </div>
+              <button
+                type="submit"
+                disabled={adminLoading}
+                className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {adminLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="animate-spin">⭕</span>
+                    Signing in...
+                  </span>
+                ) : (
+                  <span className="flex items-center justify-center gap-2">
+                    <Shield className="w-5 h-5" />
+                    Admin Sign In
+                  </span>
+                )}
+              </button>
+            </form>
+
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => setShowAdminLogin(false)}
+                className="text-fernhill-sand/50 text-sm hover:text-fernhill-gold transition-colors"
+              >
+                ← Back to Magic Link
+              </button>
+            </div>
+          </>
+        )}
 
         {/* Locations */}
         <div className="mt-6 pt-6 border-t border-fernhill-sand/10">
@@ -216,20 +264,16 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Dev Login - Only shows in development */}
-        {isDev && (
+        {/* Admin Login Toggle - Only shows when NOT in admin mode */}
+        {!showAdminLogin && (
           <div className="mt-6 pt-6 border-t border-fernhill-sand/10">
             <button
-              onClick={handleDevLogin}
-              disabled={devLoading}
-              className="w-full flex items-center justify-center gap-2 px-4 py-3 glass-panel-dark rounded-xl text-fernhill-sand/60 hover:text-fernhill-cream hover:bg-fernhill-brown/30 transition-all disabled:opacity-50"
+              onClick={() => setShowAdminLogin(true)}
+              className="w-full flex items-center justify-center gap-2 px-4 py-3 glass-panel-dark rounded-xl text-fernhill-sand/40 hover:text-fernhill-sand hover:bg-fernhill-brown/20 transition-all text-sm"
             >
-              <Shield className="w-5 h-5" />
-              {devLoading ? 'Logging in...' : 'Dev Admin Login'}
+              <Shield className="w-4 h-4" />
+              Admin Login
             </button>
-            <p className="text-fernhill-sand/30 text-xs text-center mt-2">
-              admin@fernhill.local / admin123
-            </p>
           </div>
         )}
 
