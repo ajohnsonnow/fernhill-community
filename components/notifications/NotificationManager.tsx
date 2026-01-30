@@ -45,10 +45,14 @@ export default function NotificationManager() {
         await subscribeToPush()
         toast.success('Notifications enabled! 🔔')
       } else if (result === 'denied') {
-        toast.error('Notification permission denied')
+        toast.error(
+          'Notification permission denied. To enable: Go to browser settings → Site permissions → Notifications',
+          { duration: 6000 }
+        )
       }
     } catch (error) {
-      toast.error('Failed to enable notifications')
+      console.error('Notification permission error:', error)
+      toast.error('Failed to enable notifications. Check browser settings.')
     } finally {
       setLoading(false)
     }

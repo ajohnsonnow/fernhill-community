@@ -158,7 +158,7 @@ export default function DirectoryPage() {
           </div>
 
           {/* Skill Tags */}
-          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+          <div className="flex flex-wrap gap-2 pb-2">
             <button
               onClick={() => setSelectedSkill(null)}
               className={`px-3 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all ${

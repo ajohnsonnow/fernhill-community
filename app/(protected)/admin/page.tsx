@@ -53,6 +53,12 @@ interface Feedback {
   created_at: string
   user_id: string
   profiles: { tribe_name: string } | null
+  browser_info?: {
+    userAgent: string
+    viewport: string
+    url: string
+  }
+  console_logs?: string
 }
 
 interface AuditLog {
@@ -1156,6 +1162,33 @@ export default function AdminDashboard() {
                         </span>
                       </div>
                       <p className="text-sm text-fernhill-cream/80">{fb.message}</p>
+                      
+                      {/* Browser info for bug reports */}
+                      {fb.browser_info && (
+                        <details className="mt-2">
+                          <summary className="text-xs text-fernhill-sand/60 cursor-pointer hover:text-fernhill-sand">
+                            📱 Device Info
+                          </summary>
+                          <div className="mt-1 p-2 glass-panel-dark rounded text-xs text-fernhill-sand/80 font-mono">
+                            <div>URL: {fb.browser_info.url}</div>
+                            <div>Viewport: {fb.browser_info.viewport}</div>
+                            <div className="truncate">UA: {fb.browser_info.userAgent}</div>
+                          </div>
+                        </details>
+                      )}
+                      
+                      {/* Console logs for bug reports */}
+                      {fb.console_logs && (
+                        <details className="mt-2">
+                          <summary className="text-xs text-fernhill-sand/60 cursor-pointer hover:text-fernhill-sand">
+                            🐛 Console Logs
+                          </summary>
+                          <pre className="mt-1 p-2 glass-panel-dark rounded text-xs text-fernhill-sand/80 font-mono overflow-x-auto whitespace-pre-wrap">
+                            {fb.console_logs}
+                          </pre>
+                        </details>
+                      )}
+                      
                       <p className="text-xs text-fernhill-sand/40 mt-1">
                         {formatDistanceToNow(new Date(fb.created_at), { addSuffix: true })}
                       </p>

@@ -94,6 +94,56 @@ function extractFacebookLink(description: string | null): string | null {
   return fbMatch ? fbMatch[0] : null
 }
 
+// Generate .ics file for calendar download
+function generateICSFile(event: CalendarEvent): string {
+  const formatICSDate = (dateStr: string) => {
+    const date = new Date(dateStr)
+    return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+  }
+
+  const escape = (str: string) => {
+    return str.replace(/\\/g, '\\\\')
+      .replace(/;/g, '\\;')
+      .replace(/,/g, '\\,')
+      .replace(/\n/g, '\\n')
+  }
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Fernhill Community//Events//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `DTSTART:${formatICSDate(event.start)}`,
+    `DTEND:${formatICSDate(event.end)}`,
+    `DTSTAMP:${formatICSDate(new Date().toISOString())}`,
+    `UID:${event.id}@fernhill-community`,
+    `SUMMARY:${escape(event.title)}`,
+    event.description ? `DESCRIPTION:${escape(event.description)}` : '',
+    event.location ? `LOCATION:${escape(event.location)}` : '',
+    'STATUS:CONFIRMED',
+    'SEQUENCE:0',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].filter(Boolean).join('\r\n')
+
+  return ics
+}
+
+// Download ICS file
+function downloadICS(event: CalendarEvent) {
+  const ics = generateICSFile(event)
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.download = `${event.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.ics`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(link.href)
+}
+
 export default function EventsPage() {
   const [events, setEvents] = useState<CalendarEvent[]>([])
   const [mySubmissions, setMySubmissions] = useState<EventSubmission[]>([])
@@ -500,15 +550,13 @@ function EventDetailModal({
                 <span className="font-medium">Directions</span>
               </a>
             )}
-            <a
-              href={event.googleLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => downloadICS(event)}
               className="flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-fernhill-gold/20 text-fernhill-gold hover:bg-fernhill-gold/30 transition-colors"
             >
               <Calendar className="w-5 h-5" />
               <span className="font-medium">Add to Calendar</span>
-            </a>
+            </button>
           </div>
 
           {/* Social Links Row */}

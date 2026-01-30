@@ -86,9 +86,14 @@ export async function POST(request: Request) {
     })
 
     if (createError) {
-      console.error('Error creating user:', createError)
+      console.error('Error creating user:', {
+        message: createError.message,
+        status: createError.status,
+        code: createError.code,
+        details: createError
+      })
       return NextResponse.json(
-        { error: createError.message },
+        { error: `Failed to create user: ${createError.message}` },
         { status: 500 }
       )
     }
@@ -105,7 +110,12 @@ export async function POST(request: Request) {
       .eq('id', newUser.user.id)
 
     if (updateError) {
-      console.error('Error updating profile:', updateError)
+      console.error('Error updating profile:', {
+        message: updateError.message,
+        code: updateError.code,
+        details: updateError,
+        user_id: newUser.user.id
+      })
       // User was created but profile update failed - not critical
     }
 

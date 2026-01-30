@@ -103,7 +103,7 @@ export default function ProfilePage() {
                 profile.vibe_status !== 'offline' ? 'ring-sacred-gold/50' : 'ring-transparent'
               }`}>
                 {profile.avatar_url ? (
-                  <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                  <img src={profile.avatar_url} alt="" className="w-full h-full object-cover aspect-square" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-sacred-gold font-bold text-2xl">
                     {profile.tribe_name?.[0]?.toUpperCase()}
@@ -451,7 +451,7 @@ function EditProfileModal({ profile, onClose, onSuccess }: EditProfileModalProps
             <div className="relative">
               <div className="w-24 h-24 rounded-full glass-panel-dark overflow-hidden">
                 {avatarPreview ? (
-                  <img src={avatarPreview} alt="" className="w-full h-full object-cover" />
+                  <img src={avatarPreview} alt="" className="w-full h-full object-cover aspect-square" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-sacred-gold font-bold text-3xl">
                     {tribeName?.[0]?.toUpperCase()}
@@ -579,8 +579,23 @@ function SecurityModal({ profile, onClose }: { profile: any; onClose: () => void
       // Get private key from IndexedDB
       const request = indexedDB.open('fernhill-keys', 1)
       
+      request.onupgradeneeded = (event) => {
+        const db = (event.target as IDBOpenDBRequest).result
+        if (!db.objectStoreNames.contains('keys')) {
+          db.createObjectStore('keys', { keyPath: 'userId' })
+        }
+      }
+      
       request.onsuccess = async () => {
         const db = request.result
+        
+        // Check if keys store exists
+        if (!db.objectStoreNames.contains('keys')) {
+          toast.error('Encryption keys not initialized. Send a message first to generate keys.')
+          setLoading(false)
+          return
+        }
+        
         const tx = db.transaction('keys', 'readonly')
         const store = tx.objectStore('keys')
         const getRequest = store.get(profile.id)
@@ -843,7 +858,33 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
   const [type, setType] = useState<'bug' | 'feature' | 'gratitude'>('feature')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  const [includeConsoleLogs, setIncludeConsoleLogs] = useState(false)
+  const [consoleLogs, setConsoleLogs] = useState<string[]>([])
   const supabase = createClient()
+
+  // Capture console errors and warnings
+  useEffect(() => {
+    const logs: string[] = []
+    const originalError = console.error
+    const originalWarn = console.warn
+    
+    console.error = (...args: any[]) => {
+      logs.push(`[ERROR] ${args.map(a => String(a)).join(' ')}`)
+      originalError.apply(console, args)
+    }
+    
+    console.warn = (...args: any[]) => {
+      logs.push(`[WARN] ${args.map(a => String(a)).join(' ')}`)
+      originalWarn.apply(console, args)
+    }
+    
+    setConsoleLogs(logs)
+    
+    return () => {
+      console.error = originalError
+      console.warn = originalWarn
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -853,13 +894,28 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('Not authenticated')
 
+      // Get browser and device info
+      const browserInfo = {
+        userAgent: navigator.userAgent,
+        viewport: `${window.innerWidth}x${window.innerHeight}`,
+        url: window.location.href
+      }
+
+      const feedbackData: any = {
+        user_id: user.id,
+        type,
+        message,
+        browser_info: browserInfo
+      }
+
+      // Include console logs only for bug reports if checkbox is checked
+      if (type === 'bug' && includeConsoleLogs && consoleLogs.length > 0) {
+        feedbackData.console_logs = consoleLogs.slice(-50).join('\n') // Last 50 logs
+      }
+
       const { error } = await (supabase
         .from('feedback') as any)
-        .insert({
-          user_id: user.id,
-          type,
-          message,
-        })
+        .insert(feedbackData)
 
       if (error) throw error
 
@@ -927,6 +983,21 @@ function FeedbackModal({ onClose }: { onClose: () => void }) {
               className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50 resize-none"
             />
           </div>
+
+          {/* Console logs checkbox for bug reports */}
+          {type === 'bug' && (
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={includeConsoleLogs}
+                onChange={(e) => setIncludeConsoleLogs(e.target.checked)}
+                className="w-4 h-4 rounded border-fernhill-sand/40 bg-fernhill-dark text-sacred-gold focus:ring-sacred-gold"
+              />
+              <span className="text-sm text-white/70">
+                Include console logs ({consoleLogs.length} captured) - helps us debug faster
+              </span>
+            </label>
+          )}
 
           <div className="flex gap-3 pt-4">
             <button type="button" onClick={onClose} className="flex-1 btn-secondary">
