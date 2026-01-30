@@ -581,27 +581,31 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex overflow-x-auto no-scrollbar border-b border-fernhill-sand/10">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id as TabType)}
-            className={`flex items-center gap-2 px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
-              activeTab === tab.id 
-                ? 'text-fernhill-gold border-b-2 border-fernhill-gold' 
-                : 'text-fernhill-sand/60 hover:text-fernhill-sand'
-            }`}
-          >
-            <tab.icon className="w-4 h-4" />
-            {tab.label}
-            {tab.count !== undefined && (
-              <span className="px-1.5 py-0.5 text-xs rounded-full bg-fernhill-sand/10">
-                {tab.count}
-              </span>
-            )}
-          </button>
-        ))}
+      {/* Tabs - horizontally scrollable on mobile */}
+      <div className="overflow-x-auto no-scrollbar border-b border-fernhill-sand/10">
+        <div className="flex min-w-max px-2">
+          {tabs.map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as TabType)}
+              className={`flex items-center gap-1.5 px-3 py-3 text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
+                activeTab === tab.id 
+                  ? 'text-fernhill-gold border-b-2 border-fernhill-gold' 
+                  : 'text-fernhill-sand/60 hover:text-fernhill-sand'
+              }`}
+            >
+              <tab.icon className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden sm:inline">{tab.label}</span>
+              {tab.count !== undefined && (
+                <span className={`px-1.5 py-0.5 text-xs rounded-full ${
+                  tab.highlight ? 'bg-yellow-500/20 text-yellow-400' : 'bg-fernhill-sand/10'
+                }`}>
+                  {tab.count}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Tab Content */}
