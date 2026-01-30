@@ -1092,10 +1092,13 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Quick Actions */}
+            {/* Quick Links to Specialized Pages */}
             <div className="glass-panel rounded-xl p-4">
-              <h3 className="font-medium text-fernhill-cream mb-3">Quick Actions</h3>
-              <div className="grid grid-cols-2 gap-2">
+              <h3 className="font-medium text-fernhill-cream mb-3 flex items-center gap-2">
+                <Shield className="w-4 h-4" />
+                Admin Tools
+              </h3>
+              <div className="grid grid-cols-2 gap-3">
                 <a 
                   href="/admin/gate"
                   className="flex items-center gap-2 p-3 glass-panel-dark rounded-xl hover:bg-fernhill-brown/30 transition-colors"
