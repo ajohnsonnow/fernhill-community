@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 import { Mail, Sparkles, Shield, MapPin, ExternalLink, Lock, Eye, EyeOff } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { APP_VERSION } from '@/lib/version'
 
 export default function LoginPage() {
@@ -20,6 +20,17 @@ export default function LoginPage() {
   const [createPasswordLoading, setCreatePasswordLoading] = useState(false)
   const supabase = createClient()
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  // Check for mode=password query param (from auth error page)
+  useEffect(() => {
+    const mode = searchParams.get('mode')
+    if (mode === 'password') {
+      setShowCreatePassword(true)
+    } else if (mode === 'admin') {
+      setShowAdminLogin(true)
+    }
+  }, [searchParams])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
