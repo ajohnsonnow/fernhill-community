@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { Sparkles, Check, Camera, Shield } from 'lucide-react'
 import FaceCapture from '@/components/verification/FaceCapture'
+import { compressCameraCapture } from '@/lib/image-utils'
 
 const COMMUNITY_AGREEMENTS = `# The Fernhill Sacred Container Agreements
 
@@ -102,16 +103,15 @@ export default function WaitingRoomPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('No user found')
 
-      // Convert base64 to blob
-      const response = await fetch(imageData)
-      const blob = await response.blob()
+      // Compress the camera capture (200KB, 400px, webp)
+      const compressedFile = await compressCameraCapture(imageData)
       
-      // Upload to Supabase Storage
-      const fileName = `face_${user.id}_${Date.now()}.jpg`
+      // Upload compressed image to Supabase Storage
+      const fileName = `face_${user.id}_${Date.now()}.webp`
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(fileName, blob, {
-          contentType: 'image/jpeg',
+        .upload(fileName, compressedFile, {
+          contentType: 'image/webp',
           upsert: true
         })
 

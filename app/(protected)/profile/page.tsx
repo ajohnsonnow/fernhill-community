@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import { LogOut, Settings as SettingsIcon, Edit3, Bug, Lightbulb, Heart, Camera, Loader2, X, Shield, Key, Bell, Eye, EyeOff, Smartphone, Monitor, Lock } from 'lucide-react'
 import { toast } from 'sonner'
-import imageCompression from 'browser-image-compression'
+import { compressAvatar } from '@/lib/image-utils'
 import NotificationManager from '@/components/notifications/NotificationManager'
 import { exportPrivateKey, generateRecoveryPhrase } from '@/lib/crypto'
 
@@ -371,12 +371,8 @@ function EditProfileModal({ profile, onClose, onSuccess }: EditProfileModalProps
     if (!file) return
 
     try {
-      const options = {
-        maxSizeMB: 0.3,
-        maxWidthOrHeight: 400,
-        useWebWorker: true,
-      }
-      const compressedFile = await imageCompression(file, options)
+      // Compress avatar (200KB, 400px, webp)
+      const compressedFile = await compressAvatar(file)
       setAvatarFile(compressedFile)
 
       const reader = new FileReader()
