@@ -1006,17 +1006,28 @@ export default function AdminDashboard() {
         {activeTab === 'events' && (
           <div className="space-y-4">
             {/* Quick link to full events admin */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2">
               <p className="text-fernhill-sand/60 text-sm">
                 {stats.pendingEvents} pending event submissions
               </p>
-              <a
-                href="/admin/events"
-                className="flex items-center gap-2 px-4 py-2 glass-panel rounded-xl text-fernhill-gold hover:bg-fernhill-brown/30 transition-colors"
-              >
-                <Calendar className="w-4 h-4" />
-                Full Events Manager
-              </a>
+              <div className="flex items-center gap-2">
+                <a
+                  href="https://calendar.google.com/calendar/embed?src=fernhilldance%40gmail.com&ctz=America%2FLos_Angeles"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 px-3 py-2 glass-panel rounded-xl text-fernhill-sand hover:bg-fernhill-brown/30 transition-colors text-sm"
+                >
+                  <Calendar className="w-4 h-4" />
+                  <span className="hidden sm:inline">Google Calendar</span>
+                </a>
+                <a
+                  href="/admin/events"
+                  className="flex items-center gap-2 px-3 py-2 glass-panel rounded-xl text-fernhill-gold hover:bg-fernhill-brown/30 transition-colors text-sm"
+                >
+                  <Calendar className="w-4 h-4" />
+                  <span className="hidden sm:inline">Events Manager</span>
+                </a>
+              </div>
             </div>
 
             {/* Event Submissions List */}
