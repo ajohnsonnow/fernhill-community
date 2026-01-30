@@ -4,9 +4,9 @@ import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
-import { Sparkles, Check, Camera, Shield } from 'lucide-react'
-import FaceCapture from '@/components/verification/FaceCapture'
-import { compressCameraCapture } from '@/lib/image-utils'
+import { Sparkles, Check, Upload, Shield } from 'lucide-react'
+import PhotoUpload from '@/components/verification/PhotoUpload'
+import { compressImage } from '@/lib/image-utils'
 
 const COMMUNITY_AGREEMENTS = `# The Fernhill Sacred Container Agreements
 
@@ -95,22 +95,23 @@ export default function WaitingRoomPage() {
     }
   }
 
-  // Handle face capture
-  const handleFaceCapture = async (imageData: string, verified: boolean) => {
+  // Handle photo upload (simplified from camera capture)
+  const handlePhotoUpload = async (imageData: string) => {
     setLoading(true)
     
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) throw new Error('No user found')
 
-      // Compress the camera capture (200KB, 400px, webp)
-      const compressedFile = await compressCameraCapture(imageData)
+      // Convert base64 to blob
+      const response = await fetch(imageData)
+      const blob = await response.blob()
       
-      // Upload compressed image to Supabase Storage
-      const fileName = `face_${user.id}_${Date.now()}.webp`
+      // Upload to Supabase Storage
+      const fileName = `avatar_${user.id}_${Date.now()}.webp`
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(fileName, compressedFile, {
+        .upload(fileName, blob, {
           contentType: 'image/webp',
           upsert: true
         })
@@ -135,7 +136,7 @@ export default function WaitingRoomPage() {
       if (updateError) throw updateError
 
       setFacePhoto(signedUrlData.signedUrl)
-      setFaceVerified(verified)
+      setFaceVerified(true)
       setStep(3)
       toast.success('Photo saved! Now complete your profile.')
     } catch (error: any) {
@@ -221,7 +222,7 @@ export default function WaitingRoomPage() {
     )
   }
 
-  // Step 2: Face Capture (NEW)
+  // Step 2: Photo Upload (simplified from camera capture)
   if (step === 2) {
     return (
       <div className="min-h-screen p-4 bg-gradient-to-br from-sacred-charcoal via-forest-green/20 to-sacred-charcoal">
@@ -229,13 +230,13 @@ export default function WaitingRoomPage() {
           <div className="glass-panel rounded-3xl p-6">
             <div className="text-center mb-6">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full glass-panel-dark flex items-center justify-center">
-                <Camera className="w-8 h-8 text-sacred-gold" />
+                <Upload className="w-8 h-8 text-sacred-gold" />
               </div>
               <h2 className="text-2xl font-bold text-gradient-gold mb-2">
-                Identity Verification
+                Add Your Photo
               </h2>
               <p className="text-white/70 text-sm">
-                Take a clear photo of your face. This helps our stewards verify you're a real person.
+                Upload a clear photo of your face. This helps our stewards get to know you.
               </p>
             </div>
 
@@ -244,13 +245,13 @@ export default function WaitingRoomPage() {
               <Shield className="w-5 h-5 text-sacred-gold flex-shrink-0 mt-0.5" />
               <p className="text-white/60 text-xs">
                 Your photo is stored securely and only visible to community stewards during the approval process. 
-                It will be used as your profile picture if approved.
+                It will become your profile picture if approved.
               </p>
             </div>
 
-            <FaceCapture 
-              onCapture={handleFaceCapture}
-              required={true}
+            <PhotoUpload 
+              onUpload={handlePhotoUpload}
+              maxSizeKB={500}
             />
 
             {loading && (
