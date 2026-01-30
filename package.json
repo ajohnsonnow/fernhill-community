@@ -10,6 +10,7 @@
     "lint": "next lint",
     "seed-admin": "tsx scripts/seed-admin.ts",
     "docs:update": "node scripts/update-docs.js",
+    "version:bump": "node scripts/bump-version.js",
     "prepare": "husky install || true"
   },
   "dependencies": {
