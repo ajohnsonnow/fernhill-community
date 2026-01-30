@@ -133,7 +133,7 @@ export default function NewPostModal({ isOpen, onClose }: NewPostModalProps) {
       />
       
       {/* Modal */}
-      <div className="relative w-full max-w-lg mx-4 mb-4 sm:mb-0 glass-panel rounded-2xl p-6 animate-fadeIn">
+      <div className="relative w-full max-w-lg mx-4 mb-20 sm:mb-0 glass-panel rounded-2xl p-6 animate-fadeIn max-h-[80vh] overflow-y-auto">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-white">Share with the Tribe</h2>
           <button

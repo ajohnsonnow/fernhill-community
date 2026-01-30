@@ -16,7 +16,7 @@ export default function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-fernhill-dark/95 backdrop-blur-lg border-t border-fernhill-sand/10 pb-safe z-50">
+    <nav className="fixed bottom-0 left-0 right-0 bg-fernhill-dark/95 backdrop-blur-lg border-t border-fernhill-sand/10 pb-safe z-40">
       <div className="flex justify-around items-center px-1 py-1">
         {navItems.map((item) => {
           const Icon = item.icon

@@ -40,7 +40,7 @@ export default function TopHeader({ profile }: TopHeaderProps) {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-fernhill-dark/95 backdrop-blur-lg border-b border-fernhill-sand/10 pt-safe z-50">
+    <header className="fixed top-0 left-0 right-0 bg-fernhill-dark/95 backdrop-blur-lg border-b border-fernhill-sand/10 pt-safe z-40">
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-fernhill-charcoal flex items-center justify-center">
