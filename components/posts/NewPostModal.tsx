@@ -145,13 +145,13 @@ export default function NewPostModal({ isOpen, onClose }: NewPostModalProps) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Category Selector */}
-          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+          <div className="flex flex-wrap gap-2 pb-2">
             {CATEGORIES.map((cat) => (
               <button
                 key={cat.value}
                 type="button"
                 onClick={() => setCategory(cat.value)}
-                className={`px-3 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
+                className={`px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                   category === cat.value
                     ? 'glass-panel text-sacred-gold'
                     : 'glass-panel-dark text-white/60 hover:text-white'
