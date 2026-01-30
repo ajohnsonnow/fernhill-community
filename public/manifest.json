@@ -1,0 +1,23 @@
+{
+  "name": "Fernhill Dance Community",
+  "short_name": "Fernhill",
+  "description": "Portland's Sunday Ecstatic Dance Community",
+  "start_url": "/hearth",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#c9a227",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import { toast } from 'sonner'
+import { Plus, Heart, Clock } from 'lucide-react'
+import { formatDistanceToNow } from 'date-fns'
+import NewPostModal from '@/components/posts/NewPostModal'
+
+interface Post {
+  id: string
+  created_at: string
+  content: string
+  category: string
+  image_url: string | null
+  expires_at: string | null
+  likes_count: number
+  author: {
+    tribe_name: string
+    avatar_url: string | null
+  }
+}
+
+const CATEGORIES = [
+  { value: 'general', label: 'General', emoji: '🌿' },
+  { value: 'mutual_aid_offer', label: 'Offering', emoji: '🎁' },
+  { value: 'mutual_aid_request', label: 'Request', emoji: '🙏' },
+  { value: 'gratitude', label: 'Gratitude', emoji: '✨' },
+  { value: 'organizing', label: 'Organizing', emoji: '📋' },
+]
+
+export default function HearthPage() {
+  const [posts, setPosts] = useState<Post[]>([])
+  const [selectedCategory, setSelectedCategory] = useState<string>('all')
+  const [loading, setLoading] = useState(true)
+  const [showNewPostModal, setShowNewPostModal] = useState(false)
+  const supabase = createClient()
+
+  useEffect(() => {
+    fetchPosts()
+
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('posts')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'posts',
+      }, () => {
+        fetchPosts()
+      })
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [selectedCategory])
+
+  const fetchPosts = async () => {
+    try {
+      let query = supabase
+        .from('posts')
+        .select(`
+          *,
+          author:profiles!posts_author_id_fkey(tribe_name, avatar_url)
+        `)
+        .order('created_at', { ascending: false })
+        .limit(50)
+
+      if (selectedCategory !== 'all') {
+        query = query.eq('category', selectedCategory)
+      }
+
+      const { data, error } = await query
+
+      if (error) throw error
+      setPosts(data as any || [])
+    } catch (error: any) {
+      toast.error('Failed to fetch posts')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const getTimeRemaining = (expiresAt: string | null) => {
+    if (!expiresAt) return null
+    const now = new Date()
+    const expiry = new Date(expiresAt)
+    if (expiry < now) return 'Expired'
+    return `Expires ${formatDistanceToNow(expiry, { addSuffix: true })}`
+  }
+
+  return (
+    <div className="min-h-screen p-4">
+      <div className="max-w-2xl mx-auto">
+        {/* Welcome Banner */}
+        <div className="card-warm p-5 mb-6 animate-fadeIn">
+          <h1 className="text-2xl font-bold font-display text-fernhill-cream mb-2">Welcome to the Hearth</h1>
+          <p className="text-fernhill-sand/80 text-sm leading-relaxed">
+            We value <span className="text-fernhill-gold">community</span>, <span className="text-fernhill-gold">connection</span>, <span className="text-fernhill-gold">expression</span>, and <span className="text-fernhill-gold">sovereignty</span>. 
+            A conscious dance without shoes, booze, or talking on the floor. We are a SafeER Space and a supportive Brave Space.
+          </p>
+          <div className="flex gap-2 mt-3 text-xs">
+            <span className="px-2 py-1 rounded-full bg-fernhill-moss/30 text-fernhill-sand">🦶 No Shoes</span>
+            <span className="px-2 py-1 rounded-full bg-fernhill-moss/30 text-fernhill-sand">🚫 No Booze</span>
+            <span className="px-2 py-1 rounded-full bg-fernhill-moss/30 text-fernhill-sand">🤫 Silent Floor</span>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-fernhill-cream mb-4">Community Feed</h2>
+          
+          {/* Category Filter */}
+          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+            <button
+              onClick={() => setSelectedCategory('all')}
+              className={`px-4 py-2 rounded-xl font-medium whitespace-nowrap transition-all ${
+                selectedCategory === 'all'
+                  ? 'glass-panel text-fernhill-gold'
+                  : 'glass-panel-dark text-fernhill-sand/60'
+              }`}
+            >
+              All
+            </button>
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => setSelectedCategory(cat.value)}
+                className={`px-4 py-2 rounded-xl font-medium whitespace-nowrap transition-all ${
+                  selectedCategory === cat.value
+                    ? 'glass-panel text-fernhill-gold'
+                    : 'glass-panel-dark text-fernhill-sand/60'
+                }`}
+              >
+                {cat.emoji} {cat.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Posts Feed */}
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="animate-pulse text-sacred-gold">Loading posts...</div>
+          </div>
+        ) : posts.length === 0 ? (
+          <div className="glass-panel rounded-2xl p-8 text-center">
+            <p className="text-white/60">No posts yet. Be the first to share!</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {posts.map((post) => (
+              <div key={post.id} className="glass-panel rounded-2xl p-6 animate-fadeIn">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-full glass-panel-dark overflow-hidden flex-shrink-0">
+                    {post.author.avatar_url ? (
+                      <img src={post.author.avatar_url} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-sacred-gold font-bold">
+                        {post.author.tribe_name?.[0]?.toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-white">{post.author.tribe_name}</p>
+                    <p className="text-white/50 text-sm">
+                      {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
+                    </p>
+                  </div>
+                  {CATEGORIES.find(c => c.value === post.category) && (
+                    <span className="text-2xl">
+                      {CATEGORIES.find(c => c.value === post.category)?.emoji}
+                    </span>
+                  )}
+                </div>
+
+                <p className="text-white/90 mb-4 whitespace-pre-wrap">{post.content}</p>
+
+                {post.image_url && (
+                  <img
+                    src={post.image_url}
+                    alt=""
+                    className="rounded-xl w-full mb-4"
+                  />
+                )}
+
+                <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                  <button className="flex items-center gap-2 text-white/60 hover:text-sacred-gold transition-colors">
+                    <Heart className="w-5 h-5" />
+                    <span className="text-sm">{post.likes_count}</span>
+                  </button>
+                  
+                  {post.expires_at && (
+                    <div className="flex items-center gap-1 text-white/40 text-xs">
+                      <Clock className="w-4 h-4" />
+                      {getTimeRemaining(post.expires_at)}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Floating Action Button */}
+        <button
+          onClick={() => setShowNewPostModal(true)}
+          aria-label="Create new post"
+          className="fixed bottom-24 right-6 w-14 h-14 rounded-full bg-sacred-gold text-sacred-charcoal flex items-center justify-center shadow-2xl hover:scale-110 transition-transform active:scale-95 z-40"
+        >
+          <Plus className="w-7 h-7" />
+        </button>
+
+        {/* New Post Modal */}
+        <NewPostModal
+          isOpen={showNewPostModal}
+          onClose={() => setShowNewPostModal(false)}
+        />
+      </div>
+    </div>
+  )
+}

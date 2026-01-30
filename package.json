@@ -1,0 +1,40 @@
+{
+  "name": "fernhill-tribe-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A secure digital hearth for the Fernhill Ecstatic Dance community",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "seed-admin": "tsx scripts/seed-admin.ts",
+    "docs:update": "node scripts/update-docs.js",
+    "prepare": "husky install || true"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.45.4",
+    "browser-image-compression": "^2.0.2",
+    "date-fns": "^4.1.0",
+    "face-api.js": "^0.22.2",
+    "lucide-react": "^0.462.0",
+    "next": "^16.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-player": "^2.16.0",
+    "sonner": "^1.7.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.39.2",
+    "husky": "^9.1.7",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5"
+  }
+}

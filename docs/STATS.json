@@ -1,0 +1,153 @@
+{
+  "timestamp": "2026-01-29T23:59:00.000Z",
+  "version": "1.0.0",
+  "codename": "The First Dance",
+  "git": {
+    "branch": "main",
+    "status": "release-ready"
+  },
+  "files": {
+    "typescript": 51,
+    "sql": 12,
+    "markdown": 6,
+    "css": 1,
+    "json": 5
+  },
+  "linesOfCode": 11455,
+  "routes": [
+    "/",
+    "/login",
+    "/waiting-room",
+    "/hearth",
+    "/events",
+    "/journey",
+    "/messages",
+    "/directory",
+    "/profile",
+    "/boards",
+    "/altar",
+    "/help",
+    "/safety",
+    "/admin",
+    "/admin/gate",
+    "/auth/auth-code-error",
+    "/api/calendar",
+    "/api/weather"
+  ],
+  "components": {
+    "navigation": [
+      "TopHeader",
+      "BottomNav"
+    ],
+    "audio": [
+      "AudioContext",
+      "GlobalPlayer"
+    ],
+    "social": [
+      "ReactionButtons",
+      "RSVPButton",
+      "PollCard",
+      "BadgeDisplay"
+    ],
+    "posts": [
+      "PostCard",
+      "CreatePost",
+      "NewPostModal"
+    ],
+    "pwa": [
+      "InstallPrompt",
+      "ServiceWorker"
+    ],
+    "notifications": [
+      "NotificationManager",
+      "PushManager"
+    ]
+  },
+  "tables": [
+    "profiles",
+    "events",
+    "posts",
+    "messages",
+    "conversations",
+    "music_sets",
+    "feedback",
+    "audit_logs",
+    "system_settings",
+    "altar_posts",
+    "boards",
+    "board_topics",
+    "board_replies",
+    "event_submissions",
+    "content_queue",
+    "vibe_tags",
+    "post_reactions",
+    "event_rsvps",
+    "polls",
+    "poll_votes",
+    "badges",
+    "member_badges",
+    "event_checkins",
+    "boundary_reports"
+  ],
+  "migrations": [
+    "schema.sql",
+    "additional_schema.sql",
+    "boards_schema.sql",
+    "admin_migration.sql",
+    "feedback_migration.sql",
+    "event_submissions_migration.sql",
+    "content_moderation_migration.sql",
+    "social_features_migration.sql",
+    "boundary_reports_migration.sql"
+  ],
+  "features": {
+    "authentication": [
+      "Magic link auth",
+      "Session management",
+      "Session kill switch"
+    ],
+    "security": [
+      "E2EE messaging (RSA-OAEP + AES-GCM)",
+      "Row-Level Security",
+      "EXIF/GPS stripping",
+      "Auto-purging (30/90 day)",
+      "Content moderation",
+      "Trust levels"
+    ],
+    "social": [
+      "Multi-emoji reactions",
+      "Event RSVPs",
+      "Community polls",
+      "Achievement badges (11 types)",
+      "Vibe tags",
+      "Real-time presence"
+    ],
+    "admin": [
+      "Member approval",
+      "Content moderation queue",
+      "Trust level management",
+      "Freeze mode",
+      "Event submission review",
+      "Safety report management"
+    ],
+    "pwa": [
+      "Service worker",
+      "Offline support",
+      "Install prompt",
+      "Push notifications",
+      "Background audio"
+    ]
+  },
+  "economics": {
+    "traditionalCost": "$333,356 - $671,313",
+    "aiAssistedCost": "~$125",
+    "savings": "$333K - $671K",
+    "roiMultiplier": "2,667x - 5,370x",
+    "traditionalTime": "6-12 months",
+    "aiAssistedTime": "1 day (15 hours)",
+    "timeSaved": "99.6%",
+    "developmentDate": "January 29, 2026",
+    "laborValue": "$6,300 (15 hrs × $420/hr)",
+    "laborROI": "53-107x"
+  }
+}

@@ -1,0 +1,21 @@
+#!/bin/sh
+# Pre-push hook - Updates documentation before pushing
+
+echo "🔄 Running pre-push documentation update..."
+
+# Run the documentation generator
+node scripts/update-docs.js
+
+# Stage any updated docs
+git add docs/ README.md 2>/dev/null
+
+# Check if there are staged changes
+if git diff --cached --quiet; then
+  echo "✅ No documentation changes to commit"
+else
+  echo "📝 Committing documentation updates..."
+  git commit --amend --no-edit 2>/dev/null || git commit -m "docs: auto-update documentation [skip ci]"
+fi
+
+echo "✅ Pre-push complete"
+exit 0
