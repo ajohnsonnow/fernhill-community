@@ -18,18 +18,19 @@
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY` (anon/public key)
    - `SUPABASE_SERVICE_ROLE_KEY` (service_role key - keep this secret!)
 
-### 2.3 Run Database Schemas
+### 2.3 Run Database Setup
 1. Open Supabase SQL Editor
-2. Copy contents of `supabase/schema.sql`
-3. Run the entire script
-4. Copy contents of `supabase/boards_schema.sql`
-5. Run that script as well
+2. Copy contents of `supabase/COMPLETE_SETUP.sql`
+3. Run the entire script (this creates ALL tables, policies, triggers, and storage buckets)
+4. The script is idempotent - safe to run multiple times
 
-### 2.4 Create Storage Buckets
-In Supabase Dashboard → Storage:
-1. Create bucket `avatars` (public)
-2. Create bucket `altar_photos` (private)
-3. Create bucket `post_images` (public)
+### 2.4 Storage Buckets (Auto-Created)
+The COMPLETE_SETUP.sql automatically creates these **PRIVATE** buckets with RLS:
+- `avatars` - User profile photos (private, owner-only upload)
+- `post_images` - Post attachments (private, owner-only upload)  
+- `altar_photos` - Sacred gallery photos (private, owner-only upload)
+
+> ⚠️ **Security Note:** Buckets are PRIVATE, not public. The app uses `createSignedUrl()` to generate authenticated URLs that expire after 1 year.
 
 ## 📧 Step 3: Email Setup (OPTIONAL)
 
@@ -138,16 +139,19 @@ You can use a tool like https://realfavicongenerator.net/
 
 ---
 
-## 💡 What's Next?
+## 💡 What's Built
 
-The foundation is built! Here are features you can add:
+All core features are complete! Here's what's included:
 
-- [ ] Event calendar with volunteer sign-ups
-- [ ] Persistent music player for DJ sets
-- [ ] E2EE messaging system
-- [ ] Photo gallery (The Altar)
-- [ ] Vibe status presence indicators
-- [ ] Push notifications
+- [x] Event calendar with volunteer sign-ups
+- [x] Persistent music player for DJ sets
+- [x] E2EE messaging system
+- [x] Photo gallery (The Altar)
+- [x] Vibe status presence indicators
+- [x] Push notifications
+- [x] Image compression for avatars (200KB, 400px, webp)
+- [x] Private storage buckets with RLS
+- [x] PWA install prompt (respects 90-day dismiss)
 - [ ] Full discussion boards implementation
 
 Check `README.md` for the complete roadmap!

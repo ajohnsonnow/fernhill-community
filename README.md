@@ -2,9 +2,9 @@
 
 **A Secure Digital Hearth for the Ecstatic Dance Tribe**
 
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-1.2.0-green.svg)](package.json)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](tsconfig.json)
-[![Lines of Code](https://img.shields.io/badge/lines-4,561-brightgreen.svg)](#)
+[![Lines of Code](https://img.shields.io/badge/lines-5,200+-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/license-Private-red.svg)](LICENSE)
 [![Deployed](https://img.shields.io/badge/deployed-Render.com-blueviolet.svg)](https://fernhill-community.onrender.com)
 
@@ -94,14 +94,15 @@ Comprehensive 4-step boundary violation report form matching official community 
 
 | Metric | Value |
 |--------|-------|
-| **Lines of TypeScript/TSX** | 4,561 |
-| **React Components** | 40+ |
-| **Protected Routes** | 8 |
-| **API Routes** | 2 |
-| **SQL Migrations** | 2 |
+| **Lines of TypeScript/TSX** | 5,200+ |
+| **React Components** | 50+ |
+| **Protected Routes** | 10 |
+| **API Routes** | 3 |
+| **SQL Setup Files** | 1 (COMPLETE_SETUP.sql) |
 | **Production URL** | [fernhill-community.onrender.com](https://fernhill-community.onrender.com) |
 | **Database Tables** | 20+ |
-| **RLS Policies** | 30+ |
+| **RLS Policies** | 40+ |
+| **Storage Buckets** | 3 (private with RLS) |
 
 ---
 
@@ -141,13 +142,8 @@ Without these redirect URLs, **magic link authentication will fail!**
 
 ```bash
 # 3. Set up database (run in Supabase SQL Editor)
-# Run these in order:
-# - supabase/schema.sql
-# - supabase/additional_schema.sql
-# - supabase/boards_schema.sql
-# - supabase/admin_migration.sql
-# - supabase/content_moderation_migration.sql
-# - supabase/social_features_migration.sql
+# Run the SINGLE comprehensive setup file:
+# - supabase/COMPLETE_SETUP.sql (creates ALL tables, policies, triggers, and storage buckets)
 # - supabase/boundary_reports_migration.sql
 
 # 4. Generate VAPID keys for push notifications

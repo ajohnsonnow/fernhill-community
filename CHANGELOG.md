@@ -5,6 +5,38 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-01-29
+
+### 🔒 Security & Performance Release - "Safe Space"
+
+Major security hardening and performance optimizations.
+
+### 🔐 Security Improvements
+- **Private Storage Buckets** - All storage buckets (avatars, post_images, altar_photos) are now PRIVATE with RLS policies
+- **Signed URLs** - Using `createSignedUrl()` instead of `getPublicUrl()` for authenticated access
+- **Owner-Only Uploads** - Users can only upload to their own folder (`{bucket}/{user_id}/filename`)
+- **1-Year URL Expiry** - Signed URLs valid for 1 year for long-lived resources
+
+### 📸 Image Optimization
+- **Reusable Compression Utilities** - New `lib/image-utils.ts` with standardized compression
+- **Avatar Compression** - Max 200KB, 400x400px, webp format
+- **Post Image Compression** - Max 500KB, 1200px, webp format  
+- **Camera Capture Compression** - Optimized for waiting-room selfies
+
+### 🗄️ Database Setup Simplified
+- **COMPLETE_SETUP.sql** - Single comprehensive file for ALL database setup (678 lines)
+- Creates all 20+ tables, 40+ RLS policies, triggers, and storage buckets
+- Idempotent - safe to run multiple times
+- Replaces need for multiple migration files
+
+### 🐛 Bug Fixes
+- Fixed PWA install prompt - now respects 90-day dismiss, delayed initial popup (30s Android, 60s iOS)
+- Fixed "Share with Tribe" modal - category tags now wrap properly with `flex-wrap`
+- Fixed TypeScript build error in admin layout (type assertion for Supabase query)
+- Removed edge runtime from icon routes to enable static generation
+
+---
+
 ## [1.1.0] - 2026-01-29
 
 ### 🦽 Accessibility Release - "Every Body Dances"
@@ -135,7 +167,7 @@ The complete Fernhill Community PWA, built in a single intense development sessi
 Anthony @ Structure for Growth
 
 ### Development Time
-15 hours (single day sprint)
+~20 hours (across multiple sessions)
 
 ### Architecture Decisions
 - Server Components for auth-protected pages
@@ -143,18 +175,20 @@ Anthony @ Structure for Growth
 - Supabase for real-time subscriptions
 - PWA for native-like mobile experience
 - GoatCounter for privacy-respecting analytics
+- Private storage buckets with signed URLs for security
+- Image compression utilities for optimized uploads
 
 ---
 
 ## Future Roadmap
 
-### v1.1.0 (Planned)
+### v1.3.0 (Planned)
 - [ ] Enhanced notification preferences
 - [ ] Calendar sync (Google/Apple)
 - [ ] Improved offline mode
 - [ ] Theme customization
 
-### v1.2.0 (Planned)
+### v1.4.0 (Planned)
 - [ ] Event photo galleries
 - [ ] Music set comments
 - [ ] Member search improvements

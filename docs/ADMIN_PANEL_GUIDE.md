@@ -311,6 +311,33 @@ supabase
 2. ✅ Log out when done
 3. ✅ Review audit logs for suspicious activity
 4. ✅ Update service role key if compromised
+5. ✅ Storage buckets are PRIVATE - use signed URLs only
+6. ✅ All user uploads are restricted to their own folder
+
+## Storage Security
+
+### Private Buckets
+All storage buckets are configured as **PRIVATE** with Row-Level Security:
+
+| Bucket | Purpose | Access |
+|--------|---------|--------|
+| `avatars` | User profile photos | Read: All authenticated users |
+| `post_images` | Post attachments | Upload/Delete: Owner only |
+| `altar_photos` | Sacred gallery | 1-year signed URL expiry |
+
+### File Organization
+Files are organized by user ID: `{bucket}/{user_id}/filename.webp`
+
+This ensures:
+- Users can only upload to their own folder
+- Users can only delete their own files
+- All authenticated users can view files (via signed URLs)
+
+### Image Compression
+All uploaded images are automatically compressed:
+- **Avatars:** Max 200KB, 400x400px, webp format
+- **Post Images:** Max 500KB, 1200px, webp format
+- **Camera Captures:** Max 200KB, 400px, webp format
 
 ## Troubleshooting
 
@@ -351,5 +378,5 @@ For admin-specific issues:
 ---
 
 **Last Updated:** January 29, 2026  
-**Version:** 1.0.1  
+**Version:** 1.2.0  
 **Admin Count:** Check `/admin` → Users Tab → Filter: Admin
