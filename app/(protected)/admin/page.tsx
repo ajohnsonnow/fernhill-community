@@ -8,11 +8,11 @@ import {
   Search, ChevronDown, Ban, CheckCircle, Crown, UserX,
   Trash2, Eye, Filter, AlertTriangle, Clock, Activity,
   RefreshCw, Download, Upload, Lock, Unlock, Calendar,
-  UserPlus, Loader2, Mail, ExternalLink
+  UserPlus, Loader2, Mail, ExternalLink, Sparkles
 } from 'lucide-react'
 import { formatDistanceToNow, format } from 'date-fns'
 
-type TabType = 'users' | 'content' | 'queue' | 'events' | 'settings' | 'feedback' | 'logs'
+type TabType = 'users' | 'content' | 'events' | 'settings' | 'feedback' | 'logs'
 
 interface Profile {
   id: string
@@ -157,14 +157,14 @@ export default function AdminDashboard() {
   }
 
   const fetchUsers = async () => {
-    // Try with requires_review first, fall back to basic query
+    // Fetch all profile fields including mycelial_gifts for pending approval cards
     const { data, error } = await supabase
       .from('profiles')
-      .select('*, requires_review')
+      .select('*, requires_review, mycelial_gifts, avatar_url')
       .order('created_at', { ascending: false })
     
     if (error) {
-      // requires_review column may not exist, try without it
+      // Some columns may not exist, try basic query
       const { data: basicData, error: basicError } = await supabase
         .from('profiles')
         .select('*')
@@ -282,6 +282,28 @@ export default function AdminDashboard() {
 
   // User Management Functions
   const updateUserStatus = async (userId: string, newStatus: string, userName: string) => {
+    // If approving a pending user, use the API to send welcome email
+    if (newStatus === 'active') {
+      try {
+        const response = await fetch('/api/admin/approve-user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId }),
+        })
+        const result = await response.json()
+        if (!response.ok) throw new Error(result.error)
+        
+        toast.success(`${userName} approved! Welcome email sent 📧🎉`)
+        await logAction('user_status_change', { userId, userName, newStatus })
+        fetchUsers()
+        fetchStats()
+        return
+      } catch (error: any) {
+        // Fall back to direct update if API fails
+        console.error('Approve API failed, falling back:', error)
+      }
+    }
+    
     const { error } = await (supabase.from('profiles') as any)
       .update({ status: newStatus })
       .eq('id', userId)
@@ -632,6 +654,90 @@ export default function AdminDashboard() {
         {/* USERS TAB */}
         {activeTab === 'users' && (
           <div className="space-y-4">
+            {/* Pending Approvals Section - Sacred Gate integration */}
+            {users.filter(u => u.status === 'pending' && u.tribe_name).length > 0 && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-fernhill-gold" />
+                  <h3 className="font-medium text-fernhill-gold">Sacred Gate — Awaiting Approval</h3>
+                  <span className="px-2 py-0.5 text-xs rounded-full bg-yellow-500/20 text-yellow-300">
+                    {users.filter(u => u.status === 'pending' && u.tribe_name).length}
+                  </span>
+                </div>
+                
+                <div className="grid gap-3">
+                  {users.filter(u => u.status === 'pending' && u.tribe_name).map(user => (
+                    <div key={user.id} className="glass-panel rounded-xl p-4 border border-fernhill-gold/30">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          {/* Avatar */}
+                          <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-fernhill-brown/30">
+                            {(user as any).avatar_url ? (
+                              <img 
+                                src={(user as any).avatar_url} 
+                                alt={user.tribe_name || 'User'} 
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-fernhill-sand/40">
+                                <UserX className="w-6 h-6" />
+                              </div>
+                            )}
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-fernhill-cream text-lg">{user.tribe_name}</h4>
+                            <p className="text-xs text-fernhill-sand/50">
+                              Applied {formatDistanceToNow(new Date(user.created_at), { addSuffix: true })}
+                            </p>
+                          </div>
+                        </div>
+                        {!(user as any).avatar_url && (
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-red-500/20 text-red-400">
+                            No photo
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Vouched By */}
+                      <div className="glass-panel-dark rounded-lg p-3 mb-3">
+                        <p className="text-xs text-fernhill-sand/50 mb-1">Vouched by:</p>
+                        <p className="text-fernhill-gold font-medium">{user.vouched_by_name || 'Unknown'}</p>
+                      </div>
+                      
+                      {/* Mycelial Gifts */}
+                      {(user as any).mycelial_gifts && (
+                        <div className="glass-panel-dark rounded-lg p-3 mb-3">
+                          <p className="text-xs text-fernhill-sand/50 mb-1">Gifts to the Mycelium:</p>
+                          <p className="text-fernhill-cream/80 text-sm">{(user as any).mycelial_gifts}</p>
+                        </div>
+                      )}
+
+                      {/* Actions */}
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => updateUserStatus(user.id, 'active', user.tribe_name || 'User')}
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-green-600 text-white font-medium hover:bg-green-700 transition-colors"
+                        >
+                          <CheckCircle className="w-4 h-4" />
+                          Approve
+                        </button>
+                        <button
+                          onClick={() => updateUserStatus(user.id, 'banned', user.tribe_name || 'User')}
+                          className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-red-600/20 text-red-400 font-medium hover:bg-red-600/30 transition-colors"
+                        >
+                          <Ban className="w-4 h-4" />
+                          Decline
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {/* Divider */}
+                <div className="border-t border-fernhill-sand/10" />
+              </div>
+            )}
+
             {/* Pending Invites Section - users who haven't confirmed yet */}
             {users.filter(u => u.status === 'pending' && !u.tribe_name).length > 0 && (
               <div className="glass-panel rounded-xl p-4 border border-yellow-500/30">
