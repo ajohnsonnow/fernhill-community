@@ -2,9 +2,11 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import type { Database } from '@/lib/database.types'
 
-// Fallback values for build time (will be replaced at runtime)
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
+const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+// Placeholder JWT for build time (valid format, won't actually work)
+const PLACEHOLDER_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NDYyMzkwMjAsImV4cCI6MTk2MTgxNTAyMH0.placeholder'
 
 interface CookieToSet {
   name: string
@@ -14,10 +16,13 @@ interface CookieToSet {
 
 export async function createClient() {
   const cookieStore = await cookies()
+  
+  const url = SUPABASE_URL || 'https://placeholder.supabase.co'
+  const key = SUPABASE_ANON_KEY || PLACEHOLDER_KEY
 
   return createServerClient<Database>(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY,
+    url,
+    key,
     {
       cookies: {
         getAll() {
