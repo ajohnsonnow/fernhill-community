@@ -546,8 +546,7 @@ export default function AdminDashboard() {
 
   const tabs = [
     { id: 'users', label: 'Users', icon: Users, count: stats.activeUsers },
-    { id: 'queue', label: 'Queue', icon: Clock, count: stats.pendingQueue, highlight: stats.pendingQueue > 0 },
-    { id: 'content', label: 'Content', icon: MessageSquare, count: stats.totalPosts },
+    { id: 'content', label: 'Content', icon: MessageSquare, count: stats.totalPosts, highlight: stats.pendingQueue > 0 },
     { id: 'events', label: 'Events', icon: Calendar, count: stats.pendingEvents, highlight: stats.pendingEvents > 0 },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'feedback', label: 'Feedback', icon: FileText, count: stats.totalFeedback },
@@ -838,267 +837,230 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* QUEUE TAB - Content Moderation */}
-        {activeTab === 'queue' && (
-          <div className="space-y-4">
-            {/* Info Banner */}
-            <div className="glass-panel rounded-xl p-4 border border-fernhill-gold/20">
-              <div className="flex items-start gap-3">
-                <Clock className="w-5 h-5 text-fernhill-gold flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-sm text-fernhill-cream font-medium">Content Moderation Queue</p>
-                  <p className="text-xs text-fernhill-sand/60 mt-1">
-                    Review and approve user-submitted music sets and vibe tag suggestions. 
-                    Users with "Review Required" status have all their content sent here first.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Filter */}
-            <div className="flex gap-2">
-              {(['pending', 'approved', 'rejected', 'all'] as const).map(filter => (
-                <button
-                  key={filter}
-                  onClick={() => setQueueFilter(filter)}
-                  className={`px-3 py-1.5 text-sm rounded-lg transition-colors capitalize ${
-                    queueFilter === filter
-                      ? 'bg-fernhill-gold text-fernhill-dark font-medium'
-                      : 'glass-panel text-fernhill-sand/70 hover:text-fernhill-cream'
-                  }`}
-                >
-                  {filter}
-                  {filter === 'pending' && stats.pendingQueue > 0 && (
-                    <span className="ml-1.5 px-1.5 py-0.5 text-xs rounded-full bg-yellow-500/30 text-yellow-300">
+        {/* CONTENT TAB - Posts and Moderation Queue */}
+        {activeTab === 'content' && (
+          <div className="space-y-6">
+            {/* Moderation Queue Section */}
+            {filteredQueue.length > 0 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Clock className="w-5 h-5 text-yellow-400" />
+                    <h3 className="text-fernhill-cream font-medium">Pending Review</h3>
+                    <span className="px-2 py-0.5 text-xs rounded-full bg-yellow-500/20 text-yellow-300">
                       {stats.pendingQueue}
                     </span>
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Queue Items */}
-            <div className="space-y-3">
-              {filteredQueue.length === 0 ? (
-                <div className="text-center py-12">
-                  <Clock className="w-12 h-12 text-fernhill-sand/20 mx-auto mb-3" />
-                  <p className="text-fernhill-sand/50">
-                    {queueFilter === 'pending' ? 'No pending content to review' : `No ${queueFilter} items`}
-                  </p>
+                  </div>
+                  {/* Filter */}
+                  <div className="flex gap-1">
+                    {(['pending', 'approved', 'rejected', 'all'] as const).map(filter => (
+                      <button
+                        key={filter}
+                        onClick={() => setQueueFilter(filter)}
+                        className={`px-2 py-1 text-xs rounded-lg transition-colors capitalize ${
+                          queueFilter === filter
+                            ? 'bg-fernhill-gold text-fernhill-dark font-medium'
+                            : 'glass-panel-dark text-fernhill-sand/70 hover:text-fernhill-cream'
+                        }`}
+                      >
+                        {filter}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              ) : (
-                filteredQueue.map(item => (
-                  <div key={item.id} className="glass-panel rounded-xl p-4">
-                    {/* Header */}
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
-                            item.content_type === 'music_set' ? 'bg-purple-500/20 text-purple-300' :
-                            item.content_type === 'vibe_tag_suggestion' ? 'bg-blue-500/20 text-blue-300' :
-                            item.content_type === 'post' ? 'bg-green-500/20 text-green-300' :
-                            item.content_type === 'altar_photo' ? 'bg-pink-500/20 text-pink-300' :
-                            'bg-gray-500/20 text-gray-300'
-                          }`}>
-                            {item.content_type === 'music_set' ? '🎵 Music Set' :
-                             item.content_type === 'vibe_tag_suggestion' ? '✨ Vibe Tag' :
-                             item.content_type === 'post' ? '📝 Post' :
-                             item.content_type === 'altar_photo' ? '📸 Photo' :
-                             item.content_type}
-                          </span>
-                          <span className={`px-2 py-0.5 text-xs rounded-full ${
-                            item.status === 'pending' ? 'bg-yellow-500/20 text-yellow-300' :
-                            item.status === 'approved' ? 'bg-green-500/20 text-green-300' :
-                            'bg-red-500/20 text-red-300'
-                          }`}>
-                            {item.status}
-                          </span>
-                        </div>
-                        <p className="text-xs text-fernhill-sand/50">
-                          From <span className="text-fernhill-gold">{item.profiles?.tribe_name || 'Unknown'}</span>
-                          {' • '}{formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
-                        </p>
-                      </div>
-                    </div>
 
-                    {/* Content Preview */}
-                    <div className="glass-panel-dark rounded-lg p-3 mb-3">
-                      {item.content_type === 'music_set' && (
-                        <div className="space-y-2">
-                          <p className="text-fernhill-cream font-medium">
-                            {(item.content_data as any).title}
-                          </p>
-                          <a 
-                            href={(item.content_data as any).url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-fernhill-gold hover:underline flex items-center gap-1"
-                          >
-                            <ExternalLink className="w-3 h-3" />
-                            {(item.content_data as any).url?.substring(0, 50)}...
-                          </a>
-                          {(item.content_data as any).vibe_tags?.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-2">
-                              {(item.content_data as any).vibe_tags.map((tag: string) => (
-                                <span key={tag} className="px-2 py-0.5 text-xs rounded-full bg-fernhill-sand/10 text-fernhill-sand/70">
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      )}
-                      
-                      {item.content_type === 'vibe_tag_suggestion' && (
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">{(item.content_data as any).emoji}</span>
-                          <div>
-                            <p className="text-fernhill-cream font-medium">{(item.content_data as any).label}</p>
-                            <p className="text-xs text-fernhill-sand/50">
-                              Value: {(item.content_data as any).value} • Category: {(item.content_data as any).category || 'custom'}
-                            </p>
+                {/* Queue Items */}
+                <div className="space-y-3">
+                  {filteredQueue.map(item => (
+                    <div key={item.id} className="glass-panel rounded-xl p-4 border border-yellow-500/20">
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
+                              item.content_type === 'music_set' ? 'bg-purple-500/20 text-purple-300' :
+                              item.content_type === 'vibe_tag_suggestion' ? 'bg-blue-500/20 text-blue-300' :
+                              item.content_type === 'post' ? 'bg-green-500/20 text-green-300' :
+                              item.content_type === 'altar_photo' ? 'bg-pink-500/20 text-pink-300' :
+                              'bg-gray-500/20 text-gray-300'
+                            }`}>
+                              {item.content_type === 'music_set' ? '🎵 Music Set' :
+                               item.content_type === 'vibe_tag_suggestion' ? '✨ Vibe Tag' :
+                               item.content_type === 'post' ? '📝 Post' :
+                               item.content_type === 'altar_photo' ? '📸 Photo' :
+                               item.content_type}
+                            </span>
+                            <span className={`px-2 py-0.5 text-xs rounded-full ${
+                              item.status === 'pending' ? 'bg-yellow-500/20 text-yellow-300' :
+                              item.status === 'approved' ? 'bg-green-500/20 text-green-300' :
+                              'bg-red-500/20 text-red-300'
+                            }`}>
+                              {item.status}
+                            </span>
                           </div>
+                          <p className="text-xs text-fernhill-sand/50">
+                            From <span className="text-fernhill-gold">{item.profiles?.tribe_name || 'Unknown'}</span>
+                            {' • '}{formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
+                          </p>
                         </div>
-                      )}
-                      
-                      {item.content_type === 'post' && (
-                        <div className="space-y-2">
-                          <div className="flex items-center gap-2">
+                      </div>
+
+                      {/* Content Preview */}
+                      <div className="glass-panel-dark rounded-lg p-3 mb-3">
+                        {item.content_type === 'music_set' && (
+                          <div className="space-y-2">
+                            <p className="text-fernhill-cream font-medium">
+                              {(item.content_data as any).title}
+                            </p>
+                            <a 
+                              href={(item.content_data as any).url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-fernhill-gold hover:underline flex items-center gap-1"
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                              {(item.content_data as any).url?.substring(0, 50)}...
+                            </a>
+                          </div>
+                        )}
+                        
+                        {item.content_type === 'vibe_tag_suggestion' && (
+                          <div className="flex items-center gap-3">
+                            <span className="text-2xl">{(item.content_data as any).emoji}</span>
+                            <div>
+                              <p className="text-fernhill-cream font-medium">{(item.content_data as any).label}</p>
+                              <p className="text-xs text-fernhill-sand/50">
+                                Value: {(item.content_data as any).value}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {item.content_type === 'post' && (
+                          <div className="space-y-2">
                             <span className={`px-2 py-0.5 text-xs rounded-full ${
                               (item.content_data as any).category === 'mutual_aid_offer' ? 'bg-green-500/20 text-green-300' :
                               (item.content_data as any).category === 'mutual_aid_request' ? 'bg-orange-500/20 text-orange-300' :
                               (item.content_data as any).category === 'gratitude' ? 'bg-purple-500/20 text-purple-300' :
-                              (item.content_data as any).category === 'organizing' ? 'bg-blue-500/20 text-blue-300' :
                               'bg-fernhill-sand/20 text-fernhill-sand'
                             }`}>
                               {(item.content_data as any).category}
                             </span>
-                          </div>
-                          <p className="text-fernhill-cream/90 text-sm whitespace-pre-wrap">
-                            {(item.content_data as any).content}
-                          </p>
-                          {(item.content_data as any).image_url && (
-                            <img 
-                              src={(item.content_data as any).image_url} 
-                              alt="Post image" 
-                              className="mt-2 rounded-lg max-h-40 object-cover"
-                            />
-                          )}
-                        </div>
-                      )}
-                      
-                      {item.content_type === 'altar_photo' && (
-                        <div className="space-y-2">
-                          {(item.content_data as any).image_url && (
-                            <img 
-                              src={(item.content_data as any).image_url} 
-                              alt="Altar photo" 
-                              className="rounded-lg max-h-48 object-cover"
-                            />
-                          )}
-                          {(item.content_data as any).caption && (
-                            <p className="text-fernhill-cream/70 text-sm italic">
-                              "{(item.content_data as any).caption}"
+                            <p className="text-fernhill-cream/90 text-sm whitespace-pre-wrap">
+                              {(item.content_data as any).content}
                             </p>
-                          )}
+                            {(item.content_data as any).image_url && (
+                              <img 
+                                src={(item.content_data as any).image_url} 
+                                alt="Post image" 
+                                className="mt-2 rounded-lg max-h-32 object-cover"
+                              />
+                            )}
+                          </div>
+                        )}
+                        
+                        {item.content_type === 'altar_photo' && (
+                          <div className="space-y-2">
+                            {(item.content_data as any).image_url && (
+                              <img 
+                                src={(item.content_data as any).image_url} 
+                                alt="Altar photo" 
+                                className="rounded-lg max-h-32 object-cover"
+                              />
+                            )}
+                            {(item.content_data as any).caption && (
+                              <p className="text-fernhill-cream/70 text-sm italic">
+                                "{(item.content_data as any).caption}"
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Actions */}
+                      {item.status === 'pending' && (
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => approveContent(item)}
+                            className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors text-sm"
+                          >
+                            <CheckCircle className="w-4 h-4" />
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => rejectContent(item)}
+                            className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-red-600/20 text-red-400 font-medium hover:bg-red-600/30 transition-colors text-sm"
+                          >
+                            <Ban className="w-4 h-4" />
+                            Reject
+                          </button>
                         </div>
                       )}
                     </div>
-
-                    {/* Admin Notes Input (for pending items) */}
-                    {item.status === 'pending' && (
-                      <div className="mb-3">
-                        <input
-                          type="text"
-                          placeholder="Add notes (optional)..."
-                          value={reviewNotes}
-                          onChange={(e) => setReviewNotes(e.target.value)}
-                          className="w-full px-3 py-2 text-sm glass-panel-dark rounded-lg text-fernhill-cream placeholder:text-fernhill-sand/40 focus:outline-none focus:ring-1 focus:ring-fernhill-gold/50"
-                        />
-                      </div>
-                    )}
-
-                    {/* Existing Admin Notes */}
-                    {item.admin_notes && (
-                      <p className="text-xs text-fernhill-sand/60 mb-3 italic">
-                        Admin notes: {item.admin_notes}
-                      </p>
-                    )}
-
-                    {/* Actions */}
-                    {item.status === 'pending' && (
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => approveContent(item)}
-                          className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition-colors"
-                        >
-                          <CheckCircle className="w-4 h-4" />
-                          Approve & Publish
-                        </button>
-                        <button
-                          onClick={() => rejectContent(item)}
-                          className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-red-600/20 text-red-400 font-medium hover:bg-red-600/30 transition-colors"
-                        >
-                          <Ban className="w-4 h-4" />
-                          Reject
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* CONTENT TAB */}
-        {activeTab === 'content' && (
-          <div className="space-y-4">
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fernhill-sand/40" />
-              <input
-                type="text"
-                placeholder="Search posts..."
-                value={contentSearch}
-                onChange={(e) => setContentSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 glass-panel-dark rounded-xl text-fernhill-cream placeholder:text-fernhill-sand/40 focus:outline-none focus:ring-1 focus:ring-fernhill-gold/50"
-              />
-            </div>
-
-            {/* Posts List */}
-            <div className="space-y-2">
-              {filteredPosts.map(post => (
-                <div key={post.id} className="glass-panel rounded-xl p-4">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm font-medium text-fernhill-gold">
-                          {post.profiles?.tribe_name || 'Unknown'}
-                        </span>
-                        <span className="px-2 py-0.5 text-xs rounded-full bg-fernhill-sand/10 text-fernhill-sand/60">
-                          {post.category}
-                        </span>
-                      </div>
-                      <p className="text-sm text-fernhill-cream/80 line-clamp-2">{post.content}</p>
-                      <p className="text-xs text-fernhill-sand/40 mt-1">
-                        {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
-                      </p>
-                    </div>
-                    <button
-                      onClick={() => deletePost(post.id, post.profiles?.tribe_name || 'Unknown')}
-                      className="p-2 rounded-lg hover:bg-red-500/20 text-red-400/60 hover:text-red-400 transition-colors"
-                      title="Delete post"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            )}
+
+            {/* Divider if both sections have content */}
+            {filteredQueue.length > 0 && filteredPosts.length > 0 && (
+              <div className="border-t border-fernhill-sand/10" />
+            )}
+
+            {/* Published Posts Section */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-fernhill-sand/60" />
+                <h3 className="text-fernhill-cream font-medium">Published Posts</h3>
+                <span className="text-xs text-fernhill-sand/50">({stats.totalPosts})</span>
+              </div>
               
-              {filteredPosts.length === 0 && (
-                <p className="text-center text-fernhill-sand/50 py-8">No posts found</p>
-              )}
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fernhill-sand/40" />
+                <input
+                  type="text"
+                  placeholder="Search posts..."
+                  value={contentSearch}
+                  onChange={(e) => setContentSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 glass-panel-dark rounded-xl text-fernhill-cream placeholder:text-fernhill-sand/40 focus:outline-none focus:ring-1 focus:ring-fernhill-gold/50"
+                />
+              </div>
+
+              {/* Posts List */}
+              <div className="space-y-2">
+                {filteredPosts.map(post => (
+                  <div key={post.id} className="glass-panel rounded-xl p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-sm font-medium text-fernhill-gold">
+                            {post.profiles?.tribe_name || 'Unknown'}
+                          </span>
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-fernhill-sand/10 text-fernhill-sand/60">
+                            {post.category}
+                          </span>
+                        </div>
+                        <p className="text-sm text-fernhill-cream/80 line-clamp-2">{post.content}</p>
+                        <p className="text-xs text-fernhill-sand/40 mt-1">
+                          {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => deletePost(post.id, post.profiles?.tribe_name || 'Unknown')}
+                        className="p-2 rounded-lg hover:bg-red-500/20 text-red-400/60 hover:text-red-400 transition-colors"
+                        title="Delete post"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                
+                {filteredPosts.length === 0 && (
+                  <p className="text-center text-fernhill-sand/50 py-8">No posts found</p>
+                )}
+              </div>
             </div>
           </div>
         )}
