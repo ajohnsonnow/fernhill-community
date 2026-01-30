@@ -78,18 +78,21 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  // Save settings to localStorage when they change
+  // Save settings to localStorage and apply CSS classes when they change
+  // Uses requestAnimationFrame to avoid hydration mismatch
   useEffect(() => {
     if (mounted) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(settings))
       
-      // Apply data attributes to body for CSS targeting
-      const body = document.body
-      body.dataset.highContrast = String(settings.highContrast)
-      body.dataset.largeText = String(settings.largeText)
-      body.dataset.reducedMotion = String(settings.reducedMotion)
-      body.dataset.largeButtons = String(settings.largeButtons)
-      body.dataset.simplifiedMode = String(settings.simplifiedMode)
+      // Apply data attributes to body for CSS targeting (delayed to avoid hydration mismatch)
+      requestAnimationFrame(() => {
+        const body = document.body
+        body.dataset.highContrast = String(settings.highContrast)
+        body.dataset.largeText = String(settings.largeText)
+        body.dataset.reducedMotion = String(settings.reducedMotion)
+        body.dataset.largeButtons = String(settings.largeButtons)
+        body.dataset.simplifiedMode = String(settings.simplifiedMode)
+      })
     }
   }, [settings, mounted])
 
