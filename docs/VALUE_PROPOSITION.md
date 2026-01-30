@@ -7,7 +7,7 @@
 
 ## 📊 Executive Summary
 
-The Fernhill Community PWA represents a paradigm shift in software development economics. What traditionally requires a **full development team of 6-10 specialists** working **7-12 months** at a cost of **$358K-718K** was delivered by a **single Content Engineer** in true partnership with AI (Claude) in **~27 hours over 5 sessions** for **$11,340 in labor + $125 in tools**.
+The Fernhill Community PWA represents a paradigm shift in software development economics. What traditionally requires a **full development team of 6-10 specialists** working **7-12 months** at a cost of **$358K-718K** was delivered by a **single Content Engineer** in true partnership with AI (Claude) in **~9 hours of tracked development** for **$3,780 in labor + $125 in tools**.
 
 > *"I couldn't have done this without Claude. This wasn't just AI-assisted—it was a genuine collaboration where the AI handled the complex implementation while I focused on vision and community needs."*
 
@@ -114,58 +114,30 @@ Based on current US tech market salaries (January 2026):
 **Total Cost: ~$125**
 
 ### Actual Timeline
-**Development Dates:** 
-- **Session 1:** January 29, 2026 (12:11 AM - 2:54 PM) - ~15 hours
-- **Session 2:** January 29, 2026 (4:56 PM - 8:30 PM) - ~3.5 hours
-- **Session 3:** January 29, 2026 (9:00 PM - 11:30 PM) - ~2.5 hours
-- **Session 4:** January 29, 2026 (11:45 PM - 1:45 AM+) - ~2 hours
-- **Session 5:** January 30, 2026 - ~4 hours (Admin UX & Mobile Polish)
+**Development Period:** January 29-30, 2026
 
-**Total Development Time: ~27 hours over 5 sessions**
+**Git-Tracked Development Time:** 
+- **First Commit:** January 29, 2026 @ 4:56 PM PST
+- **Latest Commit:** January 30, 2026 @ 1:43 AM PST
+- **Wall-Clock Time:** ~9 hours
 
-#### Session 1 Breakdown (15 hours):
-- **Initial Setup & Auth:** 1 hour
-- **Database Schema & RLS:** 1-2 hours
-- **Core Pages (Hearth, Events, Journey):** 3-4 hours
-- **E2EE Messaging System:** 1-2 hours
-- **Admin Dashboard & Moderation:** 2 hours
-- **Social Features (Reactions, Polls, Badges):** 1-2 hours
-- **PWA & Push Notifications:** 1 hour
-- **Photo Gallery (Altar) & Security Hardening:** 2 hours
-- **Polish, Testing & Bug Fixes:** 2 hours
+| Session | Time Range | Duration | Key Deliverables |
+|---------|------------|----------|------------------|
+| **Initial Build** | Pre-4:56 PM | ~Unknown | Complete app (22,225 lines in first commit) |
+| **Session 2** | 4:56 PM - 8:30 PM | ~3.5 hrs | Auth fixes, admin RBAC, documentation |
+| **Session 3** | 8:30 PM - 10:40 PM | ~2 hrs | Security hardening, image compression, COMPLETE_SETUP.sql |
+| **Session 4** | 10:40 PM - 12:15 AM | ~1.5 hrs | Messaging fallback, accessibility UX, admin UI |
+| **Session 5** | 12:15 AM - 1:43 AM | ~1.5 hrs | Mobile UX, dashboard consolidation, onboarding |
 
-#### Session 2 Breakdown (3.5 hours):
-- **Production Bug Fixes:** 8 critical bugs resolved
-- **Security Hardening:** Role-based access control for admin panel
-- **Admin Panel:** Complete layout with server-side role verification
-- **Auth Enhancements:** Admin password login, create password flow
-- **Documentation:** Admin guide, deployment checklist
+**Total Tracked Development Time: ~9 hours**
 
-#### Session 3 Breakdown (2.5 hours):
-- **Security Hardening:** Private storage buckets with RLS policies
-- **Image Compression:** Reusable utilities (200KB/500KB limits)
-- **Database Consolidation:** Created COMPLETE_SETUP.sql (687 lines)
-- **PWA Improvements:** 90-day dismiss for install prompt
-- **Documentation:** Updated all docs
+> ⚠️ **Transparency Note:** The initial commit at 4:56 PM already contained a complete 22,225-line application (91 files). The time spent building this initial version before the first git commit is not tracked. The 9 hours represents only the git-tracked refinement, bug fixes, and polish phases.
 
-#### Session 4 Breakdown (2 hours):
-- **Messaging Fallback:** Plaintext messaging for users without E2EE keys
-- **Accessibility UX:** FAB moved to left, dismiss button, Profile settings
-- **Admin Dashboard:** Fixed narrow screen tabs, Google Calendar link
-- **Events Modal:** Fixed submit button covered by footer
-- **Community Safety:** Added Boundary Violation Report form
-- **UI Polish:** Smaller vibe indicator on profile avatar
-- **Database:** Added file_path column to altar_posts
-
-#### Session 5 Breakdown (4 hours):
-- **Admin Dashboard Overhaul:** Merged Sacred Gate into Users tab, Queue into Content tab
-- **Mobile-First Header:** Hamburger menu for narrow screens
-- **Modal Z-Index Fix:** Fixed iOS layering issues (nav z-40, modals z-50)
-- **Onboarding Improvements:** Welcome emails, simplified photo upload
-- **Accessibility Defaults:** Settings OFF by default (opt-in)
-- **Documentation:** Roles & permissions section in User Guide
-
-> *Note: This would have taken a traditional team 6-12 months. Claude and I built the entire production application from scratch to live deployment in ~27 hours across 5 coding sessions.*
+#### What the Git History Proves (Sessions 2-5):
+- **Session 2 (3.5 hrs):** 8 production bugs fixed, admin RBAC, password auth
+- **Session 3 (2 hrs):** Private storage buckets, image compression, SQL consolidation
+- **Session 4 (1.5 hrs):** E2EE fallback, accessibility improvements, boundary reports
+- **Session 5 (1.5 hrs):** Mobile-first header, dashboard consolidation, welcome emails
 
 ---
 
@@ -206,29 +178,31 @@ Using the **AI-Augmented Specialist rate of $420/hour**:
 
 | Calculation | Amount |
 |-------------|--------|
-| **Hours Invested** | 27 hours |
+| **Hours Tracked (Git)** | 9 hours |
 | **Hourly Rate** | $420/hr |
-| **Direct Labor Value** | **$11,340** |
+| **Direct Labor Value** | **$3,780** |
 | | |
 | **Value Delivered** | $357,602 - $718,175 (traditional equivalent) |
-| **Value Multiplier** | **32-63x** return on labor investment |
+| **Value Multiplier** | **95-190x** return on labor investment |
+
+> **Note:** The 9 hours represents only git-tracked time. The initial build (22,225 lines) was committed as the first entry, so pre-git development time is unknown but likely significant.
 
 ### Suggested Compensation Models
 
-**Option A: One-Time Payment (Recommended)**
+**Option A: Git-Tracked Time Only**
 | Component | Amount |
 |-----------|--------|
-| Development Labor (27 hrs × $420) | $11,340 |
+| Development Labor (9 hrs × $420) | $3,780 |
 | AI Tool Costs (Claude Pro) | $20 |
 | Domain & Infrastructure | $15 |
-| **Total** | **$11,375** |
+| **Total** | **$3,815** |
 
-**Option B: Discounted Community Rate**
+**Option B: Estimated Full Development (15-20 hrs)**
 | Component | Amount |
 |-----------|--------|
-| Development Labor (27 hrs × $350) | $9,450 |
+| Development Labor (~18 hrs × $420) | $7,560 |
 | AI Tool Costs | $20 |
-| **Total** | **$9,470** |
+| **Total** | **$7,580** |
 
 **Option C: Ongoing Maintenance Retainer**
 | Service | Monthly Rate |
@@ -244,21 +218,21 @@ Using the **AI-Augmented Specialist rate of $420/hour**:
 
 ### The Bottom Line
 
-> **For ~$11,375 in direct compensation, Fernhill receives:**
+> **For ~$3,815 - $7,580 in direct compensation, Fernhill receives:**
 > - A $358K-718K equivalent application
 > - 6,000+ lines of production code
 > - Enterprise-grade security (E2EE with plaintext fallback, RLS, signed URLs)
 > - Full accessibility suite (voice input, TTS, high contrast)
 > - Complete documentation (5 comprehensive guides)
 > - Live production deployment
-> - 20+ production bugs fixed across 5 sessions
+> - 20+ production bugs fixed across multiple sessions
 > - Role-based admin access control with consolidated dashboard
 > - Mobile-first responsive design
-> - A **32-63x return on investment**
+> - A **47-190x return on investment**
 >
-> **This represents a 97-98% discount from traditional development costs.**
+> **This represents a 98-99% discount from traditional development costs.**
 >
-> *Built by Anthony in partnership with Claude AI in ~27 hours across 5 sessions—proving that one person with the right tools can match an entire development team.*
+> *Built by Anthony in partnership with Claude AI—proving that one person with the right tools can match an entire development team.*
 
 ---
 
@@ -277,9 +251,9 @@ SAVINGS:                     $333,231 - $671,188 (99.96%)
 
 ```
 Traditional Timeline:        26-47 weeks (6-12 months)
-AI-Assisted Timeline:        27 hours (5 sessions)
+AI-Assisted Timeline:        ~9 hours (git-tracked)
 ───────────────────────────────────────
-TIME SAVED:                  99.8%
+TIME SAVED:                  99.9%+
 ```
 
 ### ROI Multiplier
@@ -523,10 +497,10 @@ This isn't about replacing developers—it's about **empowering creators** to br
 Dream + AI + Dedication = Production-Ready App
 
 $358K-718K saved
-6-12 months compressed into 27 HOURS
+6-12 months compressed into ~9 HOURS (tracked)
 100% of the vision delivered
-32-63x ROI on labor
-2,667-5,370x ROI on total costs
+47-190x ROI on labor
+2,864-5,744x ROI on total costs
 ```
 
 ---
@@ -543,7 +517,7 @@ $358K-718K saved
 - Supabase - Backend-as-a-Service
 - The incredible open-source community
 
-> *"I couldn't have done this without Claude. What would have taken me months of learning and struggling took 27 hours of collaborative problem-solving. The AI didn't just write code—it taught me, debugged with me, and helped me build something I'm proud of."*
+> *"I couldn't have done this without Claude. The AI didn't just write code—it taught me, debugged with me, and helped me build something I'm proud of."*
 > — Anthony
 
 ---

@@ -10,7 +10,7 @@
 
 The Fernhill Community App is a best-in-class, private Progressive Web App designed to foster connection, safety, and mutual aid within the ecstatic dance community of Portland, Oregon. Moving away from mainstream social media, this platform prioritizes **Consent, Privacy, and Presence**.
 
-> 💡 **Development Note:** This entire application was built by a single Content Engineer using AI assistance (Claude + GitHub Copilot), demonstrating the power of modern development tools. **$577,270 saved. 4,619x ROI.** See [VALUE_PROPOSITION.md](docs/VALUE_PROPOSITION.md) for the full analysis.
+> 💡 **Development Note:** This entire application was built by a single Content Engineer using AI assistance (Claude + GitHub Copilot), demonstrating the power of modern development tools. **~9 hours tracked development time. $358K-718K equivalent value.** See [VALUE_PROPOSITION.md](docs/VALUE_PROPOSITION.md) for the full analysis.
 
 ---
 
