@@ -245,13 +245,13 @@ Anthony @ Structure for Growth
 
 ## Future Roadmap
 
-### v1.3.0 (Planned)
+### v1.5.0 (Planned)
 - [ ] Enhanced notification preferences
 - [ ] Calendar sync (Google/Apple)
 - [ ] Improved offline mode
 - [ ] Theme customization
 
-### v1.4.0 (Planned)
+### v1.6.0 (Planned)
 - [ ] Event photo galleries
 - [ ] Music set comments
 - [ ] Member search improvements
