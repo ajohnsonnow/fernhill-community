@@ -555,12 +555,101 @@ CREATE POLICY "Anyone can view approved tags" ON custom_vibe_tags
   FOR SELECT TO authenticated USING (is_approved = true);
 
 -- =====================================================
--- 7. STORAGE BUCKETS (run separately in Storage tab)
+-- 7. STORAGE BUCKETS & POLICIES (Private buckets with RLS)
 -- =====================================================
--- Go to Supabase Dashboard > Storage and create:
--- 1. "avatars" bucket - Public
--- 2. "post_images" bucket - Public
--- 3. "altar_photos" bucket - Public
+-- Go to Supabase Dashboard > Storage and create these PRIVATE buckets:
+-- 1. "avatars" bucket - Private (not public)
+-- 2. "post_images" bucket - Private (not public)  
+-- 3. "altar_photos" bucket - Private (not public)
+
+-- STORAGE RLS POLICIES
+-- These allow authenticated users to read files and owners to upload/delete
+
+-- AVATARS BUCKET POLICIES
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('avatars', 'avatars', false)
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Authenticated users can view avatars" ON storage.objects;
+CREATE POLICY "Authenticated users can view avatars" ON storage.objects
+  FOR SELECT TO authenticated
+  USING (bucket_id = 'avatars');
+
+DROP POLICY IF EXISTS "Users can upload own avatar" ON storage.objects;
+CREATE POLICY "Users can upload own avatar" ON storage.objects
+  FOR INSERT TO authenticated
+  WITH CHECK (
+    bucket_id = 'avatars' AND
+    (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+DROP POLICY IF EXISTS "Users can update own avatar" ON storage.objects;
+CREATE POLICY "Users can update own avatar" ON storage.objects
+  FOR UPDATE TO authenticated
+  USING (
+    bucket_id = 'avatars' AND
+    (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+DROP POLICY IF EXISTS "Users can delete own avatar" ON storage.objects;
+CREATE POLICY "Users can delete own avatar" ON storage.objects
+  FOR DELETE TO authenticated
+  USING (
+    bucket_id = 'avatars' AND
+    (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+-- POST_IMAGES BUCKET POLICIES
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('post_images', 'post_images', false)
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Authenticated users can view post images" ON storage.objects;
+CREATE POLICY "Authenticated users can view post images" ON storage.objects
+  FOR SELECT TO authenticated
+  USING (bucket_id = 'post_images');
+
+DROP POLICY IF EXISTS "Users can upload post images" ON storage.objects;
+CREATE POLICY "Users can upload post images" ON storage.objects
+  FOR INSERT TO authenticated
+  WITH CHECK (
+    bucket_id = 'post_images' AND
+    (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+DROP POLICY IF EXISTS "Users can delete own post images" ON storage.objects;
+CREATE POLICY "Users can delete own post images" ON storage.objects
+  FOR DELETE TO authenticated
+  USING (
+    bucket_id = 'post_images' AND
+    (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+-- ALTAR_PHOTOS BUCKET POLICIES
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('altar_photos', 'altar_photos', false)
+ON CONFLICT (id) DO NOTHING;
+
+DROP POLICY IF EXISTS "Authenticated users can view altar photos" ON storage.objects;
+CREATE POLICY "Authenticated users can view altar photos" ON storage.objects
+  FOR SELECT TO authenticated
+  USING (bucket_id = 'altar_photos');
+
+DROP POLICY IF EXISTS "Users can upload altar photos" ON storage.objects;
+CREATE POLICY "Users can upload altar photos" ON storage.objects
+  FOR INSERT TO authenticated
+  WITH CHECK (
+    bucket_id = 'altar_photos' AND
+    (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+DROP POLICY IF EXISTS "Users can delete own altar photos" ON storage.objects;
+CREATE POLICY "Users can delete own altar photos" ON storage.objects
+  FOR DELETE TO authenticated
+  USING (
+    bucket_id = 'altar_photos' AND
+    (storage.foldername(name))[1] = auth.uid()::text
+  );
 
 -- =====================================================
 -- 8. AUTO-CREATE PROFILE FUNCTION
