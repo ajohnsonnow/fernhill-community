@@ -16,16 +16,20 @@ import { toast } from 'sonner';
 interface UserSafetyActionsProps {
   userId: string;
   userName: string;
+  userStatus?: string; // 'admin', 'facilitator', 'active', 'pending'
   onAction?: () => void;
 }
 
-export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActionsProps) {
+export function UserSafetyActions({ userId, userName, userStatus, onAction }: UserSafetyActionsProps) {
   const [isBlocked, setIsBlocked] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [showConfirm, setShowConfirm] = useState<'block' | 'unblock' | null>(null);
+  const [currentUserStatus, setCurrentUserStatus] = useState<string | null>(null);
   const supabase = createClient();
+
+  const isTargetAdmin = userStatus === 'admin';
 
   const fetchStatus = useCallback(async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -33,6 +37,15 @@ export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActi
       setLoading(false);
       return;
     }
+
+    // Get current user's status to check if they're admin
+    const { data: currentProfile } = await supabase
+      .from('profiles')
+      .select('status')
+      .eq('id', user.id)
+      .single();
+    
+    setCurrentUserStatus((currentProfile as any)?.status || null);
 
     // Check if blocked
     const { data: blockData } = await (supabase
@@ -66,6 +79,13 @@ export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActi
 
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) {
+      setActionLoading(null);
+      return;
+    }
+
+    // Prevent non-admins from blocking admins
+    if (!isBlocked && isTargetAdmin && currentUserStatus !== 'admin') {
+      toast.error('Community admins cannot be blocked');
       setActionLoading(null);
       return;
     }
@@ -265,35 +285,54 @@ export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActi
 export function BlockUserMenuItem({ 
   userId, 
   userName,
+  userStatus,
   onBlock 
 }: { 
   userId: string; 
   userName: string;
+  userStatus?: string; // 'admin', 'facilitator', 'active', 'pending'
   onBlock?: () => void;
 }) {
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
 
+  const isTargetAdmin = userStatus === 'admin';
+
   const handleBlock = async () => {
+    // Check if current user is admin
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data: currentProfile } = await supabase
+      .from('profiles')
+      .select('status')
+      .eq('id', user.id)
+      .single();
+    
+    const currentUserIsAdmin = (currentProfile as any)?.status === 'admin';
+
+    // Prevent non-admins from blocking admins
+    if (isTargetAdmin && !currentUserIsAdmin) {
+      toast.error('Community admins cannot be blocked');
+      return;
+    }
+
     if (!confirm(`Block ${userName}? They won't be able to see your content or message you.`)) {
       return;
     }
 
     setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
     
-    if (user) {
-      const { error } = await (supabase
-        .from('user_blocks') as any)
-        .insert({
-          blocker_id: user.id,
-          blocked_id: userId
-        });
+    const { error } = await (supabase
+      .from('user_blocks') as any)
+      .insert({
+        blocker_id: user.id,
+        blocked_id: userId
+      });
 
-      if (!error) {
-        toast.success(`Blocked ${userName}`);
-        onBlock?.();
-      }
+    if (!error) {
+      toast.success(`Blocked ${userName}`);
+      onBlock?.();
     }
     
     setLoading(false);

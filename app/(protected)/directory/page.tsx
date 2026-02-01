@@ -28,6 +28,7 @@ interface MemberProfile {
   website: string | null
   vibe_status: string | null
   show_in_directory: boolean
+  status: string | null
 }
 
 const SKILL_TAGS = [
@@ -86,7 +87,7 @@ export default function DirectoryPage() {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, tribe_name, avatar_url, mycelial_gifts, soundcloud_url, website, vibe_status, show_in_directory')
+        .select('id, tribe_name, avatar_url, mycelial_gifts, soundcloud_url, website, vibe_status, show_in_directory, status')
         .eq('show_in_directory', true)
         .in('status', ['active', 'facilitator', 'admin'])
         .order('tribe_name', { ascending: true })
@@ -99,7 +100,7 @@ export default function DirectoryPage() {
       try {
         const { data } = await supabase
           .from('profiles')
-          .select('id, tribe_name, avatar_url, mycelial_gifts, soundcloud_url, website, vibe_status')
+          .select('id, tribe_name, avatar_url, mycelial_gifts, soundcloud_url, website, vibe_status, status')
           .in('status', ['active', 'facilitator', 'admin'])
           .order('tribe_name', { ascending: true })
         
@@ -330,6 +331,7 @@ export default function DirectoryPage() {
                                   <BlockUserMenuItem 
                                     userId={member.id}
                                     userName={member.tribe_name}
+                                    userStatus={member.status || undefined}
                                     onBlock={() => setMenuOpenId(null)}
                                   />
                                 </div>

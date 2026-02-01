@@ -239,3 +239,84 @@ function getWordList(): string[] {
     'free', 'authentic', 'true', 'real', 'deep', 'wide', 'high', 'vast'
   ]
 }
+
+// IndexedDB helper functions for encryption key storage
+const DB_NAME = 'fernhill-keys';
+const DB_VERSION = 1;
+const STORE_NAME = 'keys';
+
+async function openKeysDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(DB_NAME, DB_VERSION);
+    
+    request.onerror = () => reject(new Error('Failed to open IndexedDB'));
+    
+    request.onupgradeneeded = (event) => {
+      const db = (event.target as IDBOpenDBRequest).result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME, { keyPath: 'userId' });
+      }
+    };
+    
+    request.onsuccess = () => resolve(request.result);
+  });
+}
+
+export async function getStoredPrivateKey(userId: string): Promise<CryptoKey | null> {
+  try {
+    const db = await openKeysDB();
+    return new Promise((resolve) => {
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+      const getRequest = store.get(userId);
+      
+      getRequest.onsuccess = () => {
+        resolve(getRequest.result?.privateKey || null);
+      };
+      getRequest.onerror = () => resolve(null);
+    });
+  } catch {
+    return null;
+  }
+}
+
+export async function storePrivateKey(userId: string, privateKey: CryptoKey): Promise<void> {
+  const db = await openKeysDB();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    store.put({ userId, privateKey });
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(new Error('Failed to store key'));
+  });
+}
+
+// Initialize E2EE keys - call this at app startup
+// Returns true if keys were initialized (either existing or newly created)
+export async function initializeEncryption(
+  userId: string, 
+  updatePublicKey: (key: string) => Promise<void>
+): Promise<{ success: boolean; privateKey: CryptoKey | null }> {
+  try {
+    // Check if we already have keys stored
+    const existingKey = await getStoredPrivateKey(userId);
+    if (existingKey) {
+      return { success: true, privateKey: existingKey };
+    }
+
+    // Generate new key pair
+    const { publicKey, privateKey } = await generateKeyPair();
+    const exportedPublicKey = await exportPublicKey(publicKey);
+
+    // Store private key in IndexedDB
+    await storePrivateKey(userId, privateKey);
+
+    // Update profile with public key (callback to handle Supabase update)
+    await updatePublicKey(exportedPublicKey);
+
+    return { success: true, privateKey };
+  } catch (error) {
+    console.error('E2EE initialization failed:', error);
+    return { success: false, privateKey: null };
+  }
+}

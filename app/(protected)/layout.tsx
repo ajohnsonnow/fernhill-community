@@ -5,6 +5,7 @@ import TopHeader from '@/components/navigation/TopHeader'
 import { AudioProvider } from '@/components/audio/AudioContext'
 import GlobalPlayer from '@/components/audio/GlobalPlayer'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
+import EncryptionInitializer from '@/components/encryption/EncryptionInitializer'
 
 export default async function ProtectedLayout({
   children,
@@ -38,6 +39,7 @@ export default async function ProtectedLayout({
         </main>
         <GlobalPlayer />
         <InstallPrompt />
+        <EncryptionInitializer />
         <BottomNav />
       </div>
     </AudioProvider>

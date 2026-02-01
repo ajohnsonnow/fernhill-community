@@ -4,7 +4,7 @@
 
 [![Version](https://img.shields.io/badge/version-1.6.0-green.svg)](package.json)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](tsconfig.json)
-[![Lines of Code](https://img.shields.io/badge/lines-18,524+-brightgreen.svg)](#)
+[![Lines of Code](https://img.shields.io/badge/lines-18,719+-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/license-Private-red.svg)](LICENSE)
 [![Deployed](https://img.shields.io/badge/deployed-Render.com-blueviolet.svg)](https://fernhill-community.onrender.com)
 
