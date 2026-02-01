@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-02-01T06:37:13.300Z",
+  "timestamp": "2026-02-01T06:40:00.903Z",
   "version": "1.5.0",
   "codename": "Weather Wisdom",
   "git": {
     "branch": "main",
-    "commit": "39580d0",
-    "commitCount": "58"
+    "commit": "cbcd664",
+    "commitCount": "59"
   },
   "files": {
     "ts": 17,
@@ -15,7 +15,7 @@
     "sql": 16,
     "md": 9
   },
-  "linesOfCode": 16266,
+  "linesOfCode": 16371,
   "routes": [
     "/admin/events",
     "/admin",
@@ -77,5 +77,5 @@
     "music_sets",
     "custom_vibe_tags"
   ],
-  "lastDeploy": "2026-02-01T06:37:13.300Z"
+  "lastDeploy": "2026-02-01T06:40:00.903Z"
 }
