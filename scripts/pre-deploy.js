@@ -43,6 +43,9 @@ const FLAGS = {
   skipTs: args.includes('--skip-ts'),
   fix: args.includes('--fix'),
   commit: args.includes('--commit') || args.includes('--fix'),
+  bump: args.includes('--bump'),
+  bumpMinor: args.includes('--bump-minor'),
+  bumpMajor: args.includes('--bump-major'),
 };
 
 // Colors for console output
@@ -590,9 +593,70 @@ function getCodename(version) {
     '1.3': 'Sacred Connections',
     '1.4': 'Sacred Gate',
     '1.5': 'Weather Wisdom',
+    '1.6': 'Next Chapter',
   };
   const minor = version.split('.').slice(0, 2).join('.');
   return codenames[minor] || 'Unnamed Release';
+}
+
+/**
+ * Bump version number based on flags
+ * --bump: patch (1.5.0 -> 1.5.1)
+ * --bump-minor: minor (1.5.0 -> 1.6.0)
+ * --bump-major: major (1.5.0 -> 2.0.0)
+ */
+function bumpVersion() {
+  if (!FLAGS.bump && !FLAGS.bumpMinor && !FLAGS.bumpMajor) {
+    return null;
+  }
+  
+  logSection('📦 Version Bump');
+  
+  try {
+    const pkgPath = path.join(ROOT_DIR, 'package.json');
+    const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+    const oldVersion = pkg.version;
+    const [major, minor, patch] = oldVersion.split('.').map(Number);
+    
+    let newVersion;
+    let bumpType;
+    
+    if (FLAGS.bumpMajor) {
+      newVersion = `${major + 1}.0.0`;
+      bumpType = 'major';
+    } else if (FLAGS.bumpMinor) {
+      newVersion = `${major}.${minor + 1}.0`;
+      bumpType = 'minor';
+    } else {
+      newVersion = `${major}.${minor}.${patch + 1}`;
+      bumpType = 'patch';
+    }
+    
+    // Update package.json
+    pkg.version = newVersion;
+    fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n');
+    logCheck(`package.json ${oldVersion} → ${newVersion}`, true, bumpType);
+    recordFixed();
+    
+    // Update lib/version.ts
+    const versionTsPath = path.join(ROOT_DIR, 'lib', 'version.ts');
+    if (fs.existsSync(versionTsPath)) {
+      let versionTs = fs.readFileSync(versionTsPath, 'utf8');
+      versionTs = versionTs.replace(
+        /version: ['"][\d.]+['"]/,
+        `version: '${newVersion}'`
+      );
+      fs.writeFileSync(versionTsPath, versionTs);
+      logCheck('lib/version.ts updated', true);
+    }
+    
+    logInfo(`Version bumped: ${oldVersion} → ${newVersion} (${bumpType})`);
+    
+    return { oldVersion, newVersion, bumpType };
+  } catch (err) {
+    logWarning(`Version bump failed: ${err.message}`);
+    return null;
+  }
 }
 
 function printSummary(startTime) {
@@ -649,6 +713,12 @@ async function main() {
   if (FLAGS.fix) {
     log('   🔧 Auto-fix mode enabled', 'magenta');
   }
+  if (FLAGS.bump || FLAGS.bumpMinor || FLAGS.bumpMajor) {
+    log('   📦 Version bump enabled', 'magenta');
+  }
+  
+  // Bump version first if requested
+  const versionBump = bumpVersion();
   
   // Run all checks
   const pkg = checkPackageJson();

@@ -14,6 +14,10 @@
     "predeploy": "node scripts/pre-deploy.js",
     "predeploy:quick": "node scripts/pre-deploy.js --skip-build",
     "predeploy:fix": "node scripts/pre-deploy.js --skip-build --fix",
+    "release": "node scripts/pre-deploy.js --skip-build --fix --bump",
+    "release:minor": "node scripts/pre-deploy.js --skip-build --fix --bump-minor",
+    "release:major": "node scripts/pre-deploy.js --skip-build --fix --bump-major",
+    "deploy": "node scripts/pre-deploy.js --fix --bump && git push origin main",
     "prepare": "husky install || true"
   },
   "dependencies": {
