@@ -593,7 +593,8 @@ function getCodename(version) {
     '1.3': 'Sacred Connections',
     '1.4': 'Sacred Gate',
     '1.5': 'Weather Wisdom',
-    '1.6': 'Next Chapter',
+    '1.6': 'Social Constellation',
+    '1.7': 'Next Chapter',
   };
   const minor = version.split('.').slice(0, 2).join('.');
   return codenames[minor] || 'Unnamed Release';

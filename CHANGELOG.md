@@ -5,6 +5,75 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-01-31
+
+### 🌐 Social Constellation Release - "Social Constellation"
+
+Session 6 Part 2: World-class social networking features for deeper community connection.
+
+### 💬 Comments System
+- **Threaded Comments** - Full comment threads on Hearth posts with nested replies
+- **Edit/Delete** - Users can edit and delete their own comments
+- **Real-time Updates** - Comments appear instantly via Supabase subscriptions
+- **Reply Notifications** - Get notified when someone replies to your comment
+
+### 🔔 Notification Center
+- **In-App Notifications** - Central hub for all activity (bell icon in header)
+- **Notification Types** - Mentions, comments, reactions, follows, badges, events
+- **Mark as Read** - Individual or bulk mark-as-read functionality
+- **Browser Notifications** - Optional push notifications for new activity
+
+### 📖 Stories (Ephemeral Content)
+- **24-Hour Stories** - Share dance moments that disappear after 24 hours
+- **Story Viewer** - Full-screen viewer with auto-advance
+- **Quick Reactions** - Tap emoji to react to stories
+- **View Count** - See who viewed your stories
+- **Close Friends** - Option to share stories with select friends only
+
+### 🔖 Bookmarks
+- **Save for Later** - Bookmark posts, events, music sets, and more
+- **Quick Access** - Saved items accessible from profile
+- **Cross-Type Support** - Works across all content types
+
+### 🛡️ Safety Controls
+- **Block Users** - Completely hide someone's content and prevent DMs
+- **Mute Users** - Hide posts without full blocking
+- **Confirmation Dialogs** - Safety confirmations for sensitive actions
+- **Private** - Blocked users aren't notified
+
+### ⌨️ Typing Indicators
+- **Real-Time Presence** - See when someone is typing in DMs
+- **Animated Dots** - Subtle typing animation
+- **Auto-Expire** - Indicators disappear after 5 seconds
+
+### #️⃣ Hashtags & Trending
+- **Content Discovery** - Use #hashtags in posts for discovery
+- **Trending Topics** - Algorithm tracks popular hashtags
+- **Search by Tag** - Find all content with specific hashtags
+
+### 👥 Group DMs (Circles)
+- **Group Conversations** - Create group chats with multiple members
+- **Admin Roles** - Group creators can manage membership
+- **Encrypted** - End-to-end encryption for group messages
+
+### 🔗 Link Previews
+- **Rich Embeds** - URLs show title, description, and image
+- **Cached Previews** - Fast loading with 7-day cache
+
+### 📊 Database Schema
+- **12 New Tables** - Comments, notifications, stories, bookmarks, groups, blocks, hashtags, and more
+- **Row Level Security** - All tables protected with proper RLS policies
+- **Real-Time Enabled** - Key tables added to Supabase realtime publication
+- **Helper Functions** - `create_notification()`, `extract_hashtags()`, `is_blocked()`
+
+### 🔧 Auto Version Bumping
+- **--bump Flag** - Patch version bump during pre-deploy
+- **--bump-minor** - Minor version bump (new features)
+- **--bump-major** - Major version bump (breaking changes)
+- **npm run deploy** - Full deploy: checks, fix, bump, and push
+
+---
+
 ## [1.5.0] - 2026-01-31
 
 ### 🌤️ Weather Wisdom Release - "Weather Wisdom"
