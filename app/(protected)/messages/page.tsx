@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { encryptMessage, decryptMessage, generateKeyPair, exportPublicKey, importPublicKey } from '@/lib/crypto'
+import TypingIndicator from '@/components/social/TypingIndicator'
 
 interface Conversation {
   user_id: string
@@ -502,11 +503,17 @@ export default function MessagesPage() {
 
       {/* Message Input */}
       <div className="glass-panel p-4">
+        {/* Typing Indicator */}
+        {selectedUser && (
+          <TypingIndicator conversationType="dm" conversationId={selectedUser.id} />
+        )}
         <div className="flex items-center gap-3">
           <input
             type="text"
             value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
+            onChange={(e) => {
+              setNewMessage(e.target.value)
+            }}
             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
             placeholder="Type a message..."
             className="flex-1 px-4 py-3 rounded-xl glass-panel-dark text-fernhill-cream placeholder-fernhill-sand/40 border-none focus:ring-2 focus:ring-fernhill-gold/50"

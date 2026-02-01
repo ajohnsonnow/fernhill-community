@@ -46,8 +46,8 @@ export function BookmarkButton({
 
     if (isBookmarked) {
       // Remove bookmark
-      const { error } = await supabase
-        .from('bookmarks')
+      const { error } = await (supabase
+        .from('bookmarks') as any)
         .delete()
         .eq('user_id', user.id)
         .eq('entity_type', entityType)
@@ -59,8 +59,8 @@ export function BookmarkButton({
       }
     } else {
       // Add bookmark
-      const { error } = await supabase
-        .from('bookmarks')
+      const { error } = await (supabase
+        .from('bookmarks') as any)
         .insert({
           user_id: user.id,
           entity_type: entityType,
@@ -119,8 +119,8 @@ export function useBookmarkStatus(entityType: string, entityId: string) {
       return;
     }
 
-    const { data } = await supabase
-      .from('bookmarks')
+    const { data } = await (supabase
+      .from('bookmarks') as any)
       .select('id')
       .eq('user_id', user.id)
       .eq('entity_type', entityType)

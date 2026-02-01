@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { Play, Pause, Plus, Music, ExternalLink, Loader2, Sparkles, Filter, Clock, CheckCircle, Send } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { useAudio } from '@/components/audio/AudioContext'
+import BookmarkButton from '@/components/social/BookmarkButton'
 
 interface MusicSet {
   id: string
@@ -362,15 +363,18 @@ export default function JourneyPage() {
                     )}
                   </div>
 
-                  <a
-                    href={set.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Open in new tab"
-                    className="p-2 rounded-xl glass-panel-dark hover:bg-fernhill-brown/30 transition-colors"
-                  >
-                    <ExternalLink className="w-5 h-5 text-fernhill-sand/40" />
-                  </a>
+                  <div className="flex items-center gap-2">
+                    <BookmarkButton entityType="music_set" entityId={set.id} size="sm" />
+                    <a
+                      href={set.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Open in new tab"
+                      className="p-2 rounded-xl glass-panel-dark hover:bg-fernhill-brown/30 transition-colors"
+                    >
+                      <ExternalLink className="w-5 h-5 text-fernhill-sand/40" />
+                    </a>
+                  </div>
                 </div>
 
                 {set.tracklist && (

@@ -71,8 +71,8 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
     setLoading(true);
     
     // Fetch top-level comments with reply counts
-    const { data, error } = await supabase
-      .from('post_comments')
+    const { data, error } = await (supabase
+      .from('post_comments') as any)
       .select(`
         *,
         user:profiles!post_comments_user_id_fkey(full_name, avatar_url)
@@ -85,9 +85,9 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
     if (!error && data) {
       // Get reply counts for each comment
       const commentsWithReplyCounts = await Promise.all(
-        data.map(async (comment) => {
-          const { count } = await supabase
-            .from('post_comments')
+        data.map(async (comment: any) => {
+          const { count } = await (supabase
+            .from('post_comments') as any)
             .select('*', { count: 'exact', head: true })
             .eq('parent_comment_id', comment.id)
             .eq('is_hidden', false);
@@ -96,15 +96,15 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
         })
       );
       
-      setComments(commentsWithReplyCounts);
+      setComments(commentsWithReplyCounts as Comment[]);
     }
     
     setLoading(false);
   };
 
   const fetchReplies = async (parentId: string) => {
-    const { data } = await supabase
-      .from('post_comments')
+    const { data } = await (supabase
+      .from('post_comments') as any)
       .select(`
         *,
         user:profiles!post_comments_user_id_fkey(full_name, avatar_url)
@@ -116,7 +116,7 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
     if (data) {
       setComments(prev => prev.map(comment => 
         comment.id === parentId 
-          ? { ...comment, replies: data }
+          ? { ...comment, replies: data as Comment[] }
           : comment
       ));
     }
@@ -149,8 +149,8 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
       return;
     }
 
-    const { data, error } = await supabase
-      .from('post_comments')
+    const { data, error } = await (supabase
+      .from('post_comments') as any)
       .insert({
         post_id: postId,
         user_id: user.id,
@@ -170,7 +170,7 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
           comment.id === parentId 
             ? { 
                 ...comment, 
-                replies: [...(comment.replies || []), data],
+                replies: [...(comment.replies || []), data as Comment],
                 reply_count: (comment.reply_count || 0) + 1
               }
             : comment
@@ -179,7 +179,7 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
         setReplyingTo(null);
       } else {
         // Add new top-level comment
-        setComments(prev => [...prev, { ...data, reply_count: 0 }]);
+        setComments(prev => [...prev, { ...data, reply_count: 0 } as Comment]);
         setNewComment('');
       }
     }
@@ -192,8 +192,8 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
 
     setSubmitting(true);
     
-    const { error } = await supabase
-      .from('post_comments')
+    const { error } = await (supabase
+      .from('post_comments') as any)
       .update({ 
         content: editContent.trim(),
         is_edited: true,
@@ -228,8 +228,8 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
   const deleteComment = async (commentId: string) => {
     if (!confirm('Delete this comment?')) return;
 
-    const { error } = await supabase
-      .from('post_comments')
+    const { error } = await (supabase
+      .from('post_comments') as any)
       .delete()
       .eq('id', commentId);
 
@@ -345,7 +345,7 @@ export function PostComments({ postId, initialCommentCount = 0 }: PostCommentsPr
         )}
 
         {/* Reply count & toggle */}
-        {!isReply && comment.reply_count > 0 && (
+        {!isReply && (comment.reply_count ?? 0) > 0 && (
           <button
             onClick={() => toggleReplies(comment.id)}
             className="flex items-center gap-1 mt-2 ml-2 text-xs text-emerald-400 hover:text-emerald-300"

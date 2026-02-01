@@ -54,8 +54,8 @@ export function NotificationCenter() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    const { data, error } = await supabase
-      .from('notifications')
+    const { data, error } = await (supabase
+      .from('notifications') as any)
       .select(`
         *,
         actor:profiles!notifications_actor_id_fkey(full_name, avatar_url)
@@ -65,8 +65,8 @@ export function NotificationCenter() {
       .limit(50);
 
     if (!error && data) {
-      setNotifications(data);
-      setUnreadCount(data.filter(n => !n.is_read).length);
+      setNotifications(data as Notification[]);
+      setUnreadCount((data as Notification[]).filter(n => !n.is_read).length);
     }
     setLoading(false);
   }, [supabase]);
@@ -106,8 +106,8 @@ export function NotificationCenter() {
   }, [fetchNotifications, supabase]);
 
   const markAsRead = async (notificationId: string) => {
-    await supabase
-      .from('notifications')
+    await (supabase
+      .from('notifications') as any)
       .update({ is_read: true, read_at: new Date().toISOString() })
       .eq('id', notificationId);
 
@@ -121,8 +121,8 @@ export function NotificationCenter() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    await supabase
-      .from('notifications')
+    await (supabase
+      .from('notifications') as any)
       .update({ is_read: true, read_at: new Date().toISOString() })
       .eq('user_id', user.id)
       .eq('is_read', false);

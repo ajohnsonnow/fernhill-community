@@ -1,11 +1,11 @@
 // Social Features Components
 // World-class social networking for Fernhill Community
 
-// Core Social
-export { BadgeDisplay } from './BadgeDisplay';
-export { PollCard } from './PollCard';
-export { ReactionButtons } from './ReactionButtons';
-export { RSVPButton } from './RSVPButton';
+// Core Social (default exports)
+export { default as BadgeDisplay } from './BadgeDisplay';
+export { default as PollCard } from './PollCard';
+export { default as ReactionButtons } from './ReactionButtons';
+export { default as RSVPButton } from './RSVPButton';
 
 // Comments & Discussion
 export { PostComments } from './PostComments';

@@ -35,8 +35,8 @@ export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActi
     }
 
     // Check if blocked
-    const { data: blockData } = await supabase
-      .from('user_blocks')
+    const { data: blockData } = await (supabase
+      .from('user_blocks') as any)
       .select('id')
       .eq('blocker_id', user.id)
       .eq('blocked_id', userId)
@@ -45,8 +45,8 @@ export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActi
     setIsBlocked(!!blockData);
 
     // Check if muted
-    const { data: muteData } = await supabase
-      .from('user_mutes')
+    const { data: muteData } = await (supabase
+      .from('user_mutes') as any)
       .select('id')
       .eq('user_id', user.id)
       .eq('muted_user_id', userId)
@@ -72,8 +72,8 @@ export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActi
 
     if (isBlocked) {
       // Unblock
-      const { error } = await supabase
-        .from('user_blocks')
+      const { error } = await (supabase
+        .from('user_blocks') as any)
         .delete()
         .eq('blocker_id', user.id)
         .eq('blocked_id', userId);
@@ -84,8 +84,8 @@ export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActi
       }
     } else {
       // Block
-      const { error } = await supabase
-        .from('user_blocks')
+      const { error } = await (supabase
+        .from('user_blocks') as any)
         .insert({
           blocker_id: user.id,
           blocked_id: userId
@@ -112,8 +112,8 @@ export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActi
 
     if (isMuted) {
       // Unmute
-      const { error } = await supabase
-        .from('user_mutes')
+      const { error } = await (supabase
+        .from('user_mutes') as any)
         .delete()
         .eq('user_id', user.id)
         .eq('muted_user_id', userId);
@@ -124,8 +124,8 @@ export function UserSafetyActions({ userId, userName, onAction }: UserSafetyActi
       }
     } else {
       // Mute
-      const { error } = await supabase
-        .from('user_mutes')
+      const { error } = await (supabase
+        .from('user_mutes') as any)
         .insert({
           user_id: user.id,
           muted_user_id: userId,
@@ -283,8 +283,8 @@ export function BlockUserMenuItem({
     const { data: { user } } = await supabase.auth.getUser();
     
     if (user) {
-      const { error } = await supabase
-        .from('user_blocks')
+      const { error } = await (supabase
+        .from('user_blocks') as any)
         .insert({
           blocker_id: user.id,
           blocked_id: userId

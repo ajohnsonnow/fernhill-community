@@ -20,6 +20,7 @@ import {
   ExternalLink
 } from 'lucide-react'
 import { format, parseISO, isToday, isTomorrow, isThisWeek, differenceInDays } from 'date-fns'
+import { BookmarkButton } from '@/components/social/BookmarkButton'
 
 // Types
 interface CalendarEvent {
@@ -483,12 +484,15 @@ function EventDetailModal({
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-fernhill-sand/10">
           <h2 className="text-xl font-bold text-fernhill-cream font-display">{event.title}</h2>
-          <button 
-            onClick={onClose}
-            className="p-2 rounded-full hover:bg-fernhill-brown/30 transition-colors"
-          >
-            <X className="w-5 h-5 text-fernhill-sand/60" />
-          </button>
+          <div className="flex items-center gap-2">
+            <BookmarkButton entityType="event" entityId={event.id} />
+            <button 
+              onClick={onClose}
+              className="p-2 rounded-full hover:bg-fernhill-brown/30 transition-colors"
+            >
+              <X className="w-5 h-5 text-fernhill-sand/60" />
+            </button>
+          </div>
         </div>
 
         {/* Content */}

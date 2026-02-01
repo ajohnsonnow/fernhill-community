@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-02-01T06:40:00.903Z",
-  "version": "1.5.0",
-  "codename": "Weather Wisdom",
+  "timestamp": "2026-02-01T20:01:00.263Z",
+  "version": "1.6.0",
+  "codename": "Social Constellation",
   "git": {
     "branch": "main",
-    "commit": "cbcd664",
-    "commitCount": "59"
+    "commit": "9fc989b",
+    "commitCount": "62"
   },
   "files": {
-    "ts": 17,
-    "tsx": 40,
+    "ts": 18,
+    "tsx": 46,
     "js": 5,
     "css": 1,
-    "sql": 16,
+    "sql": 17,
     "md": 9
   },
-  "linesOfCode": 16371,
+  "linesOfCode": 18524,
   "routes": [
     "/admin/events",
     "/admin",
@@ -46,13 +46,20 @@
     "GlobalPlayer",
     "BottomNav",
     "TopHeader",
+    "NotificationCenter",
     "NotificationManager",
     "NewPostModal",
     "InstallPrompt",
     "BadgeDisplay",
+    "BookmarkButton",
+    "index",
     "PollCard",
+    "PostComments",
     "ReactionButtons",
     "RSVPButton",
+    "StoriesBar",
+    "TypingIndicator",
+    "UserSafetyActions",
     "FaceCapture",
     "PhotoUpload"
   ],
@@ -77,5 +84,5 @@
     "music_sets",
     "custom_vibe_tags"
   ],
-  "lastDeploy": "2026-02-01T06:40:00.903Z"
+  "lastDeploy": "2026-02-01T20:01:00.263Z"
 }

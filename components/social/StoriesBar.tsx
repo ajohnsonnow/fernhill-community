@@ -69,8 +69,8 @@ export function StoriesBar() {
     const { data: { user } } = await supabase.auth.getUser();
     
     // Fetch all active stories
-    const { data: stories, error } = await supabase
-      .from('stories')
+    const { data: stories, error } = await (supabase
+      .from('stories') as any)
       .select(`
         *,
         user:profiles!stories_user_id_fkey(id, full_name, avatar_url)
@@ -81,25 +81,25 @@ export function StoriesBar() {
     if (!error && stories) {
       // Get viewed stories for current user
       if (user) {
-        const { data: views } = await supabase
-          .from('story_views')
+        const { data: views } = await (supabase
+          .from('story_views') as any)
           .select('story_id')
           .eq('viewer_id', user.id);
         
         if (views) {
-          setViewedStories(new Set(views.map(v => v.story_id)));
+          setViewedStories(new Set(views.map((v: { story_id: string }) => v.story_id)));
         }
       }
 
       // Separate my stories
-      const mine = stories.filter(s => s.user_id === user?.id);
+      const mine = stories.filter((s: Story) => s.user_id === user?.id);
       setMyStories(mine);
 
       // Group other users' stories
-      const otherStories = stories.filter(s => s.user_id !== user?.id);
+      const otherStories = stories.filter((s: Story) => s.user_id !== user?.id);
       const grouped: Map<string, GroupedStories> = new Map();
 
-      otherStories.forEach(story => {
+      otherStories.forEach((story: Story) => {
         const existing = grouped.get(story.user_id);
         if (existing) {
           existing.stories.push(story);
@@ -132,8 +132,8 @@ export function StoriesBar() {
     if (!currentUserId || story.user_id === currentUserId) return;
     
     // Record view
-    await supabase
-      .from('story_views')
+    await (supabase
+      .from('story_views') as any)
       .insert({
         story_id: story.id,
         viewer_id: currentUserId
@@ -142,8 +142,8 @@ export function StoriesBar() {
       .select();
 
     // Update view count
-    await supabase
-      .from('stories')
+    await (supabase
+      .from('stories') as any)
       .update({ view_count: story.view_count + 1 })
       .eq('id', story.id);
 
@@ -203,8 +203,8 @@ export function StoriesBar() {
     
     const story = viewingUser.stories[currentStoryIndex];
     
-    await supabase
-      .from('story_reactions')
+    await (supabase
+      .from('story_reactions') as any)
       .insert({
         story_id: story.id,
         user_id: currentUserId,
@@ -495,8 +495,8 @@ function CreateStoryModal({ onClose, onCreated }: { onClose: () => void; onCreat
       .getPublicUrl(fileName);
 
     // Create story record
-    const { error: insertError } = await supabase
-      .from('stories')
+    const { error: insertError } = await (supabase
+      .from('stories') as any)
       .insert({
         user_id: user.id,
         media_url: publicUrl,

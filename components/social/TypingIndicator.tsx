@@ -31,8 +31,8 @@ export function TypingIndicator({ conversationType, conversationId }: TypingIndi
         },
         async (payload) => {
           // Fetch current typing users
-          const { data } = await supabase
-            .from('typing_indicators')
+          const { data } = await (supabase
+            .from('typing_indicators') as any)
             .select(`
               user_id,
               user:profiles!typing_indicators_user_id_fkey(id, full_name)
@@ -45,8 +45,8 @@ export function TypingIndicator({ conversationType, conversationId }: TypingIndi
             const { data: { user } } = await supabase.auth.getUser();
             // Filter out current user
             const others = data
-              .filter(d => d.user_id !== user?.id && d.user)
-              .map(d => ({ id: d.user.id, full_name: d.user.full_name }));
+              .filter((d: { user_id: string; user: { id: string; full_name: string } | null }) => d.user_id !== user?.id && d.user)
+              .map((d: { user: { id: string; full_name: string } }) => ({ id: d.user.id, full_name: d.user.full_name }));
             setTypingUsers(others);
           }
         }
@@ -101,8 +101,8 @@ export function useTypingIndicator(
     if (!user) return;
 
     // Upsert typing indicator (expires in 5 seconds)
-    await supabase
-      .from('typing_indicators')
+    await (supabase
+      .from('typing_indicators') as any)
       .upsert({
         user_id: user.id,
         conversation_type: conversationType,
@@ -120,8 +120,8 @@ export function useTypingIndicator(
 
     // Set timeout to remove indicator after 5 seconds of no typing
     timeoutRef.current = setTimeout(async () => {
-      await supabase
-        .from('typing_indicators')
+      await (supabase
+        .from('typing_indicators') as any)
         .delete()
         .eq('user_id', user.id)
         .eq('conversation_type', conversationType)
@@ -137,8 +137,8 @@ export function useTypingIndicator(
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    await supabase
-      .from('typing_indicators')
+    await (supabase
+      .from('typing_indicators') as any)
       .delete()
       .eq('user_id', user.id)
       .eq('conversation_type', conversationType)

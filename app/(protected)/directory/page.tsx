@@ -12,8 +12,12 @@ import {
   Sparkles,
   User,
   ExternalLink,
-  Loader2
+  Loader2,
+  MoreVertical,
+  MessageCircle
 } from 'lucide-react'
+import { BlockUserMenuItem } from '@/components/social/UserSafetyActions'
+import Link from 'next/link'
 
 interface MemberProfile {
   id: string
@@ -62,10 +66,16 @@ export default function DirectoryPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null)
   const [showOnlineOnly, setShowOnlineOnly] = useState(false)
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null)
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
     fetchMembers()
+    // Get current user ID
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setCurrentUserId(user?.id || null)
+    })
   }, [])
 
   useEffect(() => {
@@ -266,6 +276,16 @@ export default function DirectoryPage() {
 
                       {/* Links */}
                       <div className="flex gap-2 mt-3">
+                        {/* Message Button */}
+                        {member.id !== currentUserId && (
+                          <Link
+                            href={`/messages?user=${member.id}`}
+                            className="p-2 rounded-lg glass-panel-dark text-emerald-400 hover:bg-white/10 transition-colors"
+                            aria-label="Send message"
+                          >
+                            <MessageCircle className="w-4 h-4" />
+                          </Link>
+                        )}
                         {member.soundcloud_url && (
                           <a
                             href={member.soundcloud_url}
@@ -287,6 +307,35 @@ export default function DirectoryPage() {
                           >
                             <ExternalLink className="w-4 h-4" />
                           </a>
+                        )}
+                        
+                        {/* Safety Menu (for other users only) */}
+                        {member.id !== currentUserId && (
+                          <div className="relative ml-auto">
+                            <button
+                              onClick={() => setMenuOpenId(menuOpenId === member.id ? null : member.id)}
+                              className="p-2 rounded-lg glass-panel-dark text-fernhill-sand/60 hover:bg-white/10 transition-colors"
+                              aria-label="More options"
+                            >
+                              <MoreVertical className="w-4 h-4" />
+                            </button>
+                            
+                            {menuOpenId === member.id && (
+                              <>
+                                <div 
+                                  className="fixed inset-0 z-40"
+                                  onClick={() => setMenuOpenId(null)}
+                                />
+                                <div className="absolute right-0 top-full mt-1 w-48 bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden">
+                                  <BlockUserMenuItem 
+                                    userId={member.id}
+                                    userName={member.tribe_name}
+                                    onBlock={() => setMenuOpenId(null)}
+                                  />
+                                </div>
+                              </>
+                            )}
+                          </div>
                         )}
                       </div>
                     </div>

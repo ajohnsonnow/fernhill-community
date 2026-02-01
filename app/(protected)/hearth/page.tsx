@@ -3,9 +3,13 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
-import { Plus, Heart, Clock } from 'lucide-react'
+import { Plus, Heart, Clock, MessageCircle } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import NewPostModal from '@/components/posts/NewPostModal'
+import StoriesBar from '@/components/social/StoriesBar'
+import PostComments from '@/components/social/PostComments'
+import BookmarkButton from '@/components/social/BookmarkButton'
+import ReactionButtons from '@/components/social/ReactionButtons'
 
 interface Post {
   id: string
@@ -91,10 +95,14 @@ export default function HearthPage() {
   }
 
   return (
-    <div className="min-h-screen p-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Welcome Banner */}
-        <div className="card-warm p-5 mb-6 animate-fadeIn">
+    <div className="min-h-screen">
+      {/* Stories Bar */}
+      <StoriesBar />
+      
+      <div className="p-4">
+        <div className="max-w-2xl mx-auto">
+          {/* Welcome Banner */}
+          <div className="card-warm p-5 mb-6 animate-fadeIn">
           <h1 className="text-2xl font-bold font-display text-fernhill-cream mb-2">Welcome to the Hearth</h1>
           <p className="text-fernhill-sand/80 text-sm leading-relaxed">
             We value <span className="text-fernhill-gold">community</span>, <span className="text-fernhill-gold">connection</span>, <span className="text-fernhill-gold">expression</span>, and <span className="text-fernhill-gold">sovereignty</span>. 
@@ -184,19 +192,28 @@ export default function HearthPage() {
                   />
                 )}
 
+                {/* Reactions & Actions */}
                 <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                  <button className="flex items-center gap-2 text-white/60 hover:text-sacred-gold transition-colors">
-                    <Heart className="w-5 h-5" />
-                    <span className="text-sm">{post.likes_count}</span>
-                  </button>
+                  <div className="flex items-center gap-4">
+                    {/* Emoji Reactions */}
+                    <ReactionButtons postId={post.id} />
+                  </div>
                   
-                  {post.expires_at && (
-                    <div className="flex items-center gap-1 text-white/40 text-xs">
-                      <Clock className="w-4 h-4" />
-                      {getTimeRemaining(post.expires_at)}
-                    </div>
-                  )}
+                  <div className="flex items-center gap-3">
+                    {/* Bookmark */}
+                    <BookmarkButton entityType="post" entityId={post.id} />
+                    
+                    {post.expires_at && (
+                      <div className="flex items-center gap-1 text-white/40 text-xs">
+                        <Clock className="w-4 h-4" />
+                        {getTimeRemaining(post.expires_at)}
+                      </div>
+                    )}
+                  </div>
                 </div>
+
+                {/* Comments Section */}
+                <PostComments postId={post.id} />
               </div>
             ))}
           </div>
@@ -216,6 +233,7 @@ export default function HearthPage() {
           isOpen={showNewPostModal}
           onClose={() => setShowNewPostModal(false)}
         />
+        </div>
       </div>
     </div>
   )

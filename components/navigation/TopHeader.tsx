@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Cloud, CloudRain, Sun, Wind, Settings, Image, Users, Shield, HelpCircle, Menu, X, Droplets, Thermometer } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import NotificationCenter from '@/components/notifications/NotificationCenter'
 
 interface WeatherData {
   current: {
@@ -114,6 +115,9 @@ export default function TopHeader({ profile }: TopHeaderProps) {
 
           {/* Right: Desktop nav + Hamburger for mobile */}
           <div className="flex items-center gap-1">
+            {/* Notification Bell */}
+            <NotificationCenter />
+
             {/* Desktop: Show all buttons */}
             <div className="hidden sm:flex items-center gap-1">
               {menuItems.map(item => (
