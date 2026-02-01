@@ -257,8 +257,16 @@ function LoginPageContent() {
                     type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault()
+                        const form = e.currentTarget.closest('form')
+                        form?.requestSubmit()
+                      }
+                    }}
                     placeholder="••••••••"
                     required
+                    autoComplete="current-password"
                     className="input-field pl-11 pr-11"
                   />
                   <button
@@ -348,6 +356,7 @@ function LoginPageContent() {
                       placeholder="Min 6 characters"
                       required
                       minLength={6}
+                      autoComplete="new-password"
                       className="input-field pl-11 pr-11"
                     />
                     <button
@@ -371,9 +380,17 @@ function LoginPageContent() {
                       type={showPassword ? 'text' : 'password'}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault()
+                          const form = e.currentTarget.closest('form')
+                          form?.requestSubmit()
+                        }
+                      }}
                       placeholder="Confirm password"
                       required
                       minLength={6}
+                      autoComplete="new-password"
                       className="input-field pl-11"
                     />
                   </div>

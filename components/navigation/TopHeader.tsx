@@ -1,23 +1,39 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Cloud, CloudRain, Sun, Wind, Settings, Image, Users, Shield, HelpCircle, Menu, X } from 'lucide-react'
+import { Cloud, CloudRain, Sun, Wind, Settings, Image, Users, Shield, HelpCircle, Menu, X, Droplets, Thermometer } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+
+interface WeatherData {
+  current: {
+    main: { temp: number; humidity: number; feels_like: number }
+    weather: Array<{ main: string; description: string; icon: string }>
+    wind?: { speed: number }
+    name: string
+  }
+  forecast: Array<{
+    dt: number
+    main: { temp_max: number; temp_min: number }
+    weather: Array<{ main: string; icon: string }>
+  }>
+}
 
 interface TopHeaderProps {
   profile: any
 }
 
 export default function TopHeader({ profile }: TopHeaderProps) {
-  const [weather, setWeather] = useState<any>(null)
+  const [weather, setWeather] = useState<WeatherData | null>(null)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [weatherModalOpen, setWeatherModalOpen] = useState(false)
   const pathname = usePathname()
   const isAdmin = profile.status === 'admin'
 
   // Close menu on route change
   useEffect(() => {
     setMenuOpen(false)
+    setWeatherModalOpen(false)
   }, [pathname])
 
   useEffect(() => {
@@ -37,14 +53,25 @@ export default function TopHeader({ profile }: TopHeaderProps) {
     return () => clearInterval(interval)
   }, [])
 
-  const getWeatherIcon = () => {
-    if (!weather) return <Cloud className="w-5 h-5" />
-    const condition = weather.weather?.[0]?.main?.toLowerCase()
+  const getWeatherIcon = (condition?: string, size: string = 'w-5 h-5') => {
+    const cond = condition?.toLowerCase() || ''
     
-    if (condition?.includes('rain')) return <CloudRain className="w-5 h-5 text-blue-400" />
-    if (condition?.includes('cloud')) return <Cloud className="w-5 h-5 text-fernhill-sand/60" />
-    if (condition?.includes('wind')) return <Wind className="w-5 h-5 text-fernhill-sand/60" />
-    return <Sun className="w-5 h-5 text-fernhill-gold" />
+    if (cond.includes('rain') || cond.includes('drizzle')) return <CloudRain className={`${size} text-blue-400`} />
+    if (cond.includes('cloud')) return <Cloud className={`${size} text-fernhill-sand/60`} />
+    if (cond.includes('wind')) return <Wind className={`${size} text-fernhill-sand/60`} />
+    if (cond.includes('clear') || cond.includes('sun')) return <Sun className={`${size} text-fernhill-gold`} />
+    return <Cloud className={size} />
+  }
+
+  const getDayName = (timestamp: number) => {
+    const date = new Date(timestamp * 1000)
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    
+    if (date.toDateString() === today.toDateString()) return 'Today'
+    if (date.toDateString() === tomorrow.toDateString()) return 'Tomorrow'
+    return date.toLocaleDateString('en-US', { weekday: 'short' })
   }
 
   const menuItems = [
@@ -55,21 +82,30 @@ export default function TopHeader({ profile }: TopHeaderProps) {
     { href: '/profile', icon: Settings, label: 'Settings', show: true },
   ].filter(item => item.show)
 
+  const currentWeather = weather?.current
+
   return (
     <>
       <header className="fixed top-0 left-0 right-0 bg-fernhill-dark/95 backdrop-blur-lg border-b border-fernhill-sand/10 pt-safe z-40">
         <div className="flex items-center justify-between px-3 py-2">
-          {/* Left: Weather (compact on mobile) */}
-          <div className="flex items-center gap-2 min-w-0">
+          {/* Left: Weather (clickable for forecast) */}
+          <button
+            onClick={() => setWeatherModalOpen(true)}
+            className="flex items-center gap-2 min-w-0 p-1 -m-1 rounded-xl hover:bg-fernhill-charcoal/50 transition-colors"
+            aria-label="View weather forecast"
+          >
             <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-fernhill-charcoal flex items-center justify-center flex-shrink-0">
-              {getWeatherIcon()}
+              {getWeatherIcon(currentWeather?.weather?.[0]?.main)}
             </div>
-            {weather && (
-              <div className="text-xs sm:text-sm hidden xs:block">
-                <p className="text-fernhill-cream font-medium">{Math.round(weather.main?.temp)}°F</p>
+            {currentWeather && (
+              <div className="text-xs sm:text-sm text-left">
+                <p className="text-fernhill-cream font-medium">{Math.round(currentWeather.main?.temp)}°F</p>
+                <p className="text-fernhill-sand/50 text-xs hidden sm:block capitalize">
+                  {currentWeather.weather?.[0]?.description || 'Portland'}
+                </p>
               </div>
             )}
-          </div>
+          </button>
 
           {/* Center: Title (responsive) */}
           <h1 className="text-base sm:text-xl font-bold font-display text-fernhill-cream truncate px-2">
@@ -111,6 +147,112 @@ export default function TopHeader({ profile }: TopHeaderProps) {
         </div>
       </header>
 
+      {/* Weather Forecast Modal */}
+      {weatherModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4"
+          onClick={() => setWeatherModalOpen(false)}
+        >
+          {/* Backdrop */}
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          
+          {/* Modal */}
+          <div 
+            className="relative w-full max-w-md bg-fernhill-dark/95 backdrop-blur-lg rounded-2xl border border-fernhill-sand/10 shadow-2xl overflow-hidden animate-fadeIn"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-fernhill-sand/10">
+              <h2 className="text-lg font-bold text-fernhill-cream">Portland Weather</h2>
+              <button
+                onClick={() => setWeatherModalOpen(false)}
+                className="p-2 rounded-lg hover:bg-fernhill-charcoal transition-colors"
+                aria-label="Close weather"
+              >
+                <X className="w-5 h-5 text-fernhill-sand/60" />
+              </button>
+            </div>
+
+            {/* Current Weather */}
+            {currentWeather && (
+              <div className="p-4 border-b border-fernhill-sand/10">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-2xl bg-fernhill-charcoal flex items-center justify-center">
+                    {getWeatherIcon(currentWeather.weather?.[0]?.main, 'w-10 h-10')}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-4xl font-bold text-fernhill-cream">
+                      {Math.round(currentWeather.main?.temp)}°F
+                    </p>
+                    <p className="text-fernhill-sand/60 capitalize">
+                      {currentWeather.weather?.[0]?.description}
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Extra details */}
+                <div className="flex gap-4 mt-4 text-sm">
+                  <div className="flex items-center gap-2 text-fernhill-sand/60">
+                    <Thermometer className="w-4 h-4" />
+                    <span>Feels {Math.round(currentWeather.main?.feels_like)}°F</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-fernhill-sand/60">
+                    <Droplets className="w-4 h-4" />
+                    <span>{currentWeather.main?.humidity}% humidity</span>
+                  </div>
+                  {currentWeather.wind && (
+                    <div className="flex items-center gap-2 text-fernhill-sand/60">
+                      <Wind className="w-4 h-4" />
+                      <span>{Math.round(currentWeather.wind.speed)} mph</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* 5-Day Forecast */}
+            {weather?.forecast && weather.forecast.length > 0 && (
+              <div className="p-4">
+                <h3 className="text-sm font-medium text-fernhill-sand/60 mb-3">5-Day Forecast</h3>
+                <div className="space-y-2">
+                  {weather.forecast.map((day, idx) => (
+                    <div 
+                      key={idx}
+                      className="flex items-center justify-between p-2 rounded-xl bg-fernhill-charcoal/50"
+                    >
+                      <span className="text-fernhill-cream font-medium w-16">
+                        {getDayName(day.dt)}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        {getWeatherIcon(day.weather?.[0]?.main, 'w-5 h-5')}
+                        <span className="text-fernhill-sand/60 text-sm capitalize w-20 truncate">
+                          {day.weather?.[0]?.main}
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-fernhill-cream font-medium">
+                          {Math.round(day.main?.temp_max)}°
+                        </span>
+                        <span className="text-fernhill-sand/40 ml-1">
+                          {Math.round(day.main?.temp_min)}°
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Dance day hint */}
+            <div className="px-4 pb-4">
+              <p className="text-xs text-fernhill-gold/60 text-center">
+                🌿 Plan your Sunday dance with the forecast!
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Mobile dropdown menu */}
       {menuOpen && (
         <div className="fixed inset-0 z-30 sm:hidden" onClick={() => setMenuOpen(false)}>
@@ -138,16 +280,23 @@ export default function TopHeader({ profile }: TopHeaderProps) {
               ))}
             </div>
             
-            {/* Weather in menu on mobile */}
-            {weather && (
-              <div className="border-t border-fernhill-sand/10 px-4 py-3">
+            {/* Weather in menu on mobile - clickable */}
+            {currentWeather && (
+              <button
+                onClick={() => {
+                  setMenuOpen(false)
+                  setWeatherModalOpen(true)
+                }}
+                className="w-full border-t border-fernhill-sand/10 px-4 py-3 hover:bg-fernhill-brown/30 transition-colors"
+              >
                 <div className="flex items-center gap-3 text-fernhill-sand/60">
-                  {getWeatherIcon()}
+                  {getWeatherIcon(currentWeather.weather?.[0]?.main)}
                   <span className="text-sm">
-                    {Math.round(weather.main?.temp)}°F in Portland
+                    {Math.round(currentWeather.main?.temp)}°F in Portland
                   </span>
+                  <span className="text-xs text-fernhill-gold/60 ml-auto">Tap for forecast</span>
                 </div>
-              </div>
+              </button>
             )}
           </nav>
         </div>

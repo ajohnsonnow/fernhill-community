@@ -5,6 +5,49 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-01-31
+
+### 🌤️ Weather Wisdom Release - "Weather Wisdom"
+
+Session 6: Mobile fixes, weather forecast, login UX, and pre-deploy automation.
+
+### 🎵 Mobile Audio Fix
+- **Permissions-Policy Update** - Fixed `encrypted-media` and `autoplay` policies for SoundCloud embeds
+- **ReactPlayer Enhancement** - Added `playsinline`, `forceAudio`, and proper CORS handling
+- **Mobile browser compatibility** - Music player now works on iOS Safari and Android Chrome
+
+### 🌦️ Weather Forecast
+- **5-Day Forecast** - Click weather widget to see detailed forecast
+- **Enhanced Current Weather** - Shows feels-like temp, humidity, wind speed
+- **Forecast Modal** - Beautiful glass-panel design with day-by-day breakdown
+- **Desktop Display Fix** - Weather description now visible on desktop
+
+### 🔑 Login UX Improvements
+- **Enter-to-Submit** - Password fields now submit form on Enter key
+- **Autocomplete Attributes** - Proper password manager integration
+- **Form Accessibility** - Better keyboard navigation
+
+### 📱 PWA Prompt Tuning
+- **Reduced Aggressiveness** - Now shows after 2 minutes (was 30 seconds)
+- **Session Tracking** - Only shows once per browser session
+- **Dismiss Duration** - 30-day cooldown after dismissal (was 90 days)
+
+### 🔧 Pre-Deploy Automation
+- **Comprehensive Script** - `npm run predeploy` checks everything before deploy
+- **TypeScript Validation** - Ensures no compilation errors
+- **ESLint Check** - Validates code quality
+- **Build Test** - Verifies production build succeeds
+- **Security Scan** - Checks for hardcoded secrets
+- **Auto Documentation** - Updates stats, README, VALUE_PROPOSITION
+- **Quick Mode** - `npm run predeploy:quick` skips build for faster iteration
+
+### 📚 Documentation Updates
+- **VALUE_PROPOSITION.md** - Updated with Session 6 stats and features
+- **STATS.json** - Auto-generated code statistics
+- **README badges** - Auto-updated version and line counts
+
+---
+
 ## [1.4.0] - 2026-01-30
 
 ### 🚪 Sacred Gate Release - "Sacred Gate"

@@ -25,26 +25,36 @@ export default function InstallPrompt() {
     const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
     setIsIOS(iOS)
 
-    // Check if user has dismissed before (within last 90 days)
+    // Check if user has dismissed before (within last 30 days)
     const dismissedAt = localStorage.getItem('pwa-prompt-dismissed')
     if (dismissedAt) {
       const daysSinceDismissed = (Date.now() - parseInt(dismissedAt)) / (1000 * 60 * 60 * 24)
-      if (daysSinceDismissed < 90) return // Don't nag for 3 months
+      if (daysSinceDismissed < 30) return // Don't nag for 30 days after dismiss
     }
+
+    // Check if already shown this session (don't spam on every page navigation)
+    const shownThisSession = sessionStorage.getItem('pwa-prompt-shown-session')
+    if (shownThisSession) return // Only show once per session
 
     // For Android/Chrome - listen for beforeinstallprompt
     const handleBeforeInstall = (e: Event) => {
       e.preventDefault()
       setDeferredPrompt(e as BeforeInstallPromptEvent)
-      // Show prompt after user has had time to explore (30 seconds)
-      setTimeout(() => setShowPrompt(true), 30000)
+      // Show prompt after user has had time to explore (2 minutes)
+      setTimeout(() => {
+        setShowPrompt(true)
+        sessionStorage.setItem('pwa-prompt-shown-session', 'true')
+      }, 120000)
     }
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstall)
 
-    // For iOS - show manual instructions after delay (60 seconds)
+    // For iOS - show manual instructions after delay (3 minutes)
     if (iOS) {
-      setTimeout(() => setShowPrompt(true), 60000)
+      setTimeout(() => {
+        setShowPrompt(true)
+        sessionStorage.setItem('pwa-prompt-shown-session', 'true')
+      }, 180000)
     }
 
     return () => {

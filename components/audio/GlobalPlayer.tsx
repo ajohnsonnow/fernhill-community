@@ -136,11 +136,22 @@ export default function GlobalPlayer() {
           onEnded={stop}
           width="0"
           height="0"
+          playsinline
           config={{
             soundcloud: {
               options: {
                 auto_play: true,
+                show_artwork: false,
+                show_playcount: false,
+                show_user: false,
               }
+            },
+            file: {
+              attributes: {
+                playsInline: true,
+                crossOrigin: 'anonymous',
+              },
+              forceAudio: true,
             }
           }}
         />

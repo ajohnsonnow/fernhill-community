@@ -2,15 +2,15 @@
 
 **A Secure Digital Hearth for the Ecstatic Dance Tribe**
 
-[![Version](https://img.shields.io/badge/version-1.4.0-green.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-1.5.0-green.svg)](package.json)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](tsconfig.json)
-[![Lines of Code](https://img.shields.io/badge/lines-6,000+-brightgreen.svg)](#)
+[![Lines of Code](https://img.shields.io/badge/lines-16,266+-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/license-Private-red.svg)](LICENSE)
 [![Deployed](https://img.shields.io/badge/deployed-Render.com-blueviolet.svg)](https://fernhill-community.onrender.com)
 
 The Fernhill Community App is a best-in-class, private Progressive Web App designed to foster connection, safety, and mutual aid within the ecstatic dance community of Portland, Oregon. Moving away from mainstream social media, this platform prioritizes **Consent, Privacy, and Presence**.
 
-> 💡 **Development Note:** This entire application was built by a single Content Engineer using AI assistance (Claude + GitHub Copilot), demonstrating the power of modern development tools. **~15 hours total development. $358K-718K equivalent value.** See [VALUE_PROPOSITION.md](docs/VALUE_PROPOSITION.md) for the full analysis.
+> 💡 **Development Note:** This entire application was built by a single Content Engineer using AI assistance (Claude + GitHub Copilot), demonstrating the power of modern development tools. **~17 hours total development. $358K-718K equivalent value.** See [VALUE_PROPOSITION.md](docs/VALUE_PROPOSITION.md) for the full analysis.
 
 ---
 
@@ -94,9 +94,9 @@ Comprehensive 4-step boundary violation report form matching official community 
 
 | Metric | Value |
 |--------|-------|
-| **Lines of TypeScript/TSX** | 6,000+ |
-| **React Components** | 55+ |
-| **Protected Routes** | 10 |
+| **Lines of TypeScript/TSX** | 7,000+ |
+| **React Components** | 60+ |
+| **Protected Routes** | 12 |
 | **API Routes** | 4 |
 | **SQL Setup Files** | 1 (COMPLETE_SETUP.sql) |
 | **Production URL** | [fernhill-community.onrender.com](https://fernhill-community.onrender.com) |

@@ -38,7 +38,7 @@ const nextConfig = {
           },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()', // Disable unused APIs
+            value: 'camera=(), geolocation=(), encrypted-media=(self "https://w.soundcloud.com" "https://soundcloud.com"), autoplay=(self "https://w.soundcloud.com" "https://soundcloud.com")', // Allow audio playback for music player
           },
         ],
       },

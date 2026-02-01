@@ -1,155 +1,81 @@
 {
-  "timestamp": "2026-01-30T12:00:00.000Z",
-  "version": "1.4.0",
-  "codename": "Sacred Gate",
+  "timestamp": "2026-02-01T06:37:13.300Z",
+  "version": "1.5.0",
+  "codename": "Weather Wisdom",
   "git": {
     "branch": "main",
-    "status": "release-ready"
+    "commit": "39580d0",
+    "commitCount": "58"
   },
   "files": {
-    "typescript": 55,
-    "sql": 12,
-    "markdown": 6,
+    "ts": 17,
+    "tsx": 40,
+    "js": 5,
     "css": 1,
-    "json": 5
+    "sql": 16,
+    "md": 9
   },
-  "linesOfCode": 12500,
+  "linesOfCode": 16266,
   "routes": [
-    "/",
-    "/login",
-    "/waiting-room",
-    "/hearth",
+    "/admin/events",
+    "/admin",
+    "/altar",
+    "/boards",
+    "/directory",
     "/events",
+    "/hearth",
+    "/help",
     "/journey",
     "/messages",
-    "/directory",
     "/profile",
-    "/boards",
-    "/altar",
-    "/help",
     "/safety",
-    "/admin",
-    "/admin/gate",
     "/auth/auth-code-error",
-    "/api/calendar",
-    "/api/weather"
+    "/login",
+    "/",
+    "/waiting-room"
   ],
-  "components": {
-    "navigation": [
-      "TopHeader",
-      "BottomNav"
-    ],
-    "audio": [
-      "AudioContext",
-      "GlobalPlayer"
-    ],
-    "social": [
-      "ReactionButtons",
-      "RSVPButton",
-      "PollCard",
-      "BadgeDisplay"
-    ],
-    "posts": [
-      "PostCard",
-      "CreatePost",
-      "NewPostModal"
-    ],
-    "pwa": [
-      "InstallPrompt",
-      "ServiceWorker"
-    ],
-    "notifications": [
-      "NotificationManager",
-      "PushManager"
-    ]
-  },
+  "components": [
+    "AccessibilityContext",
+    "AccessibilityFAB",
+    "AccessibilitySettings",
+    "AccessibleTextInput",
+    "index",
+    "SpeechInput",
+    "WordPrediction",
+    "AudioContext",
+    "GlobalPlayer",
+    "BottomNav",
+    "TopHeader",
+    "NotificationManager",
+    "NewPostModal",
+    "InstallPrompt",
+    "BadgeDisplay",
+    "PollCard",
+    "ReactionButtons",
+    "RSVPButton",
+    "FaceCapture",
+    "PhotoUpload"
+  ],
   "tables": [
     "profiles",
-    "events",
     "posts",
+    "events",
     "messages",
-    "conversations",
-    "music_sets",
     "feedback",
-    "audit_logs",
-    "system_settings",
-    "altar_posts",
-    "boards",
-    "board_topics",
-    "board_replies",
-    "event_submissions",
-    "content_queue",
-    "vibe_tags",
     "post_reactions",
     "event_rsvps",
     "polls",
     "poll_votes",
     "badges",
     "member_badges",
-    "event_checkins",
-    "boundary_reports"
+    "event_submissions",
+    "content_queue",
+    "audit_logs",
+    "system_settings",
+    "altar_posts",
+    "push_subscriptions",
+    "music_sets",
+    "custom_vibe_tags"
   ],
-  "migrations": [
-    "schema.sql",
-    "additional_schema.sql",
-    "boards_schema.sql",
-    "admin_migration.sql",
-    "feedback_migration.sql",
-    "event_submissions_migration.sql",
-    "content_moderation_migration.sql",
-    "social_features_migration.sql",
-    "boundary_reports_migration.sql"
-  ],
-  "features": {
-    "authentication": [
-      "Magic link auth",
-      "Session management",
-      "Session kill switch"
-    ],
-    "security": [
-      "E2EE messaging (RSA-OAEP + AES-GCM)",
-      "Row-Level Security",
-      "EXIF/GPS stripping",
-      "Auto-purging (30/90 day)",
-      "Content moderation",
-      "Trust levels"
-    ],
-    "social": [
-      "Multi-emoji reactions",
-      "Event RSVPs",
-      "Community polls",
-      "Achievement badges (11 types)",
-      "Vibe tags",
-      "Real-time presence"
-    ],
-    "admin": [
-      "Member approval",
-      "Content moderation queue",
-      "Trust level management",
-      "Freeze mode",
-      "Event submission review",
-      "Safety report management"
-    ],
-    "pwa": [
-      "Service worker",
-      "Offline support",
-      "Install prompt",
-      "Push notifications",
-      "Background audio"
-    ]
-  },
-  "economics": {
-    "traditionalCost": "$358,000 - $718,000",
-    "aiAssistedCost": "~$125",
-    "savings": "$358K - $718K",
-    "roiMultiplier": "2,864x - 5,744x",
-    "traditionalTime": "6-12 months",
-    "aiAssistedTime": "~15 hours (6 pre-git + 9 tracked)",
-    "timeSaved": "99.9%",
-    "developmentPeriod": "January 29-30, 2026",
-    "firstCommit": "Jan 29 @ 4:56 PM PST (22,225 lines)",
-    "lastCommit": "Jan 30 @ 1:43 AM PST",
-    "laborValue": "$6,300 (15 hrs × $420/hr)",
-    "laborROI": "57-114x"
-  }
+  "lastDeploy": "2026-02-01T06:37:13.300Z"
 }
