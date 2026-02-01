@@ -11,11 +11,17 @@ import {
   Search,
   Loader2,
   MessageSquare,
-  Shield
+  Shield,
+  Users,
+  Mic
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { encryptMessage, decryptMessage, generateKeyPair, exportPublicKey, importPublicKey } from '@/lib/crypto'
 import TypingIndicator from '@/components/social/TypingIndicator'
+import GroupDMs from '@/components/messages/GroupDMs'
+import { VoiceMessageRecorder, VoiceMessagePlayer } from '@/components/messages/VoiceMessage'
+
+type TabType = 'direct' | 'circles';
 
 interface Conversation {
   user_id: string
@@ -35,6 +41,9 @@ interface Message {
   decrypted_content?: string
   is_read: boolean
   is_encrypted?: boolean
+  message_type?: 'text' | 'voice' | 'image'
+  media_url?: string
+  media_duration?: number
 }
 
 interface Profile {
@@ -45,6 +54,7 @@ interface Profile {
 }
 
 export default function MessagesPage() {
+  const [activeTab, setActiveTab] = useState<TabType>('direct')
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [selectedUser, setSelectedUser] = useState<Profile | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
@@ -56,6 +66,7 @@ export default function MessagesPage() {
   const [showSearch, setShowSearch] = useState(false)
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
   const [privateKey, setPrivateKey] = useState<CryptoKey | null>(null)
+  const [showVoiceRecorder, setShowVoiceRecorder] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
 
@@ -318,7 +329,7 @@ export default function MessagesPage() {
       <div className="min-h-screen p-4">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-4">
             <div>
               <h1 className="text-3xl font-bold font-display text-fernhill-cream">Messages</h1>
               <div className="flex items-center gap-2 text-fernhill-sand/60 text-sm">
@@ -334,59 +345,92 @@ export default function MessagesPage() {
             </button>
           </div>
 
-          {/* Search Modal */}
-          {showSearch && (
-            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4 animate-fadeIn">
-              <div className="glass-panel rounded-2xl p-4 w-full max-w-md">
-                <div className="flex items-center gap-3 mb-4">
-                  <Search className="w-5 h-5 text-fernhill-sand/60" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => handleSearch(e.target.value)}
-                    placeholder="Search tribe members..."
-                    autoFocus
-                    className="flex-1 bg-transparent text-fernhill-cream placeholder-fernhill-sand/40 border-none focus:outline-none"
-                  />
-                  <button onClick={() => setShowSearch(false)} className="text-fernhill-sand/60">
-                    Cancel
-                  </button>
-                </div>
+          {/* Tabs */}
+          <div className="flex gap-2 mb-6 p-1 bg-gray-900/50 rounded-xl">
+            <button
+              onClick={() => setActiveTab('direct')}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'direct'
+                  ? 'bg-emerald-500 text-white'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <MessageSquare className="w-4 h-4" />
+              Direct
+            </button>
+            <button
+              onClick={() => setActiveTab('circles')}
+              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'circles'
+                  ? 'bg-emerald-500 text-white'
+                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              <Users className="w-4 h-4" />
+              Circles
+            </button>
+          </div>
 
-                {searchResults.length > 0 && (
-                  <div className="space-y-2">
-                    {searchResults.map((profile) => (
-                      <button
-                        key={profile.id}
-                        onClick={() => startConversation(profile)}
-                        className="w-full flex items-center gap-3 p-3 rounded-xl glass-panel-dark hover:bg-white/10 transition-colors"
-                      >
-                        <div className="w-10 h-10 rounded-full glass-panel-dark overflow-hidden flex-shrink-0">
-                          {profile.avatar_url ? (
-                            <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-fernhill-gold">
-                              {profile.tribe_name?.[0]?.toUpperCase()}
-                            </div>
-                          )}
-                        </div>
-                        <span className="text-fernhill-cream font-medium">{profile.tribe_name}</span>
-                        {profile.public_key && (
-                          <Shield className="w-4 h-4 text-green-400 ml-auto" />
-                        )}
+          {/* Circles Tab */}
+          {activeTab === 'circles' ? (
+            <div className="glass-panel rounded-2xl overflow-hidden" style={{ height: 'calc(100vh - 280px)' }}>
+              <GroupDMs />
+            </div>
+          ) : (
+            <>
+              {/* Search Modal */}
+              {showSearch && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-start justify-center pt-20 px-4 animate-fadeIn">
+                  <div className="glass-panel rounded-2xl p-4 w-full max-w-md">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Search className="w-5 h-5 text-fernhill-sand/60" />
+                      <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => handleSearch(e.target.value)}
+                        placeholder="Search tribe members..."
+                        autoFocus
+                        className="flex-1 bg-transparent text-fernhill-cream placeholder-fernhill-sand/40 border-none focus:outline-none"
+                      />
+                      <button onClick={() => setShowSearch(false)} className="text-fernhill-sand/60">
+                        Cancel
                       </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+                    </div>
 
-          {/* Conversations List */}
-          {loading ? (
-            <div className="text-center py-12">
-              <Loader2 className="w-8 h-8 animate-spin text-fernhill-gold mx-auto" />
-            </div>
+                    {searchResults.length > 0 && (
+                      <div className="space-y-2">
+                        {searchResults.map((profile) => (
+                          <button
+                            key={profile.id}
+                            onClick={() => startConversation(profile)}
+                            className="w-full flex items-center gap-3 p-3 rounded-xl glass-panel-dark hover:bg-white/10 transition-colors"
+                          >
+                            <div className="w-10 h-10 rounded-full glass-panel-dark overflow-hidden flex-shrink-0">
+                              {profile.avatar_url ? (
+                                <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center text-fernhill-gold">
+                                  {profile.tribe_name?.[0]?.toUpperCase()}
+                                </div>
+                              )}
+                            </div>
+                            <span className="text-fernhill-cream font-medium">{profile.tribe_name}</span>
+                            {profile.public_key && (
+                              <Shield className="w-4 h-4 text-green-400 ml-auto" />
+                            )}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Conversations List */}
+              {loading ? (
+                <div className="text-center py-12">
+                  <Loader2 className="w-8 h-8 animate-spin text-fernhill-gold mx-auto" />
+                </div>
           ) : conversations.length === 0 ? (
             <div className="glass-panel rounded-2xl p-12 text-center">
               <Lock className="w-12 h-12 text-fernhill-gold/50 mx-auto mb-4" />
@@ -437,6 +481,8 @@ export default function MessagesPage() {
                 </button>
               ))}
             </div>
+          )}
+            </>
           )}
         </div>
       </div>

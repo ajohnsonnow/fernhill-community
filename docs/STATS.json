@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-02-01T20:04:13.420Z",
-  "version": "1.6.0",
-  "codename": "Social Constellation",
+  "timestamp": "2026-02-01T20:16:41.656Z",
+  "version": "1.7.0",
+  "codename": "Next Chapter",
   "git": {
     "branch": "main",
-    "commit": "0890f40",
-    "commitCount": "63"
+    "commit": "b38dcec",
+    "commitCount": "64"
   },
   "files": {
-    "ts": 18,
-    "tsx": 47,
+    "ts": 19,
+    "tsx": 51,
     "js": 5,
     "css": 1,
-    "sql": 17,
+    "sql": 18,
     "md": 9
   },
-  "linesOfCode": 18719,
+  "linesOfCode": 20435,
   "routes": [
     "/admin/events",
     "/admin",
@@ -45,6 +45,8 @@
     "AudioContext",
     "GlobalPlayer",
     "EncryptionInitializer",
+    "GroupDMs",
+    "VoiceMessage",
     "BottomNav",
     "TopHeader",
     "NotificationCenter",
@@ -53,7 +55,9 @@
     "InstallPrompt",
     "BadgeDisplay",
     "BookmarkButton",
+    "HashtagsAndTrending",
     "index",
+    "LinkPreview",
     "PollCard",
     "PostComments",
     "ReactionButtons",
@@ -85,5 +89,5 @@
     "music_sets",
     "custom_vibe_tags"
   ],
-  "lastDeploy": "2026-02-01T20:04:13.420Z"
+  "lastDeploy": "2026-02-01T20:16:41.656Z"
 }

@@ -5,11 +5,13 @@ import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
 import { Plus, Heart, Clock, MessageCircle } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
+import { useSearchParams } from 'next/navigation'
 import NewPostModal from '@/components/posts/NewPostModal'
 import StoriesBar from '@/components/social/StoriesBar'
 import PostComments from '@/components/social/PostComments'
 import BookmarkButton from '@/components/social/BookmarkButton'
 import ReactionButtons from '@/components/social/ReactionButtons'
+import { TrendingHashtags, AutoLinkPreview, renderHashtags } from '@/components/social'
 
 interface Post {
   id: string
@@ -38,7 +40,15 @@ export default function HearthPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [loading, setLoading] = useState(true)
   const [showNewPostModal, setShowNewPostModal] = useState(false)
+  const [hashtagFilter, setHashtagFilter] = useState<string | null>(null)
+  const searchParams = useSearchParams()
   const supabase = createClient()
+
+  // Check for hashtag filter from URL
+  useEffect(() => {
+    const hashtag = searchParams.get('hashtag')
+    setHashtagFilter(hashtag)
+  }, [searchParams])
 
   useEffect(() => {
     fetchPosts()

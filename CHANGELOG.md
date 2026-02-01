@@ -5,6 +5,42 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - 2026-02-01
+
+### 🚀 Phase A Complete - "Full Social Suite"
+
+Completing all Priority 1-3 social networking features for world-class community engagement.
+
+### 👥 Group DMs (Circles)
+- **Circle Conversations** - Create group chats with multiple members
+- **Circle Management** - Add/remove members, admin controls
+- **Group Messaging** - Real-time group conversations
+- **Circle Browser** - Dedicated tab in Messages for circles
+
+### 🎙️ Voice Messages
+- **Voice Recording** - Record and send voice notes in DMs
+- **Audio Player** - Beautiful inline player with progress bar
+- **Duration Display** - See voice message length before playing
+- **Secure Upload** - Voice files stored in Supabase storage
+
+### 🔗 Link Previews
+- **Auto-Unfurl** - URLs automatically show rich previews
+- **Open Graph** - Pulls title, description, image from links
+- **Cached Previews** - Fast loading with 7-day cache
+- **Compact Mode** - Optimized previews for chat messages
+
+### #️⃣ Hashtags & Trending
+- **Clickable Hashtags** - #tags link to filtered content
+- **Trending Widget** - See popular topics in community
+- **Hashtag Suggestions** - Auto-complete while typing
+- **Trending Algorithm** - Score-based ranking system
+
+### 🔐 Security Enhancements
+- **Admin Block Protection** - Regular users cannot block admins
+- **Auto E2EE Setup** - Encryption initialized at account creation
+
+---
+
 ## [1.6.0] - 2026-01-31
 
 ### 🌐 Social Constellation Release - "Social Constellation"

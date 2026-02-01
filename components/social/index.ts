@@ -21,3 +21,15 @@ export { UserSafetyActions, BlockUserMenuItem } from './UserSafetyActions';
 
 // Real-time Features
 export { TypingIndicator, useTypingIndicator } from './TypingIndicator';
+
+// Link Previews
+export { LinkPreview, AutoLinkPreview, extractUrls } from './LinkPreview';
+
+// Hashtags & Trending
+export { 
+  TrendingHashtags, 
+  HashtagInput, 
+  extractHashtags, 
+  renderHashtags, 
+  processHashtags 
+} from './HashtagsAndTrending';
