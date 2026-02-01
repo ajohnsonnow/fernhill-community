@@ -5,6 +5,70 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0] - 2026-02-01
+
+### 🏘️ Phase B Complete - "Community Resources"
+
+Transforming social network into true community hub with practical resource sharing.
+
+### 🏠 Housing Hub
+- **Housing Listings** - Rooms, apartments, houses, sublets
+- **Roommate Finder** - Dedicated "roommate-wanted" listings
+- **Advanced Filters** - Search by price, bedrooms, neighborhood, amenities
+- **Roommate Preferences** - Specify ideal roommate characteristics
+- **Amenities Tagging** - parking, laundry, pet-friendly, dance-space, etc.
+- **Inquiry System** - Private messaging for interested renters
+- **Favorites** - Save listings for later review
+
+### 📦 Classifieds Marketplace
+- **Four Listing Types** - For-sale, wanted, free, trade
+- **Dance Categories** - Specialized for dance shoes, costumes, accessories
+- **General Categories** - Electronics, furniture, clothing, tickets, services
+- **Condition Ratings** - New, like-new, good, fair, parts-only
+- **Negotiable Pricing** - Mark items as OBO (or best offer)
+- **Offer System** - Send offers with optional price and message
+- **Photo Uploads** - Multiple photos per listing
+
+### 🏪 Local Business Directory
+- **Business Profiles** - Name, description, hours, contact info
+- **Category System** - Dance studios, venues, restaurants, services
+- **Review System** - 5-star ratings with written reviews
+- **Community Features** - "Dance Friendly" and "Community Owned" badges
+- **Member Discounts** - Highlight special offers for community members
+- **Verification** - Admin-verified businesses with checkmark
+- **Favorites** - Save favorite local spots
+
+### 🤝 Mutual Aid Network
+- **Help Requests** - Post needs for transportation, housing, food, childcare
+- **Help Offers** - Offer skills, equipment loans, emotional support
+- **12 Categories** - Transportation, housing, food, childcare, pet-care, moving-help, emotional-support, skills-teaching, equipment-loan, financial, medical, errands
+- **Urgency Levels** - Low, normal, high, urgent priority system
+- **Anonymous Posts** - Option to post help requests anonymously
+- **Karma System** - Track community contributions with thank-you points
+- **Response System** - Direct messaging for offers/requests
+- **Location Fields** - Optional location sharing for coordination
+
+### 🗺️ Navigation Updates
+- **Community Tab** - New bottom nav tab replacing "Music"
+- **Four Sub-Tabs** - Housing, Classifieds, Businesses, Mutual Aid
+- **Top Menu Item** - Community resources in hamburger menu
+- **Unified Interface** - Single page with tab navigation
+
+### 🗄️ Database Architecture
+- **11 New Tables** - housing_listings, classifieds, local_businesses, mutual_aid_posts, plus 7 relationship tables
+- **Full-Text Search** - tsvector indexes for fast searching
+- **Row Level Security** - User-based permissions on all tables
+- **3 Storage Buckets** - housing-photos, classifieds-photos, business-photos
+- **Helper Functions** - get_mutual_aid_karma, get_business_rating
+
+### 📊 Stats
+- **4 Major Components** - ~3,000 lines of TypeScript/React
+- **1 SQL Migration** - 750+ lines comprehensive schema
+- **Type-Safe** - Full TypeScript with proper casting
+- **Mobile-Optimized** - Responsive design for all screens
+
+---
+
 ## [1.7.0] - 2026-02-01
 
 ### 🚀 Phase A Complete - "Full Social Suite"

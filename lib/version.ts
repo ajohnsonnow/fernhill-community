@@ -6,7 +6,7 @@
  */
 
 export const APP_VERSION = {
-  version: '1.7.0',
+  version: '1.8.0',
   codename: 'Social Constellation',
   releaseDate: '2026-01-31',
   buildTime: new Date().toISOString(),

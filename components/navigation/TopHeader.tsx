@@ -78,6 +78,7 @@ export default function TopHeader({ profile }: TopHeaderProps) {
   const menuItems = [
     { href: '/altar', icon: Image, label: 'The Altar', show: true },
     { href: '/directory', icon: Users, label: 'Soul Gallery', show: true },
+    { href: '/community', icon: Users, label: 'Community', show: true },
     { href: '/admin', icon: Shield, label: 'Admin', show: isAdmin, highlight: true },
     { href: '/help', icon: HelpCircle, label: 'Help', show: true },
     { href: '/profile', icon: Settings, label: 'Settings', show: true },

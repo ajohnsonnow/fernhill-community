@@ -1,26 +1,27 @@
 {
-  "timestamp": "2026-02-01T20:16:41.656Z",
-  "version": "1.7.0",
-  "codename": "Next Chapter",
+  "timestamp": "2026-02-01T20:56:17.501Z",
+  "version": "1.8.0",
+  "codename": "Unnamed Release",
   "git": {
     "branch": "main",
-    "commit": "b38dcec",
-    "commitCount": "64"
+    "commit": "dd356fb",
+    "commitCount": "65"
   },
   "files": {
-    "ts": 19,
-    "tsx": 51,
+    "ts": 20,
+    "tsx": 56,
     "js": 5,
     "css": 1,
-    "sql": 18,
+    "sql": 19,
     "md": 9
   },
-  "linesOfCode": 20435,
+  "linesOfCode": 23090,
   "routes": [
     "/admin/events",
     "/admin",
     "/altar",
     "/boards",
+    "/community",
     "/directory",
     "/events",
     "/hearth",
@@ -44,6 +45,11 @@
     "WordPrediction",
     "AudioContext",
     "GlobalPlayer",
+    "BusinessDirectory",
+    "Classifieds",
+    "HousingHub",
+    "index",
+    "MutualAid",
     "EncryptionInitializer",
     "GroupDMs",
     "VoiceMessage",
@@ -89,5 +95,5 @@
     "music_sets",
     "custom_vibe_tags"
   ],
-  "lastDeploy": "2026-02-01T20:16:41.656Z"
+  "lastDeploy": "2026-02-01T20:56:17.501Z"
 }
