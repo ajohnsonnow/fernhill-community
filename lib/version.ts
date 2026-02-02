@@ -6,8 +6,8 @@
  */
 
 export const APP_VERSION = {
-  version: '1.13.0',
-  codename: 'Quality Assurance',
+  version: '1.14.0',
+  codename: 'Electric Avenue',
   releaseDate: '2026-02-01',
   buildTime: new Date().toISOString(),
 } as const
@@ -32,6 +32,13 @@ export const FEATURES = {
   musicSets: true,
   altar: true,
   boards: true,
+  // Phase H: Electric Avenue
+  gamification: true,
+  qrCheckin: true,
+  collaborativePlaylists: true,
+  liveEventMode: true,
+  moodTracking: true,
+  smartRecommendations: true,
 } as const
 
 // Environment detection
