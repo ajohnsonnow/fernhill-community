@@ -3,7 +3,21 @@
 -- Version: 1.14.0
 -- Features: Gamification, QR Check-ins, Playlists, 
 --           Live Events, Mood Tracking, Recommendations
+-- 
+-- PREREQUISITES: Run schema.sql first to create base tables
 -- ============================================
+
+-- Check if events table exists (required dependency)
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'events') THEN
+        RAISE EXCEPTION 'ERROR: events table does not exist. Please run schema.sql first!';
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'profiles') THEN
+        RAISE EXCEPTION 'ERROR: profiles table does not exist. Please run schema.sql first!';
+    END IF;
+    RAISE NOTICE '✓ Prerequisites verified: events and profiles tables exist';
+END $$;
 
 -- ============================================
 -- 1. GAMIFICATION SYSTEM

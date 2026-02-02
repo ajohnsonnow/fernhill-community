@@ -6,8 +6,8 @@
  */
 
 export const APP_VERSION = {
-  version: '1.14.0',
-  codename: 'Electric Avenue',
+  version: '1.15.0',
+  codename: 'Diamond Status',
   releaseDate: '2026-02-01',
   buildTime: new Date().toISOString(),
 } as const
