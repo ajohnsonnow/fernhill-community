@@ -2,7 +2,7 @@
 
 **A Secure Digital Hearth for the Ecstatic Dance Tribe**
 
-[![Version](https://img.shields.io/badge/version-1.17.0-green.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-1.17.1-green.svg)](package.json)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](tsconfig.json)
 [![Lines of Code](https://img.shields.io/badge/lines-44,985+-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/license-Private-red.svg)](LICENSE)
