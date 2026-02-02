@@ -5,6 +5,97 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.12.0] - 2026-02-01
+
+### 🏆 Phase F Complete - "Legendary Touch"
+
+Native app-level features that push mobile UX past 10/10. View transitions, native sharing, wake lock, and maximum accessibility.
+
+### 🎬 View Transitions API
+- **useViewTransition hook** - Smooth page-to-page animations
+- **Shared element transitions** - Avatars morph between pages
+- **viewTransitionStyle helper** - Easy transition names
+- **Fallback support** - Graceful degradation on older browsers
+- **Back gesture animations** - Reverse transitions going back
+
+### 📤 Web Share API
+- **lib/share.ts** - Native share sheet utility
+- **ShareButton component** - One-click native sharing
+- **shareFernhillContent()** - Pre-configured for posts, events, profiles
+- **Clipboard fallback** - Copies to clipboard on desktop
+- **CopyLinkButton** - Dedicated copy-to-clipboard button
+
+### 📱 Wake Lock API
+- **useWakeLock hook** - Keep screen on
+- **useWakeLockWhile** - Auto-lock while condition true
+- **Perfect for Journey** - Screen stays on during music playback
+- **Event mode** - Keep screen on while viewing event details
+- **Visual indicator** - Shows when wake lock is active
+
+### 🔔 App Badge API
+- **lib/badge.ts** - Notification badge utility
+- **setBadge(count)** - Set app icon badge count
+- **badgeManager** - Increment/decrement pattern
+- **updateBadgeFromNotifications()** - Aggregate multiple sources
+
+### 💀 Skeleton Loading (Enhanced)
+- **Skeleton** - Base shimmer component
+- **SkeletonText** - Varying-width text placeholders
+- **SkeletonAvatar** - Circular avatar placeholder
+- **SkeletonPost** - Full post card placeholder
+- **SkeletonEvent** - Event card placeholder
+- **SkeletonMessage** - Chat message placeholder
+- **SkeletonListItem** - Directory item placeholder
+- **SkeletonProfile** - Profile header placeholder
+- **SkeletonFeed** - Multiple skeletons for feeds
+
+### ⌨️ Keyboard Handling
+- **useKeyboardAware hook** - Virtual keyboard detection
+- **useKeepAboveKeyboard** - Auto-scroll inputs into view
+- **Visual Viewport API** - Accurate keyboard size
+- **keyboard-aware-scroll CSS** - Scroll padding utility
+
+### ♿ Accessibility Enhancements
+- **useReducedMotion hook** - Respect motion preferences
+- **useAnimationDuration** - Conditional animation timing
+- **useAnimatedClass** - Conditional animation classes
+- **Reduced motion CSS** - Disables all animations
+- **High contrast mode** - Enhanced visibility
+
+### 👈 Edge Swipe Navigation
+- **useEdgeSwipe hook** - Swipe from edge to go back
+- **EdgeSwipeIndicator** - Visual feedback during swipe
+- **Native feel** - Like iOS swipe-back gesture
+- **Haptic feedback** - Vibration at threshold
+
+### 🎨 New CSS Features
+- **View transition keyframes** - Page morph animations
+- **Reduced motion overrides** - Accessibility compliance
+- **High contrast variables** - Better visibility mode
+- **Edge swipe styles** - Back gesture indicator
+- **Keyboard utilities** - Input footer, keyboard padding
+- **Share button styles** - Native-feeling share UI
+- **Wake lock indicator** - Screen-on badge
+
+### 🗂️ New Files
+- `hooks/useViewTransition.ts` - Page transition hook
+- `hooks/useWakeLock.ts` - Screen wake lock hook
+- `hooks/useKeyboardAware.ts` - Keyboard visibility hook
+- `hooks/useReducedMotion.ts` - Motion preference hook
+- `hooks/useEdgeSwipe.ts` - Edge swipe navigation hook
+- `lib/share.ts` - Web Share API utility
+- `lib/badge.ts` - App Badge API utility
+- `components/ui/Skeleton.tsx` - Skeleton loading suite
+- `components/social/ShareButton.tsx` - Native share button
+
+### 🔧 Updated Files
+- `hooks/index.ts` - Added 10 new hook exports
+- `components/ui/index.ts` - Added skeleton exports
+- `app/globals.css` - Added ~250 lines Phase F CSS
+- `lib/version.ts` - v1.12.0 "Legendary Touch"
+
+---
+
 ## [1.11.0] - 2026-02-01
 
 ### 🚀 Phase E Complete - "Gestural Flow & Performance"
