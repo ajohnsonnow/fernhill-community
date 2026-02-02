@@ -310,3 +310,203 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================
+   PHASE D: MOBILE EXCELLENCE ENHANCEMENTS
+   ============================================ */
+
+/* Scroll snap for horizontal carousels */
+.scroll-snap-x {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-snap-x > * {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+/* Prevent overscroll bounce on iOS (useful for pull-to-refresh control) */
+.no-overscroll {
+  overscroll-behavior: none;
+}
+
+/* Allow native pull-to-refresh */
+.allow-overscroll {
+  overscroll-behavior-y: auto;
+}
+
+/* Prevent text selection on UI elements */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Allow text selection (override) */
+.allow-select {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Smooth momentum scrolling containers */
+.momentum-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+}
+
+/* Landscape mode optimizations */
+@media (orientation: landscape) and (max-height: 500px) {
+  .landscape-compact {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .landscape-hide {
+    display: none;
+  }
+}
+
+/* Notch-aware containers for landscape */
+@supports (padding: max(0px)) {
+  .notch-safe {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
+}
+
+/* Improved tap states for mobile */
+.tap-highlight {
+  -webkit-tap-highlight-color: rgba(201, 168, 39, 0.2);
+}
+
+.tap-highlight:active {
+  background-color: rgba(201, 168, 39, 0.1);
+}
+
+/* Better touch feedback */
+.touch-feedback {
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+}
+
+.touch-feedback:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+/* Pull-to-refresh indicator styles */
+.ptr-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  color: var(--fernhill-gold);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Offline indicator banner */
+.offline-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Image loading placeholder */
+.img-loading {
+  background: linear-gradient(
+    90deg,
+    var(--fernhill-charcoal) 0%,
+    var(--fernhill-brown) 50%,
+    var(--fernhill-charcoal) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Swipe action hint */
+.swipe-hint {
+  position: relative;
+  overflow: hidden;
+}
+
+.swipe-hint::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 8px;
+  background: linear-gradient(to left, var(--fernhill-gold), transparent);
+  opacity: 0;
+  animation: swipe-hint 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+@keyframes swipe-hint {
+  0%, 100% { opacity: 0; transform: translateX(0); }
+  50% { opacity: 0.5; transform: translateX(-4px); }
+}
+
+/* Prevent zoom on input focus (iOS) */
+@supports (-webkit-touch-callout: none) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Bottom safe area padding utility */
+.pb-bottom-nav {
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+}
+
+/* Floating action button positioning */
+.fab-position {
+  position: fixed;
+  bottom: calc(5rem + env(safe-area-inset-bottom) + 1rem);
+  right: 1rem;
+  z-index: 40;
+}
+
+/* Touch-friendly list items */
+.touch-list-item {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  touch-action: manipulation;
+}
+
+/* Sticky header with safe area */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  padding-top: env(safe-area-inset-top);
+  background: var(--fernhill-dark);
+}
+
+/* Full-height mobile sections */
+.mobile-full-height {
+  min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 5rem);
+  min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 5rem);
+}
+

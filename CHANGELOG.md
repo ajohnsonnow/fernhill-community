@@ -5,6 +5,80 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.10.0] - 2026-02-01
+
+### 📱 Phase D Complete - "Mobile Excellence & PWA Perfection"
+
+Comprehensive mobile experience improvements for maximum compatibility across all devices.
+
+### ♿ Accessibility Improvements
+- **WCAG 2.1 Viewport Fix** - Enabled pinch-to-zoom (was incorrectly blocked)
+- **Better touch targets** - Minimum 48px on touch devices
+- **Improved focus indicators** - Clearer keyboard navigation
+
+### 📱 PWA Enhancements
+- **Enhanced manifest.json** - App shortcuts, categories, launch handlers
+- **Offline fallback page** - Beautiful offline.html with auto-reconnect
+- **Service Worker v2.0** - Multi-cache strategy with intelligent routing
+  - Cache-First for static assets (instant loading)
+  - Network-First for API calls (fresh data when online)
+  - Stale-While-Revalidate for images (fast + updated)
+  - Automatic cache cleanup on version change
+
+### 🎯 Haptic Feedback
+- **New lib/haptics.ts** - Tactile feedback utility
+- **Patterns** - Light, medium, heavy, success, error, warning, selection
+- **Navigation feedback** - Subtle vibration on tab changes
+- **Works on Android & modern iOS**
+
+### 🔄 Pull-to-Refresh
+- **usePullToRefresh hook** - Mobile refresh pattern
+- **PullToRefresh component** - Wrap any content
+- **Visual indicators** - Progress spinner, release hint
+- **Haptic feedback** - Vibrates at threshold
+
+### 📡 Network Status
+- **useNetworkStatus hook** - Track online/offline state
+- **OfflineIndicator component** - Banner when offline
+- **Auto-reconnect feedback** - "Back online!" message
+- **Connection quality info** - Effective type, downlink, RTT
+
+### 🎨 Mobile CSS Utilities
+- **scroll-snap-x** - Horizontal snap scrolling for carousels
+- **no-overscroll / allow-overscroll** - Control bounce behavior
+- **no-select / allow-select** - Text selection control
+- **momentum-scroll** - Smooth iOS scrolling
+- **touch-feedback** - Visual tap feedback class
+- **landscape optimizations** - Compact mode for rotated phones
+- **notch-safe** - Safe area for landscape mode
+- **img-loading** - Shimmer placeholder animation
+- **pb-bottom-nav** - Bottom nav spacing utility
+- **fab-position** - Floating action button positioning
+- **touch-list-item** - 56px touch-friendly list items
+- **sticky-header** - Safe area aware sticky headers
+- **mobile-full-height** - Dynamic viewport height
+- **16px input font** - Prevents iOS zoom on focus
+
+### 🗂️ New Files
+- `public/offline.html` - Offline fallback page
+- `lib/haptics.ts` - Vibration API utility
+- `hooks/usePullToRefresh.ts` - Pull-to-refresh hook
+- `hooks/useNetworkStatus.ts` - Network status hook
+- `hooks/index.ts` - Hooks barrel export
+- `components/pwa/OfflineIndicator.tsx` - Offline banner
+- `components/pwa/PullToRefresh.tsx` - PTR component
+- `components/pwa/index.ts` - PWA components barrel export
+
+### 🔧 Updated Files
+- `app/layout.tsx` - Fixed viewport for accessibility
+- `app/globals.css` - Added 150+ lines of mobile utilities
+- `public/manifest.json` - Enhanced PWA config
+- `public/sw.js` - Complete rewrite with caching strategies
+- `app/(protected)/layout.tsx` - Added OfflineIndicator
+- `components/navigation/BottomNav.tsx` - Added haptic feedback
+
+---
+
 ## [1.9.0] - 2026-02-01
 
 ### 🌟 Phase C Complete - "Advanced Features & Facebook Channel Parity"

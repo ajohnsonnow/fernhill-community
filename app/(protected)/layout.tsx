@@ -5,6 +5,7 @@ import TopHeader from '@/components/navigation/TopHeader'
 import { AudioProvider } from '@/components/audio/AudioContext'
 import GlobalPlayer from '@/components/audio/GlobalPlayer'
 import InstallPrompt from '@/components/pwa/InstallPrompt'
+import { OfflineIndicator } from '@/components/pwa/OfflineIndicator'
 import EncryptionInitializer from '@/components/encryption/EncryptionInitializer'
 
 export default async function ProtectedLayout({
@@ -33,6 +34,7 @@ export default async function ProtectedLayout({
   return (
     <AudioProvider>
       <div className="min-h-screen bg-sacred-charcoal pb-24 has-bottom-nav">
+        <OfflineIndicator />
         <TopHeader profile={profile as any} />
         <main className="pt-20">
           {children}

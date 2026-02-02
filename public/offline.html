@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#2D5A27">
+  <title>Offline - Fernhill Community</title>
+  <style>
+    :root {
+      --gold: #c9a227;
+      --forest: #2D5A27;
+      --dark-bg: #1a1a1a;
+      --card-bg: #242424;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: var(--dark-bg);
+      color: #fff;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      padding-top: max(24px, env(safe-area-inset-top));
+      padding-bottom: max(24px, env(safe-area-inset-bottom));
+      text-align: center;
+    }
+    
+    .container {
+      max-width: 400px;
+      animation: fadeIn 0.5s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, var(--forest) 0%, #1e3d1a 100%);
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+    }
+    
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+    
+    p {
+      font-size: 16px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .status-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      background: var(--forest);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 48px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.1s, background 0.2s;
+    }
+    
+    .btn:active {
+      transform: scale(0.98);
+      background: #1e3d1a;
+    }
+    
+    .tips {
+      margin-top: 32px;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      text-align: left;
+    }
+    
+    .tips h2 {
+      font-size: 14px;
+      color: var(--gold);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .tips ul {
+      list-style: none;
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .tips li {
+      padding: 8px 0;
+      padding-left: 24px;
+      position: relative;
+    }
+    
+    .tips li::before {
+      content: '•';
+      position: absolute;
+      left: 8px;
+      color: var(--forest);
+    }
+    
+    .cached-pages {
+      margin-top: 24px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .cached-pages a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">🌲</div>
+    
+    <h1>You're Offline</h1>
+    
+    <p>
+      Looks like you've wandered away from the signal. 
+      Don't worry—this is temporary!
+    </p>
+    
+    <div class="status">
+      <div class="status-dot"></div>
+      <span class="status-text">Waiting for connection...</span>
+    </div>
+    
+    <button class="btn" onclick="location.reload()">
+      <span>🔄</span>
+      <span>Try Again</span>
+    </button>
+    
+    <div class="tips">
+      <h2>Quick Fixes</h2>
+      <ul>
+        <li>Check your Wi-Fi or mobile data</li>
+        <li>Move closer to your router</li>
+        <li>Toggle airplane mode on and off</li>
+        <li>The page will auto-refresh when you're back online</li>
+      </ul>
+    </div>
+    
+    <p class="cached-pages">
+      Some pages may be available offline.
+      <a href="/">Try the home page</a>
+    </p>
+  </div>
+  
+  <script>
+    // Auto-refresh when back online
+    window.addEventListener('online', () => {
+      location.reload();
+    });
+    
+    // Check connection every 5 seconds
+    setInterval(() => {
+      if (navigator.onLine) {
+        location.reload();
+      }
+    }, 5000);
+    
+    // Update status when connection changes
+    function updateStatus() {
+      const statusText = document.querySelector('.status-text');
+      const statusDot = document.querySelector('.status-dot');
+      
+      if (navigator.onLine) {
+        statusText.textContent = 'Connection restored! Reloading...';
+        statusDot.style.background = '#22c55e';
+      }
+    }
+    
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+  </script>
+</body>
+</html>

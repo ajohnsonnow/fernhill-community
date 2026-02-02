@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Calendar, Music, MessageCircle, User, Users } from 'lucide-react'
+import { Home, Calendar, MessageCircle, User, Users } from 'lucide-react'
+import { haptic } from '@/lib/haptics'
 
 const navItems = [
   { href: '/hearth', icon: Home, label: 'Hearth' },
@@ -15,6 +16,10 @@ const navItems = [
 export default function BottomNav() {
   const pathname = usePathname()
 
+  const handleNavClick = () => {
+    haptic('selection')
+  }
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-fernhill-dark/95 backdrop-blur-lg border-t border-fernhill-sand/10 pb-safe z-40">
       <div className="flex justify-around items-center px-1 py-1">
@@ -26,7 +31,8 @@ export default function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center justify-center gap-0.5 min-w-[64px] min-h-[56px] px-3 py-2 rounded-xl transition-all touch-manipulation ${
+              onClick={handleNavClick}
+              className={`flex flex-col items-center justify-center gap-0.5 min-w-[64px] min-h-[56px] px-3 py-2 rounded-xl transition-all touch-manipulation touch-feedback ${
                 isActive
                   ? 'text-fernhill-gold bg-fernhill-gold/10'
                   : 'text-fernhill-sand/60 active:text-fernhill-cream active:bg-fernhill-brown/20'
