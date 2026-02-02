@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-02-01T20:56:17.501Z",
-  "version": "1.8.0",
+  "timestamp": "2026-02-02T01:04:36.240Z",
+  "version": "1.9.0",
   "codename": "Unnamed Release",
   "git": {
     "branch": "main",
-    "commit": "dd356fb",
-    "commitCount": "65"
+    "commit": "1b4cc60",
+    "commitCount": "66"
   },
   "files": {
     "ts": 20,
-    "tsx": 56,
+    "tsx": 63,
     "js": 5,
     "css": 1,
-    "sql": 19,
+    "sql": 20,
     "md": 9
   },
-  "linesOfCode": 23090,
+  "linesOfCode": 25422,
   "routes": [
     "/admin/events",
     "/admin",
@@ -45,11 +45,18 @@
     "WordPrediction",
     "AudioContext",
     "GlobalPlayer",
+    "AnnouncementsBanner",
     "BusinessDirectory",
     "Classifieds",
+    "CommunityPolls",
+    "DancePartnerFinder",
     "HousingHub",
     "index",
+    "LostAndFound",
     "MutualAid",
+    "RideShare",
+    "SkillExchange",
+    "SpicyChatLounge",
     "EncryptionInitializer",
     "GroupDMs",
     "VoiceMessage",
@@ -95,5 +102,5 @@
     "music_sets",
     "custom_vibe_tags"
   ],
-  "lastDeploy": "2026-02-01T20:56:17.501Z"
+  "lastDeploy": "2026-02-02T01:04:36.240Z"
 }

@@ -12,6 +12,7 @@ import PostComments from '@/components/social/PostComments'
 import BookmarkButton from '@/components/social/BookmarkButton'
 import ReactionButtons from '@/components/social/ReactionButtons'
 import { TrendingHashtags, AutoLinkPreview, renderHashtags } from '@/components/social'
+import { AnnouncementsBanner } from '@/components/community'
 
 interface Post {
   id: string
@@ -111,6 +112,9 @@ export default function HearthPage() {
       
       <div className="p-4">
         <div className="max-w-2xl mx-auto">
+          {/* Announcements Banner - Official Community Announcements */}
+          <AnnouncementsBanner />
+
           {/* Welcome Banner */}
           <div className="card-warm p-5 mb-6 animate-fadeIn">
           <h1 className="text-2xl font-bold font-display text-fernhill-cream mb-2">Welcome to the Hearth</h1>

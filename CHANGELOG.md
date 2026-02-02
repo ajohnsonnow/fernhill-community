@@ -5,6 +5,84 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.9.0] - 2026-02-01
+
+### 🌟 Phase C Complete - "Advanced Features & Facebook Channel Parity"
+
+Full feature parity with existing Facebook Messenger community channels plus new advanced features.
+
+### 📢 Official Announcements System
+- **Admin-Only Announcements** - Secure posting for organizers
+- **Priority Levels** - Low, normal, high, urgent with color coding
+- **Categories** - General, event, safety, schedule, policy, welcome
+- **Pinned Announcements** - Important notices stay at top
+- **Read Tracking** - Track which members have seen announcements
+- **Expiration Dates** - Time-limited announcements auto-hide
+- **Hearth Integration** - Banner displays on main feed
+
+### 🔍 Lost & Found
+- **Report Items** - Lost or found items with full details
+- **Categories** - Keys, phone, wallet, jewelry, clothing, electronics, pet, documents
+- **Location Tracking** - Where items were lost/found
+- **Photo Support** - Multiple photos per item
+- **Date Tracking** - When items went missing
+- **Status Management** - Mark items as resolved when reunited
+- **Search & Filter** - Find items by type, category, keywords
+
+### 🌶️ Spicy Chat Lounge
+- **18+ Discussion Space** - Mature topics welcome
+- **Topics** - General, advice, vent, celebration, question, debate
+- **Anonymous Posting** - Post without name for sensitive topics
+- **Threaded Replies** - Full discussion on each post
+- **Like System** - React to posts and replies
+- **Topic Filtering** - Browse by topic category
+
+### 🚗 Ride Share
+- **Offer Rides** - Share your car for events
+- **Request Rides** - Find carpools to venues
+- **Route Details** - From/to locations, departure time
+- **Seat Tracking** - Available/needed seats
+- **Event Integration** - Link rides to specific events
+- **Request System** - Ask to join a ride
+
+### 🎓 Skill Exchange
+- **Teach & Learn** - Share or request knowledge
+- **Dance Styles** - Salsa, bachata, kizomba, zouk, tango, swing, ballroom
+- **Experience Levels** - Beginner to professional
+- **Availability** - When you can teach/learn
+- **Search & Filter** - Find by style, type, level
+
+### 📊 Community Polls
+- **Create Polls** - Ask the community anything
+- **Multiple Options** - Add as many choices as needed
+- **Expiration Dates** - Time-limited voting
+- **Results Visualization** - Percentage bars show distribution
+- **Vote Tracking** - One vote per person
+- **RPC Helper** - Efficient results calculation
+
+### 💃 Dance Partner Finder
+- **Partner Profiles** - Showcase your dance styles and levels
+- **Multi-Style Support** - List all styles you dance
+- **Role Preferences** - Lead, follow, or both
+- **Experience per Style** - Different levels for different dances
+- **Goals & Bio** - What you're looking for
+- **Match Requests** - Send personalized connection requests
+- **Style Filtering** - Find partners by dance style
+
+### 🗄️ Database Enhancements
+- **11 New Tables** - Complete schema for all features
+- **Full RLS Policies** - Row-level security on all tables
+- **Helper Functions** - get_poll_results, find_dance_partners
+- **Storage Buckets** - lost-found-photos, announcement-images
+- **Indexes** - Optimized queries for all new features
+
+### 📱 Community Hub Upgrade
+- **10-Tab Navigation** - All features in one page
+- **Scrollable Tabs** - Mobile-friendly navigation
+- **Unified Design** - Consistent styling across features
+
+---
+
 ## [1.8.0] - 2026-02-01
 
 ### 🏘️ Phase B Complete - "Community Resources"
