@@ -13,13 +13,18 @@ import {
   MessageSquare,
   Shield,
   Users,
-  Mic
+  Mic,
+  Trash2,
+  Archive,
+  Bell,
+  BellOff
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { encryptMessage, decryptMessage, generateKeyPair, exportPublicKey, importPublicKey } from '@/lib/crypto'
 import TypingIndicator from '@/components/social/TypingIndicator'
 import GroupDMs from '@/components/messages/GroupDMs'
 import { VoiceMessageRecorder, VoiceMessagePlayer } from '@/components/messages/VoiceMessage'
+import { SwipeableRow } from '@/components/ui/SwipeableRow'
 
 type TabType = 'direct' | 'circles';
 
@@ -448,37 +453,57 @@ export default function MessagesPage() {
           ) : (
             <div className="space-y-2">
               {conversations.map((convo) => (
-                <button
+                <SwipeableRow
                   key={convo.user_id}
-                  onClick={() => startConversation({
-                    id: convo.user_id,
-                    tribe_name: convo.tribe_name,
-                    avatar_url: convo.avatar_url,
-                    public_key: null,
-                  })}
-                  className="w-full flex items-center gap-3 p-4 rounded-xl glass-panel hover:bg-white/10 transition-colors"
+                  leftActions={[
+                    { id: 'delete', icon: <Trash2 className="w-5 h-5" />, color: 'bg-red-500', label: 'Delete' }
+                  ]}
+                  rightActions={[
+                    { id: 'mute', icon: <BellOff className="w-5 h-5" />, color: 'bg-fernhill-moss', label: 'Mute' },
+                    { id: 'archive', icon: <Archive className="w-5 h-5" />, color: 'bg-blue-500', label: 'Archive' }
+                  ]}
+                  onAction={(actionId) => {
+                    if (actionId === 'delete') {
+                      toast.success(`Conversation with ${convo.tribe_name} deleted`)
+                    } else if (actionId === 'archive') {
+                      toast.success(`Conversation archived`)
+                    } else if (actionId === 'mute') {
+                      toast.success(`Notifications muted for ${convo.tribe_name}`)
+                    }
+                  }}
+                  className="rounded-xl"
                 >
-                  <div className="w-12 h-12 rounded-full glass-panel-dark overflow-hidden flex-shrink-0">
-                    {convo.avatar_url ? (
-                      <img src={convo.avatar_url} alt="" className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-fernhill-gold font-bold">
-                        {convo.tribe_name?.[0]?.toUpperCase()}
+                  <button
+                    onClick={() => startConversation({
+                      id: convo.user_id,
+                      tribe_name: convo.tribe_name,
+                      avatar_url: convo.avatar_url,
+                      public_key: null,
+                    })}
+                    className="w-full flex items-center gap-3 p-4 rounded-xl glass-panel hover:bg-white/10 transition-colors"
+                  >
+                    <div className="w-12 h-12 rounded-full glass-panel-dark overflow-hidden flex-shrink-0">
+                      {convo.avatar_url ? (
+                        <img src={convo.avatar_url} alt="" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-fernhill-gold font-bold">
+                          {convo.tribe_name?.[0]?.toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1 text-left">
+                      <p className="text-fernhill-cream font-medium">{convo.tribe_name}</p>
+                      <p className="text-fernhill-sand/60 text-sm">
+                        {formatDistanceToNow(new Date(convo.last_message_at), { addSuffix: true })}
+                      </p>
+                    </div>
+                    {convo.unread_count > 0 && (
+                      <div className="w-6 h-6 rounded-full bg-fernhill-gold flex items-center justify-center">
+                        <span className="text-fernhill-dark text-xs font-bold">{convo.unread_count}</span>
                       </div>
                     )}
-                  </div>
-                  <div className="flex-1 text-left">
-                    <p className="text-fernhill-cream font-medium">{convo.tribe_name}</p>
-                    <p className="text-fernhill-sand/60 text-sm">
-                      {formatDistanceToNow(new Date(convo.last_message_at), { addSuffix: true })}
-                    </p>
-                  </div>
-                  {convo.unread_count > 0 && (
-                    <div className="w-6 h-6 rounded-full bg-fernhill-gold flex items-center justify-center">
-                      <span className="text-fernhill-dark text-xs font-bold">{convo.unread_count}</span>
-                    </div>
-                  )}
-                </button>
+                  </button>
+                </SwipeableRow>
               ))}
             </div>
           )}

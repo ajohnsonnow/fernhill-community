@@ -1,6 +1,6 @@
 {
   "name": "fernhill-tribe-app",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "private": true,
   "description": "A secure digital hearth for the Fernhill Ecstatic Dance community",
   "scripts": {
@@ -18,7 +18,10 @@
     "release:minor": "node scripts/pre-deploy.js --skip-build --fix --bump-minor",
     "release:major": "node scripts/pre-deploy.js --skip-build --fix --bump-major",
     "deploy": "node scripts/pre-deploy.js --fix --bump && git push origin main",
-    "prepare": "husky install || true"
+    "prepare": "husky install || true",
+    "audit": "node scripts/audit.js",
+    "audit:mobile": "AUDIT_DEVICE=mobile node scripts/audit.js",
+    "audit:desktop": "AUDIT_DEVICE=desktop node scripts/audit.js"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",

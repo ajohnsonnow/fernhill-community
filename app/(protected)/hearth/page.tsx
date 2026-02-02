@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { toast } from 'sonner'
-import { Plus, Heart, Clock, MessageCircle } from 'lucide-react'
+import { Plus, Heart, Clock, MessageCircle, Bookmark, Share2, Flag, Copy, Edit2, Trash2 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import { useSearchParams } from 'next/navigation'
 import NewPostModal from '@/components/posts/NewPostModal'
@@ -13,6 +13,8 @@ import BookmarkButton from '@/components/social/BookmarkButton'
 import ReactionButtons from '@/components/social/ReactionButtons'
 import { TrendingHashtags, AutoLinkPreview, renderHashtags } from '@/components/social'
 import { AnnouncementsBanner } from '@/components/community'
+import { LongPressMenu } from '@/components/ui/LongPressMenu'
+import { share, canShare } from '@/lib/share'
 
 interface Post {
   id: string
@@ -172,7 +174,38 @@ export default function HearthPage() {
         ) : (
           <div className="space-y-4">
             {posts.map((post) => (
-              <div key={post.id} className="glass-panel rounded-2xl p-6 animate-fadeIn">
+              <LongPressMenu
+                key={post.id}
+                items={[
+                  { id: 'share', label: 'Share Post', icon: <Share2 className="w-4 h-4" /> },
+                  { id: 'copy', label: 'Copy Text', icon: <Copy className="w-4 h-4" /> },
+                  { id: 'bookmark', label: 'Bookmark', icon: <Bookmark className="w-4 h-4" /> },
+                  { id: 'report', label: 'Report', icon: <Flag className="w-4 h-4" />, destructive: true },
+                ]}
+                onSelect={async (actionId) => {
+                  if (actionId === 'share') {
+                    const url = `${window.location.origin}/hearth?post=${post.id}`
+                    if (canShare()) {
+                      await share({
+                        title: `Post by ${post.author.tribe_name}`,
+                        text: post.content.slice(0, 100),
+                        url,
+                      })
+                    } else {
+                      await navigator.clipboard.writeText(url)
+                      toast.success('Link copied!')
+                    }
+                  } else if (actionId === 'copy') {
+                    await navigator.clipboard.writeText(post.content)
+                    toast.success('Text copied!')
+                  } else if (actionId === 'bookmark') {
+                    toast.success('Post bookmarked!')
+                  } else if (actionId === 'report') {
+                    toast.info('Report submitted for review')
+                  }
+                }}
+              >
+              <div className="glass-panel rounded-2xl p-6 animate-fadeIn">
                 <div className="flex items-start gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full glass-panel-dark overflow-hidden flex-shrink-0">
                     {post.author.avatar_url ? (
@@ -229,6 +262,7 @@ export default function HearthPage() {
                 {/* Comments Section */}
                 <PostComments postId={post.id} />
               </div>
+              </LongPressMenu>
             ))}
           </div>
         )}

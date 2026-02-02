@@ -5,6 +5,68 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.0] - 2026-02-01
+
+### 🔍 Phase G Complete - "Quality Assurance"
+
+Comprehensive testing & audit infrastructure for QA testers. Automated Lighthouse audits, interactive feature testing, and manual QA checklists.
+
+### 📋 QA Testing Checklist
+- **docs/QA_TESTING_CHECKLIST.md** - Comprehensive 500+ line manual testing guide
+- **Pre-testing setup** - Device requirements and environment preparation
+- **Authentication tests (A1-A2)** - Login/logout, session management
+- **PWA tests (P1-P4)** - Installation, offline mode, pull-to-refresh, haptics
+- **Gesture tests (G1-G3)** - Swipe actions, long press menus, edge swipe
+- **View Transition tests (V1)** - Page morphing animations
+- **Sharing tests (S1)** - Native share sheet, clipboard fallback
+- **Notification tests (N1-N2)** - Push notifications, badge counts
+- **Accessibility tests (AC1-AC4)** - Screen reader, contrast, reduced motion
+- **Feature-specific tests** - Hearth, Events, Messages, Journey, Directory, Safety
+- **Admin panel tests** - User management, content moderation
+- **Performance checklist** - Lighthouse metrics and thresholds
+- **Bug report template** - Standardized issue reporting format
+
+### 🔬 Interactive Audit Page
+- **app/(protected)/audit/page.tsx** - Feature testing dashboard
+- **Platform info display** - Browser, device, OS detection
+- **PWA score card** - Real-time PWA readiness percentage
+- **Mobile score card** - Mobile feature support percentage
+- **Interactive tests** - Haptic, share, wake lock, notifications
+- **Gesture test areas** - Swipe demo, long press demo
+- **SwipeableRow demo** - Working swipe-to-delete example
+- **Skeleton loading demo** - All skeleton variants displayed
+- **Feature checklist** - Visual capability detection
+- **Event log** - Test result recording
+- **Copy report button** - Export capability report
+
+### 🧪 Capability Detection
+- **lib/capabilities.ts** - Browser/device feature detection utility
+- **detectCapabilities()** - Returns 50+ feature detection flags
+- **getPWAScore()** - Calculate PWA readiness (0-100%)
+- **getMobileScore()** - Calculate mobile feature support (0-100%)
+- **formatCapabilityReport()** - Generate ASCII capability report
+- **Feature categories**: PWA, Storage, Media, Device APIs, Display, Input, Network, Sharing, Notifications, Accessibility
+
+### 🤖 Automated Audit Script
+- **scripts/audit.js** - Lighthouse automation
+- **npm run audit** - Full mobile + desktop audit
+- **npm run audit:mobile** - Mobile-only audit
+- **npm run audit:desktop** - Desktop-only audit
+- **Markdown report generation** - docs/audits/AUDIT_REPORT.md
+- **Score thresholds** - Performance 90, Accessibility 95, Best Practices 90, SEO 90, PWA 90
+- **Core Web Vitals** - FCP, LCP, TTI, TBT, CLS tracking
+- **PWA checklist** - Installable, Service Worker, HTTPS, Icons
+
+### 🖐️ Gesture Integration
+- **Messages page** - SwipeableRow on conversation list
+  - Swipe left → Delete conversation
+  - Swipe right → Mute notifications, Archive
+- **Hearth page** - LongPressMenu on posts
+  - Share Post → Native share sheet
+  - Copy Text → Clipboard
+  - Bookmark → Save for later
+  - Report → Flag content
+
 ## [1.12.0] - 2026-02-01
 
 ### 🏆 Phase F Complete - "Legendary Touch"

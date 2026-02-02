@@ -283,11 +283,9 @@ export async function updateBadgeCount(count: number): Promise<void> {
   if ('setAppBadge' in navigator) {
     try {
       if (count > 0) {
-        // @ts-expect-error - Badge API not in TypeScript yet
-        await navigator.setAppBadge(count)
+        await (navigator as any).setAppBadge(count)
       } else {
-        // @ts-expect-error - Badge API not in TypeScript yet
-        await navigator.clearAppBadge()
+        await (navigator as any).clearAppBadge()
       }
     } catch (error) {
       console.error('Failed to update badge:', error)

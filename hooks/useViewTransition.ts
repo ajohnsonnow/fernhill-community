@@ -56,8 +56,7 @@ export function useViewTransition() {
     // If View Transitions supported, use it!
     if (supportsViewTransitions()) {
       try {
-        // @ts-expect-error - View Transitions API not in TS types yet
-        const transition = document.startViewTransition(() => {
+        const transition = (document as any).startViewTransition(() => {
           router.push(href)
         })
 
@@ -87,8 +86,7 @@ export function useViewTransition() {
 
     if (supportsViewTransitions()) {
       try {
-        // @ts-expect-error - View Transitions API
-        const transition = document.startViewTransition(() => {
+        const transition = (document as any).startViewTransition(() => {
           router.back()
         })
         await transition.finished
@@ -117,8 +115,7 @@ export function useViewTransition() {
 
     if (supportsViewTransitions()) {
       try {
-        // @ts-expect-error - View Transitions API
-        const t = document.startViewTransition(updateDOM)
+        const t = (document as any).startViewTransition(updateDOM)
         await t.finished
       } catch {
         await updateDOM()

@@ -46,7 +46,7 @@ export function canShare(data?: ShareData): boolean {
  */
 export function canShareFiles(): boolean {
   if (typeof navigator === 'undefined') return false
-  return !!(navigator.canShare && navigator.share)
+  return typeof navigator.canShare === 'function' && typeof navigator.share === 'function'
 }
 
 /**
