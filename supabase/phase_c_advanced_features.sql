@@ -540,15 +540,19 @@ CREATE POLICY "Recipients can update requests" ON partner_match_requests
 -- Get poll results
 CREATE OR REPLACE FUNCTION get_poll_results(p_poll_id UUID)
 RETURNS JSONB AS $$
-    SELECT jsonb_agg(
-        jsonb_build_object(
+    SELECT COALESCE(
+        jsonb_agg(vote_counts),
+        '[]'::jsonb
+    )
+    FROM (
+        SELECT jsonb_build_object(
             'option_id', option_id,
             'vote_count', COUNT(*)
-        )
-    )
-    FROM poll_votes
-    WHERE poll_id = p_poll_id
-    GROUP BY option_id;
+        ) AS vote_counts
+        FROM poll_votes
+        WHERE poll_id = p_poll_id
+        GROUP BY option_id
+    ) AS subquery;
 $$ LANGUAGE SQL STABLE;
 
 -- Match dance partners by style
