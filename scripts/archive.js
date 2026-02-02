@@ -65,60 +65,57 @@ function logSection(title) {
 const ARCHIVE_PATTERNS = {
   // Duplicate SQL migrations - keep the standalone/clean versions
   duplicateMigrations: [
-    // Already archived in previous run:
-    // { path: 'supabase/electric_avenue_migration.sql' }
-    // { path: 'supabase/electric_avenue_CLEAN.sql' }
-    // { path: 'supabase/social_features_migration.sql' }
-    
-    // Superseded by COMPLETE_SETUP.sql
+    // ========================================
+    // Already-applied migrations (archive these)
+    // ========================================
     {
-      path: 'supabase/schema.sql',
-      reason: 'Original schema entirely superseded by COMPLETE_SETUP.sql',
-      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+      path: 'supabase/electric_avenue_standalone.sql',
+      reason: 'Phase H migration - already applied to Supabase',
+      keepInstead: null,
     },
     {
-      path: 'supabase/additional_schema.sql',
-      reason: 'Adds show_in_directory, altar_posts, push_subscriptions - all in COMPLETE_SETUP.sql',
-      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+      path: 'supabase/diamond_status_migration.sql',
+      reason: 'Phase I migration - already applied to Supabase',
+      keepInstead: null,
     },
     {
-      path: 'supabase/admin_migration.sql',
-      reason: 'Admin policies and keyword_filters already in COMPLETE_SETUP.sql',
-      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+      path: 'supabase/supernova_migration.sql',
+      reason: 'Phase J migration - already applied to Supabase',
+      keepInstead: null,
     },
     {
-      path: 'supabase/admin_profiles_insert_migration.sql',
-      reason: 'Admin insert policies covered by COMPLETE_SETUP.sql',
-      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+      path: 'supabase/social_features_v2_migration.sql',
+      reason: 'Social features v2 - already applied to Supabase',
+      keepInstead: null,
     },
     {
-      path: 'supabase/content_moderation_migration.sql',
-      reason: 'content_queue, custom_vibe_tags already in COMPLETE_SETUP.sql',
-      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+      path: 'supabase/phase_a_completion_migration.sql',
+      reason: 'Phase A migration - already applied to Supabase',
+      keepInstead: null,
     },
     {
-      path: 'supabase/event_submissions_migration.sql',
-      reason: 'event_submissions table already in COMPLETE_SETUP.sql',
-      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+      path: 'supabase/phase_b_community_resources.sql',
+      reason: 'Phase B migration - already applied to Supabase',
+      keepInstead: null,
     },
     {
-      path: 'supabase/feedback_migration.sql',
-      reason: 'Feedback table already in COMPLETE_SETUP.sql',
-      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+      path: 'supabase/phase_c_advanced_features.sql',
+      reason: 'Phase C migration - already applied to Supabase',
+      keepInstead: null,
     },
     {
-      path: 'supabase/feedback_enhancements.sql',
-      reason: 'browser_info, console_logs additions already in COMPLETE_SETUP.sql',
-      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+      path: 'supabase/boards_schema.sql',
+      reason: 'Boards schema - already applied to Supabase',
+      keepInstead: null,
     },
     {
-      path: 'supabase/storage_buckets_migration.sql',
-      reason: 'Storage buckets superseded by COMPLETE_SETUP + secure_storage_migration',
-      keepInstead: 'supabase/secure_storage_migration.sql',
+      path: 'supabase/boundary_reports_migration.sql',
+      reason: 'Boundary reports - already applied to Supabase',
+      keepInstead: null,
     },
     {
-      path: 'supabase/set-admin-password.sql',
-      reason: 'One-time admin setup script, not a migration',
+      path: 'supabase/marketplace_expiration_migration.sql',
+      reason: 'Marketplace expiration - already applied to Supabase',
       keepInstead: null,
     },
   ],
