@@ -353,6 +353,13 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('announcement-images', 'announcement-images', true)
 ON CONFLICT (id) DO NOTHING;
 
+-- Drop existing storage policies first (idempotent)
+DROP POLICY IF EXISTS "Authenticated users can upload lost-found photos" ON storage.objects;
+DROP POLICY IF EXISTS "Anyone can view lost-found photos" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete own lost-found photos" ON storage.objects;
+DROP POLICY IF EXISTS "Admins can upload announcement images" ON storage.objects;
+DROP POLICY IF EXISTS "Anyone can view announcement images" ON storage.objects;
+
 -- Storage policies
 CREATE POLICY "Authenticated users can upload lost-found photos"
 ON storage.objects FOR INSERT TO authenticated
@@ -390,6 +397,37 @@ ALTER TABLE community_polls ENABLE ROW LEVEL SECURITY;
 ALTER TABLE poll_votes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE dance_partner_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE partner_match_requests ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies first (idempotent)
+DROP POLICY IF EXISTS "Users can view active lost & found" ON lost_and_found;
+DROP POLICY IF EXISTS "Users can create lost & found posts" ON lost_and_found;
+DROP POLICY IF EXISTS "Users can update own posts" ON lost_and_found;
+DROP POLICY IF EXISTS "Anyone can view published announcements" ON announcements;
+DROP POLICY IF EXISTS "Admins can manage announcements" ON announcements;
+DROP POLICY IF EXISTS "Users can manage own reads" ON announcement_reads;
+DROP POLICY IF EXISTS "Users can view active lounge posts" ON lounge_posts;
+DROP POLICY IF EXISTS "Users can create lounge posts" ON lounge_posts;
+DROP POLICY IF EXISTS "Users can update own lounge posts" ON lounge_posts;
+DROP POLICY IF EXISTS "Users can view lounge replies" ON lounge_replies;
+DROP POLICY IF EXISTS "Users can create lounge replies" ON lounge_replies;
+DROP POLICY IF EXISTS "Users can view active rides" ON ride_share;
+DROP POLICY IF EXISTS "Users can create rides" ON ride_share;
+DROP POLICY IF EXISTS "Users can update own rides" ON ride_share;
+DROP POLICY IF EXISTS "Users can view ride requests" ON ride_requests;
+DROP POLICY IF EXISTS "Users can create ride requests" ON ride_requests;
+DROP POLICY IF EXISTS "Users can view active skill exchanges" ON skill_exchange;
+DROP POLICY IF EXISTS "Users can create skill exchanges" ON skill_exchange;
+DROP POLICY IF EXISTS "Users can update own exchanges" ON skill_exchange;
+DROP POLICY IF EXISTS "Users can view active polls" ON community_polls;
+DROP POLICY IF EXISTS "Users can create polls" ON community_polls;
+DROP POLICY IF EXISTS "Creators can update own polls" ON community_polls;
+DROP POLICY IF EXISTS "Users can view poll results" ON poll_votes;
+DROP POLICY IF EXISTS "Users can vote" ON poll_votes;
+DROP POLICY IF EXISTS "Users can view active partner profiles" ON dance_partner_profiles;
+DROP POLICY IF EXISTS "Users can manage own profile" ON dance_partner_profiles;
+DROP POLICY IF EXISTS "Users can view their match requests" ON partner_match_requests;
+DROP POLICY IF EXISTS "Users can create match requests" ON partner_match_requests;
+DROP POLICY IF EXISTS "Recipients can update requests" ON partner_match_requests;
 
 -- Lost & Found
 CREATE POLICY "Users can view active lost & found" ON lost_and_found
