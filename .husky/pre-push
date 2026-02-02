@@ -1,9 +1,35 @@
 #!/bin/sh
-# Pre-push hook - Updates documentation before pushing
+# Pre-push hook - Archives old files and updates documentation before pushing
 
-echo "🔄 Running pre-push documentation update..."
+echo ""
+echo "═══════════════════════════════════════════════════════════"
+echo "  🚀 Fernhill Community - Pre-Push Checks"
+echo "═══════════════════════════════════════════════════════════"
 
-# Run the documentation generator
+# Step 1: Archive old/duplicate files (dry run first to show what would happen)
+echo ""
+echo "📦 Step 1: Checking for files to archive..."
+node scripts/archive.js 2>/dev/null
+
+# If there are files to archive, run the actual archive
+if [ $? -eq 0 ]; then
+  # Check if user wants to auto-archive (can be skipped with SKIP_ARCHIVE=1)
+  if [ "$SKIP_ARCHIVE" != "1" ]; then
+    # Archive the files
+    node scripts/archive.js --run 2>/dev/null
+    
+    # If files were archived, inform the user
+    if [ -d ".archive" ]; then
+      echo "  ℹ️  Archived files moved to .archive/"
+    fi
+  else
+    echo "  ⏭️  Skipping archive (SKIP_ARCHIVE=1)"
+  fi
+fi
+
+# Step 2: Run the documentation generator
+echo ""
+echo "📝 Step 2: Updating documentation..."
 node scripts/update-docs.js
 
 # Stage any updated docs
@@ -11,11 +37,31 @@ git add docs/ README.md 2>/dev/null
 
 # Check if there are staged changes
 if git diff --cached --quiet; then
-  echo "✅ No documentation changes to commit"
+  echo "  ✅ No documentation changes to commit"
 else
-  echo "📝 Committing documentation updates..."
+  echo "  📝 Committing documentation updates..."
   git commit --amend --no-edit 2>/dev/null || git commit -m "docs: auto-update documentation [skip ci]"
 fi
 
-echo "✅ Pre-push complete"
+# Step 3: Quick TypeScript check (optional, can be slow)
+if [ "$SKIP_TS_CHECK" != "1" ]; then
+  echo ""
+  echo "🔍 Step 3: Quick TypeScript check..."
+  npx tsc --noEmit --skipLibCheck 2>/dev/null
+  if [ $? -ne 0 ]; then
+    echo "  ⚠️  TypeScript has errors (push will continue)"
+  else
+    echo "  ✅ TypeScript OK"
+  fi
+else
+  echo ""
+  echo "⏭️  Step 3: Skipping TypeScript check (SKIP_TS_CHECK=1)"
+fi
+
+echo ""
+echo "═══════════════════════════════════════════════════════════"
+echo "  ✅ Pre-push complete - Ready to push!"
+echo "═══════════════════════════════════════════════════════════"
+echo ""
+
 exit 0

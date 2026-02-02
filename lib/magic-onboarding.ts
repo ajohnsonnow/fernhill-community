@@ -87,6 +87,111 @@ export interface OnboardingProgress {
   totalTimeSeconds: number;
 }
 
+// Preference Quiz Questions (declared before ONBOARDING_STEPS which uses it)
+export const PREFERENCE_QUESTIONS: QuizQuestion[] = [
+  {
+    id: 'event-types',
+    text: 'What kinds of events excite you?',
+    emoji: '🎭',
+    type: 'multiple',
+    category: 'event_types',
+    options: [
+      { id: 'ecstatic', label: 'Ecstatic Dance', emoji: '💃', value: 'ecstatic' },
+      { id: 'workshop', label: 'Workshops', emoji: '📚', value: 'workshop' },
+      { id: 'meditation', label: 'Meditation', emoji: '🧘', value: 'meditation' },
+      { id: 'social', label: 'Social Gatherings', emoji: '🎉', value: 'social' },
+      { id: 'outdoor', label: 'Outdoor Adventures', emoji: '🌲', value: 'outdoor' },
+      { id: 'music', label: 'Live Music', emoji: '🎵', value: 'music' },
+    ],
+  },
+  {
+    id: 'energy-level',
+    text: 'What energy level do you usually vibe with?',
+    emoji: '⚡',
+    type: 'single',
+    category: 'energy_level',
+    options: [
+      { id: 'chill', label: 'Chill & Mellow', emoji: '🌙', value: 'low' },
+      { id: 'balanced', label: 'Balanced Flow', emoji: '☯️', value: 'medium' },
+      { id: 'high', label: 'High Energy!', emoji: '🔥', value: 'high' },
+      { id: 'depends', label: 'Depends on my mood', emoji: '🌊', value: 'varies' },
+    ],
+  },
+  {
+    id: 'social-style',
+    text: 'How do you like to connect?',
+    emoji: '👥',
+    type: 'single',
+    category: 'social_style',
+    options: [
+      { id: 'solo', label: 'Flying Solo', emoji: '🦅', value: 'solo' },
+      { id: 'small', label: 'Small Circles', emoji: '🤝', value: 'small_group' },
+      { id: 'crowd', label: 'Big Gatherings', emoji: '🎪', value: 'big_crowd' },
+      { id: 'flex', label: 'All of the Above', emoji: '✨', value: 'flexible' },
+    ],
+  },
+  {
+    id: 'best-times',
+    text: 'When are you most likely to attend?',
+    emoji: '🕐',
+    type: 'multiple',
+    category: 'schedule',
+    options: [
+      { id: 'weekday-morning', label: 'Weekday Mornings', emoji: '🌅', value: 'weekday_am' },
+      { id: 'weekday-evening', label: 'Weekday Evenings', emoji: '🌆', value: 'weekday_pm' },
+      { id: 'weekend-day', label: 'Weekend Days', emoji: '☀️', value: 'weekend_day' },
+      { id: 'weekend-night', label: 'Weekend Nights', emoji: '🌙', value: 'weekend_night' },
+    ],
+  },
+  {
+    id: 'goals',
+    text: 'What brings you to Fernhill?',
+    emoji: '🎯',
+    type: 'multiple',
+    category: 'goals',
+    options: [
+      { id: 'move', label: 'Move My Body', emoji: '💃', value: 'movement' },
+      { id: 'friends', label: 'Make Friends', emoji: '❤️', value: 'connection' },
+      { id: 'grow', label: 'Personal Growth', emoji: '🌱', value: 'growth' },
+      { id: 'fun', label: 'Just Have Fun!', emoji: '🎉', value: 'fun' },
+      { id: 'heal', label: 'Healing Journey', emoji: '🦋', value: 'healing' },
+      { id: 'belong', label: 'Find Belonging', emoji: '🏠', value: 'belonging' },
+    ],
+  },
+];
+
+// App Tour Stops (declared before ONBOARDING_STEPS which uses it)
+export const TOUR_STOPS = [
+  {
+    id: 'events',
+    target: 'nav-events',
+    title: 'Events 📅',
+    description: 'Discover dances, workshops, and gatherings happening near you.',
+    position: 'bottom',
+  },
+  {
+    id: 'hearth',
+    target: 'nav-hearth',
+    title: 'The Hearth 🏠',
+    description: 'Your community home—share posts, see updates, connect with others.',
+    position: 'bottom',
+  },
+  {
+    id: 'messages',
+    target: 'nav-messages',
+    title: 'Messages 💬',
+    description: 'Chat with friends and coordinate meetups.',
+    position: 'bottom',
+  },
+  {
+    id: 'profile',
+    target: 'nav-profile',
+    title: 'Your Profile 🌟',
+    description: "Express yourself and track your community journey.",
+    position: 'left',
+  },
+];
+
 // The Magic Onboarding Flow
 export const ONBOARDING_STEPS: OnboardingStep[] = [
   {
@@ -193,111 +298,6 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
     },
     isRequired: true,
     estimatedSeconds: 15,
-  },
-];
-
-// Preference Quiz Questions
-export const PREFERENCE_QUESTIONS: QuizQuestion[] = [
-  {
-    id: 'event-types',
-    text: 'What kinds of events excite you?',
-    emoji: '🎭',
-    type: 'multiple',
-    category: 'event_types',
-    options: [
-      { id: 'ecstatic', label: 'Ecstatic Dance', emoji: '💃', value: 'ecstatic' },
-      { id: 'workshop', label: 'Workshops', emoji: '📚', value: 'workshop' },
-      { id: 'meditation', label: 'Meditation', emoji: '🧘', value: 'meditation' },
-      { id: 'social', label: 'Social Gatherings', emoji: '🎉', value: 'social' },
-      { id: 'outdoor', label: 'Outdoor Adventures', emoji: '🌲', value: 'outdoor' },
-      { id: 'music', label: 'Live Music', emoji: '🎵', value: 'music' },
-    ],
-  },
-  {
-    id: 'energy-level',
-    text: 'What energy level do you usually vibe with?',
-    emoji: '⚡',
-    type: 'single',
-    category: 'energy_level',
-    options: [
-      { id: 'chill', label: 'Chill & Mellow', emoji: '🌙', value: 'low' },
-      { id: 'balanced', label: 'Balanced Flow', emoji: '☯️', value: 'medium' },
-      { id: 'high', label: 'High Energy!', emoji: '🔥', value: 'high' },
-      { id: 'depends', label: 'Depends on my mood', emoji: '🌊', value: 'varies' },
-    ],
-  },
-  {
-    id: 'social-style',
-    text: 'How do you like to connect?',
-    emoji: '👥',
-    type: 'single',
-    category: 'social_style',
-    options: [
-      { id: 'solo', label: 'Flying Solo', emoji: '🦅', value: 'solo' },
-      { id: 'small', label: 'Small Circles', emoji: '🤝', value: 'small_group' },
-      { id: 'crowd', label: 'Big Gatherings', emoji: '🎪', value: 'big_crowd' },
-      { id: 'flex', label: 'All of the Above', emoji: '✨', value: 'flexible' },
-    ],
-  },
-  {
-    id: 'best-times',
-    text: 'When are you most likely to attend?',
-    emoji: '🕐',
-    type: 'multiple',
-    category: 'schedule',
-    options: [
-      { id: 'weekday-morning', label: 'Weekday Mornings', emoji: '🌅', value: 'weekday_am' },
-      { id: 'weekday-evening', label: 'Weekday Evenings', emoji: '🌆', value: 'weekday_pm' },
-      { id: 'weekend-day', label: 'Weekend Days', emoji: '☀️', value: 'weekend_day' },
-      { id: 'weekend-night', label: 'Weekend Nights', emoji: '🌙', value: 'weekend_night' },
-    ],
-  },
-  {
-    id: 'goals',
-    text: 'What brings you to Fernhill?',
-    emoji: '🎯',
-    type: 'multiple',
-    category: 'goals',
-    options: [
-      { id: 'move', label: 'Move My Body', emoji: '💃', value: 'movement' },
-      { id: 'friends', label: 'Make Friends', emoji: '❤️', value: 'connection' },
-      { id: 'grow', label: 'Personal Growth', emoji: '🌱', value: 'growth' },
-      { id: 'fun', label: 'Just Have Fun!', emoji: '🎉', value: 'fun' },
-      { id: 'heal', label: 'Healing Journey', emoji: '🦋', value: 'healing' },
-      { id: 'belong', label: 'Find Belonging', emoji: '🏠', value: 'belonging' },
-    ],
-  },
-];
-
-// App Tour Stops
-export const TOUR_STOPS = [
-  {
-    id: 'events',
-    target: 'nav-events',
-    title: 'Events 📅',
-    description: 'Discover dances, workshops, and gatherings happening near you.',
-    position: 'bottom',
-  },
-  {
-    id: 'hearth',
-    target: 'nav-hearth',
-    title: 'The Hearth 🏠',
-    description: 'Your community home—share posts, see updates, connect with others.',
-    position: 'bottom',
-  },
-  {
-    id: 'messages',
-    target: 'nav-messages',
-    title: 'Messages 💬',
-    description: 'Chat with friends and coordinate meetups.',
-    position: 'bottom',
-  },
-  {
-    id: 'profile',
-    target: 'nav-profile',
-    title: 'Your Profile 🌟',
-    description: "Express yourself and track your community journey.",
-    position: 'left',
   },
 ];
 

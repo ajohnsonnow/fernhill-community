@@ -1,6 +1,6 @@
 {
   "name": "fernhill-tribe-app",
-  "version": "1.13.0",
+  "version": "1.17.0",
   "private": true,
   "description": "A secure digital hearth for the Fernhill Ecstatic Dance community",
   "scripts": {
@@ -11,17 +11,21 @@
     "seed-admin": "tsx scripts/seed-admin.ts",
     "docs:update": "node scripts/update-docs.js",
     "version:bump": "node scripts/bump-version.js",
+    "archive": "node scripts/archive.js",
+    "archive:run": "node scripts/archive.js --run",
+    "archive:restore": "node scripts/archive.js --restore",
     "predeploy": "node scripts/pre-deploy.js",
     "predeploy:quick": "node scripts/pre-deploy.js --skip-build",
     "predeploy:fix": "node scripts/pre-deploy.js --skip-build --fix",
-    "release": "node scripts/pre-deploy.js --skip-build --fix --bump",
-    "release:minor": "node scripts/pre-deploy.js --skip-build --fix --bump-minor",
-    "release:major": "node scripts/pre-deploy.js --skip-build --fix --bump-major",
-    "deploy": "node scripts/pre-deploy.js --fix --bump && git push origin main",
+    "release": "node scripts/archive.js --run && node scripts/pre-deploy.js --skip-build --fix --bump",
+    "release:minor": "node scripts/archive.js --run && node scripts/pre-deploy.js --skip-build --fix --bump-minor",
+    "release:major": "node scripts/archive.js --run && node scripts/pre-deploy.js --skip-build --fix --bump-major",
+    "deploy": "node scripts/archive.js --run && node scripts/pre-deploy.js --fix --bump && git push origin main",
     "prepare": "husky install || true",
     "audit": "node scripts/audit.js",
     "audit:mobile": "AUDIT_DEVICE=mobile node scripts/audit.js",
-    "audit:desktop": "AUDIT_DEVICE=desktop node scripts/audit.js"
+    "audit:desktop": "AUDIT_DEVICE=desktop node scripts/audit.js",
+    "audit:full": "node scripts/full-audit.js"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",

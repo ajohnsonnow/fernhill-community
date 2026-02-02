@@ -79,7 +79,7 @@ export function MoodPicker({ onSelect, isOpen, onClose }: MoodPickerProps) {
                   key={mood.id}
                   onClick={() => handleMoodSelect(mood)}
                   className="flex flex-col items-center gap-1 p-3 rounded-xl bg-stone-800 hover:bg-stone-700 transition-all active:scale-95"
-                  style={{ borderColor: mood.color, borderWidth: '2px', borderStyle: 'solid', borderOpacity: 0.3 }}
+                  style={{ borderColor: `${mood.color}4D`, borderWidth: '2px', borderStyle: 'solid' }}
                 >
                   <span className="text-3xl">{mood.emoji}</span>
                   <span className="text-xs text-stone-400">{mood.label}</span>

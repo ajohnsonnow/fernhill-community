@@ -32,3 +32,12 @@ yarn-error.log*
 # Typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Archive (old/deprecated files moved before deploy)
+.archive/
+
+# Backup files
+*.backup
+*.backup.*
+*.old
+*.deprecated

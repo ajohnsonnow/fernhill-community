@@ -11,12 +11,15 @@ export interface PlaylistTrack {
   artist: string
   album?: string
   duration: number // seconds
+  durationMs?: number // milliseconds (optional, for external APIs)
   audioUrl: string
   artworkUrl?: string
+  spotifyUrl?: string
   addedBy: {
     userId: string
     tribeName: string
   }
+  addedByName?: string
   addedAt: string
   votes: number
   vibe: string[]
@@ -27,6 +30,8 @@ export interface CollaborativePlaylist {
   name: string
   description?: string
   coverImage?: string
+  coverUrl?: string
+  vibe?: string
   createdBy: {
     userId: string
     tribeName: string
@@ -101,14 +106,14 @@ export function shufflePlaylist(tracks: PlaylistTrack[]): PlaylistTrack[] {
 
 // Vibe categories for collaborative playlists
 export const PLAYLIST_VIBES = [
-  { id: 'warm-up', label: 'Warm Up', emoji: '🌅' },
-  { id: 'building', label: 'Building', emoji: '📈' },
-  { id: 'peak', label: 'Peak Energy', emoji: '🔥' },
-  { id: 'release', label: 'Release', emoji: '💫' },
-  { id: 'cool-down', label: 'Cool Down', emoji: '🌙' },
-  { id: 'meditation', label: 'Meditation', emoji: '🧘' },
-  { id: 'tribal', label: 'Tribal', emoji: '🥁' },
-  { id: 'electronic', label: 'Electronic', emoji: '🎹' },
-  { id: 'world', label: 'World', emoji: '🌍' },
-  { id: 'ambient', label: 'Ambient', emoji: '☁️' },
+  { id: 'warm-up', label: 'Warm Up', emoji: '🌅', name: 'Warm Up', gradient: ['#f97316', '#eab308'] },
+  { id: 'building', label: 'Building', emoji: '📈', name: 'Building', gradient: ['#22c55e', '#10b981'] },
+  { id: 'peak', label: 'Peak Energy', emoji: '🔥', name: 'Peak Energy', gradient: ['#ef4444', '#f97316'] },
+  { id: 'release', label: 'Release', emoji: '💫', name: 'Release', gradient: ['#a855f7', '#ec4899'] },
+  { id: 'cool-down', label: 'Cool Down', emoji: '🌙', name: 'Cool Down', gradient: ['#6366f1', '#8b5cf6'] },
+  { id: 'meditation', label: 'Meditation', emoji: '🧘', name: 'Meditation', gradient: ['#14b8a6', '#06b6d4'] },
+  { id: 'tribal', label: 'Tribal', emoji: '🥁', name: 'Tribal', gradient: ['#b45309', '#92400e'] },
+  { id: 'electronic', label: 'Electronic', emoji: '🎹', name: 'Electronic', gradient: ['#0ea5e9', '#3b82f6'] },
+  { id: 'world', label: 'World', emoji: '🌍', name: 'World', gradient: ['#22c55e', '#16a34a'] },
+  { id: 'ambient', label: 'Ambient', emoji: '☁️', name: 'Ambient', gradient: ['#94a3b8', '#64748b'] },
 ]

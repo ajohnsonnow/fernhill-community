@@ -41,7 +41,7 @@ export function PlaylistHeader({
   onPlayToggle 
 }: PlaylistHeaderProps) {
   const vibe = PLAYLIST_VIBES.find(v => v.id === playlist.vibe)
-  const totalDuration = playlist.tracks.reduce((acc, t) => acc + t.durationMs, 0)
+  const totalDuration = playlist.tracks.reduce((acc, t) => acc + (t.durationMs ?? t.duration * 1000), 0)
   
   return (
     <div 
@@ -56,8 +56,8 @@ export function PlaylistHeader({
         <div className="flex items-start gap-4">
           {/* Playlist Cover */}
           <div className="w-24 h-24 rounded-lg bg-black/30 backdrop-blur flex items-center justify-center shadow-lg">
-            {playlist.coverUrl ? (
-              <img src={playlist.coverUrl} alt="" className="w-full h-full object-cover rounded-lg" />
+            {(playlist.coverUrl ?? playlist.coverImage) ? (
+              <img src={playlist.coverUrl ?? playlist.coverImage} alt="" className="w-full h-full object-cover rounded-lg" />
             ) : (
               <ListMusic className="w-10 h-10 text-white/80" />
             )}
@@ -84,7 +84,7 @@ export function PlaylistHeader({
               {vibe && (
                 <span className="flex items-center gap-1">
                   <span>{vibe.emoji}</span>
-                  {vibe.name}
+                  {vibe.label}
                 </span>
               )}
             </div>
@@ -180,7 +180,7 @@ export function TrackRow({ track, index, onVote, isPlaying, userVoted }: TrackRo
       
       {/* Duration */}
       <span className="text-sm text-stone-400 hidden sm:block">
-        {formatDuration(track.durationMs)}
+        {formatDuration(track.durationMs ?? track.duration * 1000)}
       </span>
       
       {/* Vote Button */}
@@ -241,7 +241,7 @@ export function AddTrackModal({ isOpen, onClose, onAdd }: AddTrackModalProps) {
       title: title.trim(),
       artist: artist.trim(),
       spotifyUrl: spotifyUrl.trim() || undefined,
-      durationMs: 180000 // Default 3 min
+      duration: 180 // Default 3 min (in seconds)
     })
     setTitle('')
     setArtist('')
@@ -346,7 +346,7 @@ export function VibePicker({ selectedVibe, onChange }: VibePickerProps) {
           }}
         >
           <span className="text-lg">{vibe.emoji}</span>
-          <span className="text-sm font-medium text-white">{vibe.name}</span>
+          <span className="text-sm font-medium text-white">{vibe.label}</span>
         </button>
       ))}
     </div>
