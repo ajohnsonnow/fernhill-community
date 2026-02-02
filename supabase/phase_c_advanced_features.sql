@@ -559,14 +559,14 @@ $$ LANGUAGE SQL STABLE;
 CREATE OR REPLACE FUNCTION find_dance_partners(p_user_id UUID, p_style TEXT)
 RETURNS TABLE (
     user_id UUID,
-    display_name TEXT,
+    tribe_name TEXT,
     bio TEXT,
     experience_level TEXT,
     availability TEXT
 ) AS $$
     SELECT 
         dpp.user_id,
-        p.display_name,
+        p.tribe_name,
         dpp.bio,
         dpp.experience_levels->p_style AS experience_level,
         dpp.availability
