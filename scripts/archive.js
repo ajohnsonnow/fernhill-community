@@ -65,20 +65,61 @@ function logSection(title) {
 const ARCHIVE_PATTERNS = {
   // Duplicate SQL migrations - keep the standalone/clean versions
   duplicateMigrations: [
+    // Already archived in previous run:
+    // { path: 'supabase/electric_avenue_migration.sql' }
+    // { path: 'supabase/electric_avenue_CLEAN.sql' }
+    // { path: 'supabase/social_features_migration.sql' }
+    
+    // Superseded by COMPLETE_SETUP.sql
     {
-      path: 'supabase/electric_avenue_migration.sql',
-      reason: 'Superseded by electric_avenue_standalone.sql',
-      keepInstead: 'supabase/electric_avenue_standalone.sql',
+      path: 'supabase/schema.sql',
+      reason: 'Original schema entirely superseded by COMPLETE_SETUP.sql',
+      keepInstead: 'supabase/COMPLETE_SETUP.sql',
     },
     {
-      path: 'supabase/electric_avenue_CLEAN.sql',
-      reason: 'Temporary fix file, no longer needed',
-      keepInstead: 'supabase/electric_avenue_standalone.sql',
+      path: 'supabase/additional_schema.sql',
+      reason: 'Adds show_in_directory, altar_posts, push_subscriptions - all in COMPLETE_SETUP.sql',
+      keepInstead: 'supabase/COMPLETE_SETUP.sql',
     },
     {
-      path: 'supabase/social_features_migration.sql',
-      reason: 'Superseded by social_features_v2_migration.sql',
-      keepInstead: 'supabase/social_features_v2_migration.sql',
+      path: 'supabase/admin_migration.sql',
+      reason: 'Admin policies and keyword_filters already in COMPLETE_SETUP.sql',
+      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+    },
+    {
+      path: 'supabase/admin_profiles_insert_migration.sql',
+      reason: 'Admin insert policies covered by COMPLETE_SETUP.sql',
+      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+    },
+    {
+      path: 'supabase/content_moderation_migration.sql',
+      reason: 'content_queue, custom_vibe_tags already in COMPLETE_SETUP.sql',
+      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+    },
+    {
+      path: 'supabase/event_submissions_migration.sql',
+      reason: 'event_submissions table already in COMPLETE_SETUP.sql',
+      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+    },
+    {
+      path: 'supabase/feedback_migration.sql',
+      reason: 'Feedback table already in COMPLETE_SETUP.sql',
+      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+    },
+    {
+      path: 'supabase/feedback_enhancements.sql',
+      reason: 'browser_info, console_logs additions already in COMPLETE_SETUP.sql',
+      keepInstead: 'supabase/COMPLETE_SETUP.sql',
+    },
+    {
+      path: 'supabase/storage_buckets_migration.sql',
+      reason: 'Storage buckets superseded by COMPLETE_SETUP + secure_storage_migration',
+      keepInstead: 'supabase/secure_storage_migration.sql',
+    },
+    {
+      path: 'supabase/set-admin-password.sql',
+      reason: 'One-time admin setup script, not a migration',
+      keepInstead: null,
     },
   ],
   
@@ -357,24 +398,33 @@ async function main() {
   logSection('📂 Checking Duplicate Migrations');
   
   for (const dup of ARCHIVE_PATTERNS.duplicateMigrations) {
-    const keepPath = path.join(ROOT_DIR, dup.keepInstead);
     const dupPath = path.join(ROOT_DIR, dup.path);
     
-    // Only archive if the replacement exists
-    if (fs.existsSync(keepPath) && fs.existsSync(dupPath)) {
-      toArchive.push({
-        path: dup.path,
-        reason: dup.reason,
-        size: getFileSize(dupPath),
-      });
-    } else if (FLAGS.verbose) {
-      if (!fs.existsSync(keepPath)) {
-        log(`  ℹ️  Replacement not found: ${dup.keepInstead}`, 'dim');
-      }
-      if (!fs.existsSync(dupPath)) {
+    // Check if the duplicate file exists
+    if (!fs.existsSync(dupPath)) {
+      if (FLAGS.verbose) {
         log(`  ℹ️  Already archived: ${dup.path}`, 'dim');
       }
+      continue;
     }
+    
+    // If there's a replacement file, verify it exists
+    if (dup.keepInstead) {
+      const keepPath = path.join(ROOT_DIR, dup.keepInstead);
+      if (!fs.existsSync(keepPath)) {
+        if (FLAGS.verbose) {
+          log(`  ℹ️  Replacement not found: ${dup.keepInstead}`, 'dim');
+        }
+        continue;
+      }
+    }
+    
+    // Archive this file
+    toArchive.push({
+      path: dup.path,
+      reason: dup.reason,
+      size: getFileSize(dupPath),
+    });
   }
   
   if (toArchive.length === 0) {

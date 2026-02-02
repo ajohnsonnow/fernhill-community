@@ -294,8 +294,7 @@ function auditMigrations() {
   
   // Verify key migrations exist
   const requiredMigrations = [
-    'schema.sql',
-    'admin_migration.sql',
+    'COMPLETE_SETUP.sql',  // Master schema (replaces schema.sql)
     'boards_schema.sql',
     'marketplace_expiration_migration.sql',
   ];
