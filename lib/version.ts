@@ -6,8 +6,8 @@
  */
 
 export const APP_VERSION = {
-  version: '1.16.0',
-  codename: 'Supernova',
+  version: '1.17.0',
+  codename: 'Marketplace Pro',
   releaseDate: '2026-02-01',
   buildTime: new Date().toISOString(),
 } as const

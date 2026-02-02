@@ -269,6 +269,10 @@ export type Database = {
           sort_order: number
           post_count: number
           last_activity_at: string | null
+          // Marketplace fields (Phase K)
+          is_marketplace: boolean
+          expires_in_days: number | null
+          allow_bumps: boolean
         }
         Insert: {
           id?: string
@@ -281,6 +285,10 @@ export type Database = {
           sort_order?: number
           post_count?: number
           last_activity_at?: string | null
+          // Marketplace fields (Phase K)
+          is_marketplace?: boolean
+          expires_in_days?: number | null
+          allow_bumps?: boolean
         }
         Update: {
           id?: string
@@ -293,6 +301,10 @@ export type Database = {
           sort_order?: number
           post_count?: number
           last_activity_at?: string | null
+          // Marketplace fields (Phase K)
+          is_marketplace?: boolean
+          expires_in_days?: number | null
+          allow_bumps?: boolean
         }
         Relationships: []
       }
@@ -307,6 +319,17 @@ export type Database = {
           is_pinned: boolean
           reply_count: number
           last_activity_at: string
+          // Marketplace & Expiration fields (Phase K)
+          expires_at: string | null
+          bump_count: number
+          last_bumped_at: string | null
+          max_bumps: number
+          price: number | null
+          is_free: boolean
+          condition: string | null
+          contact_preference: string
+          status: string
+          images: Json
         }
         Insert: {
           id?: string
@@ -318,6 +341,17 @@ export type Database = {
           is_pinned?: boolean
           reply_count?: number
           last_activity_at?: string
+          // Marketplace & Expiration fields (Phase K)
+          expires_at?: string | null
+          bump_count?: number
+          last_bumped_at?: string | null
+          max_bumps?: number
+          price?: number | null
+          is_free?: boolean
+          condition?: string | null
+          contact_preference?: string
+          status?: string
+          images?: Json
         }
         Update: {
           id?: string
@@ -329,6 +363,17 @@ export type Database = {
           is_pinned?: boolean
           reply_count?: number
           last_activity_at?: string
+          // Marketplace & Expiration fields (Phase K)
+          expires_at?: string | null
+          bump_count?: number
+          last_bumped_at?: string | null
+          max_bumps?: number
+          price?: number | null
+          is_free?: boolean
+          condition?: string | null
+          contact_preference?: string
+          status?: string
+          images?: Json
         }
         Relationships: [
           {
