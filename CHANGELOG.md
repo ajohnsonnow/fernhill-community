@@ -5,6 +5,67 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.17.1] - 2026-02-02
+
+### 🧹 "Clean Sweep" - Full Codebase Audit & Cleanup
+
+Comprehensive codebase audit system, SQL migration cleanup, and TypeScript fixes.
+
+### 🔍 Full Audit System
+- **scripts/full-audit.js** - Comprehensive codebase health checker (~350 lines)
+  - Page routes audit (18 routes verified)
+  - Components audit (85 files checked)
+  - API routes audit (5 endpoints verified)
+  - Lib files audit (32 files checked)
+  - SQL migrations audit
+  - TypeScript compilation check
+  - ESLint validation
+  - Git status tracking
+- **scripts/archive.js** - Automated file archiving system (~400 lines)
+  - Dry run mode by default
+  - `--run` flag to execute
+  - `--restore` flag to recover files
+  - Manifest generation for each archive
+  - Integrated into pre-push hooks
+
+### 🗄️ SQL Migration Cleanup (87.5% Reduction!)
+**Before:** 24 SQL files → **After:** 3 SQL files
+
+**Archived (already applied to Supabase):**
+- schema.sql, additional_schema.sql
+- admin_migration.sql, admin_profiles_insert_migration.sql
+- content_moderation_migration.sql, event_submissions_migration.sql
+- feedback_migration.sql, feedback_enhancements.sql
+- storage_buckets_migration.sql, set-admin-password.sql
+- electric_avenue_standalone.sql, diamond_status_migration.sql
+- supernova_migration.sql, social_features_v2_migration.sql
+- phase_a/b/c migrations, boards_schema.sql
+- boundary_reports_migration.sql, marketplace_expiration_migration.sql
+
+**Remaining Essential Files:**
+- `COMPLETE_SETUP.sql` - Master schema for fresh deployments
+- `secure_storage_migration.sql` - Storage policies
+- `pending_purge_migration.sql` - Maintenance utility
+
+### 🔧 TypeScript Fixes (24 Errors Fixed)
+- **components/mood/MoodUI.tsx** - Removed invalid `borderOpacity` CSS property
+- **components/playlists/PlaylistUI.tsx** - Fixed property mismatches
+- **lib/collaborative-playlists.ts** - Added missing type properties
+- **lib/magic-onboarding.ts** - Moved constants before usage (hoisting fix)
+
+### 📦 New npm Scripts
+- `npm run archive` - Dry run archive check
+- `npm run archive:run` - Execute archiving
+- `npm run archive:restore` - Restore from archive
+- `npm run audit:full` - Run comprehensive audit
+
+### 🔄 Updated Pre-Push Hook
+- Step 1: Archive old files (skip with SKIP_ARCHIVE=1)
+- Step 2: Update documentation
+- Step 3: TypeScript check (skip with SKIP_TS_CHECK=1)
+
+---
+
 ## [1.17.0] - 2026-02-01
 
 ### 🛒 Phase K Complete - "Marketplace Pro"

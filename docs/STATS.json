@@ -1,19 +1,17 @@
 {
-  "timestamp": "2026-02-02T07:16:25.848Z",
-  "version": "1.17.0",
-  "codename": "Unnamed Release",
+  "timestamp": "2026-02-02T07:16:55.537Z",
+  "version": "1.17.1",
   "git": {
     "branch": "main",
-    "commit": "e704785",
-    "commitCount": "86"
+    "commit": "f366cdc",
+    "commitCount": "87"
   },
   "files": {
-    "ts": 71,
-    "tsx": 89,
-    "js": 8,
+    "typescript": 160,
+    "javascript": 8,
     "css": 1,
     "sql": 26,
-    "md": 10
+    "markdown": 10
   },
   "linesOfCode": 44985,
   "routes": [
@@ -123,26 +121,5 @@
     "FaceCapture",
     "PhotoUpload"
   ],
-  "tables": [
-    "profiles",
-    "posts",
-    "events",
-    "messages",
-    "feedback",
-    "post_reactions",
-    "event_rsvps",
-    "polls",
-    "poll_votes",
-    "badges",
-    "member_badges",
-    "event_submissions",
-    "content_queue",
-    "audit_logs",
-    "system_settings",
-    "altar_posts",
-    "push_subscriptions",
-    "music_sets",
-    "custom_vibe_tags"
-  ],
-  "lastDeploy": "2026-02-02T07:16:25.848Z"
+  "tables": []
 }
