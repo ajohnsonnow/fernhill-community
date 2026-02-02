@@ -192,11 +192,11 @@ Visit http://localhost:3000
 - [x] `/waiting-room`
 
 ### 📊 Codebase Statistics
-- **Version:** 1.13.0
-- **TypeScript Files:** 127
-- **Components:** 65
-- **Database Tables:** 14
-- **Lines of Code:** 34,637
+- **Version:** 1.17.0
+- **TypeScript Files:** 160
+- **Components:** 85
+- **Database Tables:** 0
+- **Lines of Code:** 44,985
 - **Last Updated:** 2/1/2026
 
 ---
