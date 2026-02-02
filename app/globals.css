@@ -510,3 +510,204 @@
   min-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 5rem);
 }
 
+/* ============================================
+   PHASE E: GESTURE & ANIMATION ENHANCEMENTS
+   ============================================ */
+
+/* Scale in animation for menus/modals */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.15s ease-out;
+}
+
+/* Slide out animation for deleted items */
+@keyframes slide-out-right {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    max-height: 200px;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@keyframes slide-out-left {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+    max-height: 200px;
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-100%);
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.animate-slide-out {
+  animation: slide-out-right 0.2s ease-out forwards;
+  overflow: hidden;
+}
+
+.animate-slide-out-left {
+  animation: slide-out-left 0.2s ease-out forwards;
+  overflow: hidden;
+}
+
+/* Bounce animation for notifications */
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.4s ease-out;
+}
+
+/* Shake animation for errors */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-4px); }
+  20%, 40%, 60%, 80% { transform: translateX(4px); }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-out;
+}
+
+/* Swipe action reveal background */
+.swipe-action-left {
+  background: linear-gradient(to right, transparent, rgba(239, 68, 68, 0.2));
+}
+
+.swipe-action-right {
+  background: linear-gradient(to left, transparent, rgba(59, 130, 246, 0.2));
+}
+
+/* Long press visual feedback */
+.long-press-active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+/* Badge counter */
+.badge-counter {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+  background: #ef4444;
+  color: white;
+  border-radius: 9999px;
+}
+
+.badge-counter-lg {
+  min-width: 22px;
+  height: 22px;
+  font-size: 13px;
+  line-height: 22px;
+}
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--fernhill-charcoal) 25%,
+    var(--fernhill-brown) 50%,
+    var(--fernhill-charcoal) 75%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Optimized image loading */
+.img-blur-load {
+  filter: blur(20px);
+  transform: scale(1.1);
+  transition: filter 0.3s, transform 0.3s;
+}
+
+.img-blur-load.loaded {
+  filter: blur(0);
+  transform: scale(1);
+}
+
+/* Progress ring (for long press) */
+.progress-ring {
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+}
+
+.progress-ring-circle {
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+/* Ripple effect for buttons */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.ripple:active::after {
+  width: 200%;
+  padding-top: 200%;
+  opacity: 1;
+  transition: width 0.4s ease-out, padding-top 0.4s ease-out, opacity 0.4s ease-out;
+}

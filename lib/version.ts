@@ -6,8 +6,8 @@
  */
 
 export const APP_VERSION = {
-  version: '1.9.0',
-  codename: 'Social Constellation',
+  version: '1.11.0',
+  codename: 'Gestural Flow',
   releaseDate: '2026-01-31',
   buildTime: new Date().toISOString(),
 } as const

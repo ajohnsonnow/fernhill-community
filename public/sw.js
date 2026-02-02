@@ -244,15 +244,217 @@ self.addEventListener('notificationclick', (event) => {
   )
 })
 
-// Background sync for offline posts
+// ============================================================
+// BACKGROUND SYNC
+// ============================================================
+
+const OFFLINE_DB_NAME = 'fernhill-offline'
+const OFFLINE_STORES = {
+  POSTS: 'offline-posts',
+  MESSAGES: 'offline-messages',
+  REACTIONS: 'offline-reactions',
+  ACTIONS: 'offline-actions',
+}
+
+// Background sync event handler
 self.addEventListener('sync', (event) => {
-  if (event.tag === 'sync-posts') {
-    event.waitUntil(syncPosts())
+  console.log('[SW] Background sync triggered:', event.tag)
+  
+  switch (event.tag) {
+    case 'sync-offline-posts':
+      event.waitUntil(syncOfflineItems(OFFLINE_STORES.POSTS))
+      break
+    case 'sync-offline-messages':
+      event.waitUntil(syncOfflineItems(OFFLINE_STORES.MESSAGES))
+      break
+    case 'sync-offline-reactions':
+      event.waitUntil(syncOfflineItems(OFFLINE_STORES.REACTIONS))
+      break
+    case 'sync-offline-actions':
+      event.waitUntil(syncOfflineItems(OFFLINE_STORES.ACTIONS))
+      break
+    default:
+      console.log('[SW] Unknown sync tag:', event.tag)
   }
 })
 
-async function syncPosts() {
-  // Get pending posts from IndexedDB and sync
-  // This would be implemented based on your offline queue system
-  console.log('Syncing offline posts...')
+/**
+ * Open IndexedDB database
+ */
+function openOfflineDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(OFFLINE_DB_NAME, 1)
+    request.onerror = () => reject(request.error)
+    request.onsuccess = () => resolve(request.result)
+  })
 }
+
+/**
+ * Get pending items from a store
+ */
+async function getPendingFromStore(storeName) {
+  try {
+    const db = await openOfflineDB()
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(storeName, 'readonly')
+      const store = transaction.objectStore(storeName)
+      const index = store.index('status')
+      const request = index.getAll(IDBKeyRange.only('pending'))
+      
+      request.onerror = () => reject(request.error)
+      request.onsuccess = () => resolve(request.result || [])
+    })
+  } catch (error) {
+    console.error('[SW] Failed to get pending items:', error)
+    return []
+  }
+}
+
+/**
+ * Update item status in store
+ */
+async function updateItemInStore(storeName, id, status) {
+  try {
+    const db = await openOfflineDB()
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(storeName, 'readwrite')
+      const store = transaction.objectStore(storeName)
+      const getRequest = store.get(id)
+      
+      getRequest.onerror = () => reject(getRequest.error)
+      getRequest.onsuccess = () => {
+        const item = getRequest.result
+        if (item) {
+          item.status = status
+          const putRequest = store.put(item)
+          putRequest.onerror = () => reject(putRequest.error)
+          putRequest.onsuccess = () => resolve()
+        } else {
+          resolve()
+        }
+      }
+    })
+  } catch (error) {
+    console.error('[SW] Failed to update item:', error)
+  }
+}
+
+/**
+ * Remove item from store
+ */
+async function removeFromStore(storeName, id) {
+  try {
+    const db = await openOfflineDB()
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(storeName, 'readwrite')
+      const store = transaction.objectStore(storeName)
+      const request = store.delete(id)
+      
+      request.onerror = () => reject(request.error)
+      request.onsuccess = () => resolve()
+    })
+  } catch (error) {
+    console.error('[SW] Failed to remove item:', error)
+  }
+}
+
+/**
+ * Sync offline items from a store
+ */
+async function syncOfflineItems(storeName) {
+  console.log(`[SW] Syncing ${storeName}...`)
+  
+  const items = await getPendingFromStore(storeName)
+  console.log(`[SW] Found ${items.length} pending items in ${storeName}`)
+  
+  for (const item of items) {
+    try {
+      // Mark as syncing
+      await updateItemInStore(storeName, item.id, 'syncing')
+      
+      // Attempt to sync based on type
+      const success = await syncItem(storeName, item)
+      
+      if (success) {
+        // Remove from queue on success
+        await removeFromStore(storeName, item.id)
+        console.log(`[SW] Successfully synced item ${item.id}`)
+      } else {
+        // Mark as failed for retry
+        item.retryCount = (item.retryCount || 0) + 1
+        if (item.retryCount >= (item.maxRetries || 3)) {
+          await updateItemInStore(storeName, item.id, 'failed')
+          console.log(`[SW] Item ${item.id} failed after max retries`)
+        } else {
+          await updateItemInStore(storeName, item.id, 'pending')
+          console.log(`[SW] Item ${item.id} will retry (attempt ${item.retryCount})`)
+        }
+      }
+    } catch (error) {
+      console.error(`[SW] Error syncing item ${item.id}:`, error)
+      await updateItemInStore(storeName, item.id, 'pending')
+    }
+  }
+  
+  // Notify clients that sync is complete
+  const clients = await self.clients.matchAll()
+  clients.forEach(client => {
+    client.postMessage({
+      type: 'SYNC_COMPLETE',
+      store: storeName,
+      count: items.length,
+    })
+  })
+}
+
+/**
+ * Sync individual item (placeholder - actual API calls would go here)
+ */
+async function syncItem(storeName, item) {
+  // This is where you'd make actual API calls
+  // For now, we'll simulate success
+  console.log(`[SW] Would sync ${item.type} from ${storeName}:`, item.data)
+  
+  // In production, you'd do something like:
+  // const response = await fetch('/api/posts', {
+  //   method: 'POST',
+  //   body: JSON.stringify(item.data),
+  //   headers: { 'Content-Type': 'application/json' }
+  // })
+  // return response.ok
+  
+  return true
+}
+
+// ============================================================
+// BADGE MANAGEMENT
+// ============================================================
+
+/**
+ * Update app badge with unread count
+ */
+async function updateBadge(count) {
+  if ('setAppBadge' in navigator) {
+    try {
+      if (count > 0) {
+        await navigator.setAppBadge(count)
+      } else {
+        await navigator.clearAppBadge()
+      }
+    } catch (error) {
+      console.error('[SW] Badge update failed:', error)
+    }
+  }
+}
+
+// Listen for badge update messages from clients
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'UPDATE_BADGE') {
+    updateBadge(event.data.count)
+  }
+  
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting()
+  }
+})
+

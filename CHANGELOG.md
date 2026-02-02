@@ -5,6 +5,81 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.11.0] - 2026-02-01
+
+### 🚀 Phase E Complete - "Gestural Flow & Performance"
+
+Advanced gesture controls, background sync, real-time notifications, and image optimization.
+
+### 🖼️ Image Optimization
+- **OptimizedImage component** - Wrapper for next/image with enhanced features
+- **Blur placeholders** - Shimmer effect while images load
+- **AvatarImage** - Circular avatars with fallback initials
+- **CoverImage** - Fill-mode for hero/cover images
+- **AVIF/WebP support** - Next.js image config for modern formats
+- **Smart caching** - 24-hour minimum cache TTL
+
+### 📴 Offline Queue & Background Sync
+- **IndexedDB storage** - Robust offline data persistence
+- **Offline queue system** - Queue posts, messages, reactions when offline
+- **Background sync** - Automatic retry when connection restored
+- **Queue status tracking** - See pending items count
+- **SyncStatus component** - Visual indicator of sync state
+- **PendingBadge** - Shows count of items waiting to sync
+
+### 🔔 Real-time Notifications
+- **Supabase realtime integration** - Live updates via websockets
+- **useRealtimeNotifications hook** - Subscribe to messages, notifications, announcements
+- **Browser notifications** - Push notifications when tab unfocused
+- **Haptic feedback** - Vibration on notification
+- **Badge count updates** - App icon badge shows unread count
+
+### 👆 Swipe Gestures
+- **useSwipeGesture hook** - Touch gesture detection
+- **Left/right swipe detection** - Configurable thresholds
+- **Progress tracking** - Know how far user has swiped
+- **SwipeableRow component** - Swipeable list items with actions
+- **Pre-built actions** - Delete, archive, flag, more
+- **Haptic feedback** - Vibration at threshold
+
+### 👇 Long Press Actions
+- **useLongPress hook** - Long press detection
+- **Configurable duration** - Default 500ms
+- **Movement tolerance** - Doesn't cancel on slight movement
+- **Progress animation** - Visual feedback during press
+- **LongPressMenu component** - Context menu on long press
+- **Viewport-aware positioning** - Menu stays on screen
+
+### 🎨 New Animations & Effects
+- **scale-in** - Entry animation for menus
+- **slide-out-right/left** - Swipe away animations
+- **bounce-in** - Playful entry effect
+- **shake** - Error/attention animation
+- **skeleton loading** - Animated placeholder class
+- **progress-ring** - SVG progress indicator
+- **ripple effect** - Material-style touch ripple
+- **img-blur-load** - Blur transition on image load
+
+### 🗂️ New Files
+- `components/ui/OptimizedImage.tsx` - Image component suite
+- `components/ui/SwipeableRow.tsx` - Swipeable list item
+- `components/ui/LongPressMenu.tsx` - Context menu
+- `components/ui/index.ts` - UI components barrel export
+- `lib/offline-queue.ts` - IndexedDB offline queue
+- `lib/realtime-notifications.ts` - Realtime push system
+- `hooks/useSwipeGesture.ts` - Swipe gesture hook
+- `hooks/useLongPress.ts` - Long press hook
+- `components/pwa/SyncStatus.tsx` - Sync status indicator
+
+### 🔧 Updated Files
+- `hooks/index.ts` - Added gesture hook exports
+- `components/pwa/index.ts` - Added SyncStatus exports
+- `app/globals.css` - Added ~150 lines Phase E animations
+- `public/sw.js` - Added full background sync (~180 lines)
+- `next.config.js` - Enhanced image optimization config
+
+---
+
 ## [1.10.0] - 2026-02-01
 
 ### 📱 Phase D Complete - "Mobile Excellence & PWA Perfection"

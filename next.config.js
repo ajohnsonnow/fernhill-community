@@ -7,7 +7,18 @@ const nextConfig = {
         protocol: 'https',
         hostname: '**.supabase.co',
       },
+      {
+        protocol: 'https',
+        hostname: '**.supabase.in',
+      },
     ],
+    // Enable modern image formats
+    formats: ['image/avif', 'image/webp'],
+    // Optimize image loading
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    // Minimize layout shift
+    minimumCacheTTL: 60 * 60 * 24, // 24 hours
   },
   experimental: {
     serverActions: {
