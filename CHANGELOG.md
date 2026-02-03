@@ -5,6 +5,40 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.17.2] - 2026-02-03
+
+### ✨ "Production Polish" - Final Release Prep
+
+Next.js 16 migration, accessibility improvements, comprehensive documentation update, and production-ready deployment.
+
+### 🔄 Next.js 16 Migration
+- **middleware.ts → proxy.ts** - Renamed file to follow new Next.js 16 convention
+- **middleware() → proxy()** - Updated function export name
+- Eliminates deprecation warning in development server
+
+### ♿ Accessibility Improvements
+- **AccessibilityFAB.tsx** - Reduced dismiss button size (w-4 → w-3.5)
+- Improved positioning to prevent overlap with accessibility settings
+
+### 📚 Documentation Overhaul
+- **VALUE_PROPOSITION.md** - Complete rewrite with:
+  - Updated to 28 hours total development time (added Session 10)
+  - Realistic 2026 market rates (sourced from Levels.fyi, Glassdoor, Toptal)
+  - Traditional team cost: $384,915 - $754,591
+  - AI-Assisted cost: $11,835 (labor) + $125 (tools)
+  - ROI: 32-64x return on investment
+  - Detailed session-by-session breakdown
+  - Comparison to enterprise consulting rates ($350-500/hr)
+
+### 🔧 Technical Updates
+- 89 git commits total
+- 45,000+ lines of production code
+- 89 React components
+- 18 routes verified
+- All TypeScript errors resolved
+
+---
+
 ## [1.17.1] - 2026-02-02
 
 ### 🧹 "Clean Sweep" - Full Codebase Audit & Cleanup

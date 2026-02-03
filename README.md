@@ -2,7 +2,7 @@
 
 **A Secure Digital Hearth for the Ecstatic Dance Tribe**
 
-[![Version](https://img.shields.io/badge/version-1.17.1-green.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-1.17.2-green.svg)](package.json)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](tsconfig.json)
 [![Lines of Code](https://img.shields.io/badge/lines-44,985+-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/license-Private-red.svg)](LICENSE)
@@ -192,12 +192,12 @@ Visit http://localhost:3000
 - [x] `/waiting-room`
 
 ### 📊 Codebase Statistics
-- **Version:** 1.17.1
+- **Version:** 1.17.2
 - **TypeScript Files:** 160
 - **Components:** 85
 - **Database Tables:** 0
 - **Lines of Code:** 44,985
-- **Last Updated:** 2/1/2026
+- **Last Updated:** 2/3/2026
 
 ---
 

@@ -6,7 +6,7 @@
  */
 
 export const APP_VERSION = {
-  version: '1.17.1',
+  version: '1.17.2',
   codename: 'Clean Sweep',
   releaseDate: '2026-02-02',
   buildTime: new Date().toISOString(),
