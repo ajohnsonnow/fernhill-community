@@ -304,11 +304,15 @@ function StoryContentRenderer({ story, onVotePoll }: StoryContentRendererProps) 
       return <ShoutoutStoryView content={story.content as ShoutoutStoryContent} />;
     case 'photo':
       return (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center bg-black">
           <img
             src={(story.content as { imageUrl: string }).imageUrl}
             alt="Story"
             className="max-w-full max-h-full object-contain"
+            onError={(e) => {
+              console.error('Story image failed to load:', (story.content as { imageUrl: string }).imageUrl);
+              e.currentTarget.src = '/placeholder-image.png';
+            }}
           />
         </div>
       );

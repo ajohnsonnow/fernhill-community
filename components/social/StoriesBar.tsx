@@ -489,17 +489,23 @@ function CreateStoryModal({ onClose, onCreated }: { onClose: () => void; onCreat
       return;
     }
 
-    // Get public URL
-    const { data: { publicUrl } } = supabase.storage
+    // Get signed URL (stories bucket is private)
+    const { data: signedUrlData, error: urlError } = await supabase.storage
       .from('stories')
-      .getPublicUrl(fileName);
+      .createSignedUrl(fileName, 60 * 60 * 24); // 24 hour expiry
+
+    if (urlError || !signedUrlData) {
+      console.error('Signed URL error:', urlError);
+      setUploading(false);
+      return;
+    }
 
     // Create story record
     const { error: insertError } = await (supabase
       .from('stories') as any)
       .insert({
         user_id: user.id,
-        media_url: publicUrl,
+        media_url: signedUrlData.signedUrl,
         media_type: image.type.startsWith('video/') ? 'video' : 'image',
         caption: caption || null
       });
