@@ -191,11 +191,26 @@ export default function BoardsPage() {
 
   const fetchPosts = async (boardId: string, includeExpired = false) => {
     try {
+      // Get current user to check if admin
+      const { data: { user } } = await supabase.auth.getUser()
+      const userId = user?.id
+      
+      // Get current user's profile to check admin status
+      let isAdmin = false
+      if (userId) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('status')
+          .eq('id', userId)
+          .single()
+        isAdmin = (profile as any)?.status === 'admin'
+      }
+
       let query = supabase
         .from('board_posts')
         .select(`
           *,
-          author:profiles!board_posts_author_id_fkey(id, tribe_name, avatar_url)
+          author:profiles!board_posts_author_id_fkey(id, tribe_name, avatar_url, muted)
         `)
         .eq('board_id', boardId)
         .order('is_pinned', { ascending: false })
@@ -209,7 +224,15 @@ export default function BoardsPage() {
       const { data, error } = await query
 
       if (error) throw error
-      setPosts(data as BoardPost[] || [])
+      
+      // Filter out muted users' posts (unless it's the user's own post or user is admin)
+      const filteredPosts = (data || []).filter((post: any) => {
+        const authorMuted = post.author?.muted === true
+        const isOwnPost = post.author_id === userId
+        return !authorMuted || isOwnPost || isAdmin
+      })
+      
+      setPosts(filteredPosts as BoardPost[] || [])
     } catch (error: unknown) {
       setPosts([])
     }
@@ -217,17 +240,40 @@ export default function BoardsPage() {
 
   const fetchReplies = async (postId: string) => {
     try {
+      // Get current user to check if admin
+      const { data: { user } } = await supabase.auth.getUser()
+      const userId = user?.id
+      
+      // Get current user's profile to check admin status
+      let isAdmin = false
+      if (userId) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('status')
+          .eq('id', userId)
+          .single()
+        isAdmin = (profile as any)?.status === 'admin'
+      }
+
       const { data, error } = await supabase
         .from('replies')
         .select(`
           *,
-          author:profiles!replies_author_id_fkey(tribe_name, avatar_url)
+          author:profiles!replies_author_id_fkey(tribe_name, avatar_url, muted)
         `)
         .eq('post_id', postId)
         .order('created_at', { ascending: true })
 
       if (error) throw error
-      setReplies(data as Reply[] || [])
+      
+      // Filter out muted users' replies (unless it's the user's own reply or user is admin)
+      const filteredReplies = (data || []).filter((reply: any) => {
+        const authorMuted = reply.author?.muted === true
+        const isOwnReply = reply.author_id === userId
+        return !authorMuted || isOwnReply || isAdmin
+      })
+      
+      setReplies(filteredReplies as Reply[] || [])
     } catch (error: unknown) {
       setReplies([])
     }

@@ -1,7 +1,7 @@
 # 🌿 Fernhill Community App - User Guide
 
-> **Last Updated:** February 3, 2026  
-> **Version:** 1.19.0 "Safe Haven"  
+> **Last Updated:** February 4, 2026  
+> **Version:** 1.21.0 "Shadow & Light"  
 > **Platform:** Progressive Web App (iOS, Android, Desktop)
 
 ---
@@ -181,7 +181,21 @@ Admins have **all Facilitator permissions** plus:
 
 ---
 
-## 🏠 The Hearth (Home)
+## �️ Content Badges
+
+You may see special badges on posts and profiles:
+
+### 🔵 DEMO Badge (Blue)
+- **What It Means:** This is test or demo content created for training or demonstration purposes
+- **Who Sees It:** Everyone
+- **Why It Matters:** Demo content helps admins test features without cluttering the real community feed
+- **Your Action:** Demo content is safe to ignore or interact with for practice
+
+> 💡 **Tip:** Demo accounts and posts are typically cleaned up periodically by admins to keep the community authentic.
+
+---
+
+## �🏠 The Hearth (Home)
 
 Your community feed for connection and mutual aid.
 

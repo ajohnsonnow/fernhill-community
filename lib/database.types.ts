@@ -36,6 +36,11 @@ export type Database = {
           linkedin_url: string | null
           public_key: string | null
           show_in_directory: boolean
+          muted: boolean
+          muted_at: string | null
+          muted_by: string | null
+          mute_reason: string | null
+          is_demo: boolean
         }
         Insert: {
           id: string
@@ -63,6 +68,11 @@ export type Database = {
           linkedin_url?: string | null
           public_key?: string | null
           show_in_directory?: boolean
+          muted?: boolean
+          muted_at?: string | null
+          muted_by?: string | null
+          is_demo?: boolean
+          mute_reason?: string | null
         }
         Update: {
           id?: string
@@ -86,6 +96,11 @@ export type Database = {
           twitter_url?: string | null
           tiktok_url?: string | null
           spotify_url?: string | null
+          muted?: boolean
+          muted_at?: string | null
+          muted_by?: string | null
+          mute_reason?: string | null
+          is_demo?: boolean
           bandcamp_url?: string | null
           linkedin_url?: string | null
           public_key?: string | null
@@ -147,6 +162,7 @@ export type Database = {
           image_url: string | null
           expires_at: string | null
           likes_count: number
+          is_demo: boolean
         }
         Insert: {
           id?: string
@@ -158,6 +174,7 @@ export type Database = {
           image_url?: string | null
           expires_at?: string | null
           likes_count?: number
+          is_demo?: boolean
         }
         Update: {
           id?: string
@@ -169,6 +186,7 @@ export type Database = {
           image_url?: string | null
           expires_at?: string | null
           likes_count?: number
+          is_demo?: boolean
         }
         Relationships: [
           {

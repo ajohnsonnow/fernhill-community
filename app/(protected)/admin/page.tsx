@@ -9,7 +9,7 @@ import {
   Trash2, Eye, Filter, AlertTriangle, Clock, Activity,
   RefreshCw, Download, Upload, Lock, Unlock, Calendar,
   UserPlus, Loader2, Mail, ExternalLink, Sparkles,
-  Bug, Flag
+  Bug, Flag, VolumeX, Volume2
 } from 'lucide-react'
 import { formatDistanceToNow, format } from 'date-fns'
 import { BugSquasher, ContentModerator, DemoDataGenerator } from '@/components/admin'
@@ -25,6 +25,10 @@ interface Profile {
   created_at: string
   vouched_by_name: string | null
   requires_review?: boolean
+  muted?: boolean
+  muted_at?: string | null
+  muted_by?: string | null
+  mute_reason?: string | null
 }
 
 interface ContentQueueItem {
@@ -125,6 +129,7 @@ export default function AdminDashboard() {
     activeUsers: 0,
     pendingUsers: 0,
     bannedUsers: 0,
+    mutedUsers: 0,
     totalPosts: 0,
     totalFeedback: 0,
     pendingEvents: 0,
@@ -260,11 +265,21 @@ export default function AdminDashboard() {
       // Table doesn't exist yet - migration not run
     }
     
+    // Get muted users count (muted column might not exist yet)
+    let mutedCount = 0
+    try {
+      const muted = await supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('muted', true)
+      mutedCount = muted.count || 0
+    } catch {
+      // Column doesn't exist yet - migration not run
+    }
+    
     setStats({
       totalUsers: total.count || 0,
       activeUsers: active.count || 0,
       pendingUsers: pending.count || 0,
       bannedUsers: banned.count || 0,
+      mutedUsers: mutedCount,
       totalPosts: posts.count || 0,
       totalFeedback: fb.count || 0,
       pendingEvents: pendingEvts.count || 0,
@@ -341,6 +356,65 @@ export default function AdminDashboard() {
       fetchUsers()
     } catch {
       toast.error('Trust feature not available yet')
+    }
+  }
+
+  // Mute/Unmute user (shadow ban)
+  const toggleUserMute = async (userId: string, userName: string, currentlyMuted: boolean, reason?: string) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (currentlyMuted) {
+        // Unmute user
+        const { error } = await (supabase.from('profiles') as any)
+          .update({ 
+            muted: false,
+            muted_at: null,
+            muted_by: null,
+            mute_reason: null
+          })
+          .eq('id', userId)
+        
+        if (error) throw error
+        
+        // Log in audit trail
+        await (supabase.from('mute_audit_log') as any).insert({
+          admin_id: user?.id,
+          user_id: userId,
+          action: 'unmute'
+        })
+        
+        toast.success(`${userName} has been unmuted`)
+        await logAction('user_unmuted', { userId, userName })
+      } else {
+        // Mute user
+        const { error } = await (supabase.from('profiles') as any)
+          .update({ 
+            muted: true,
+            muted_at: new Date().toISOString(),
+            muted_by: user?.id,
+            mute_reason: reason || 'No reason provided'
+          })
+          .eq('id', userId)
+        
+        if (error) throw error
+        
+        // Log in audit trail
+        await (supabase.from('mute_audit_log') as any).insert({
+          admin_id: user?.id,
+          user_id: userId,
+          action: 'mute',
+          reason: reason || 'No reason provided'
+        })
+        
+        toast.success(`${userName} has been muted (shadow banned)`)
+        await logAction('user_muted', { userId, userName, reason })
+      }
+      
+      fetchUsers()
+    } catch (error: any) {
+      console.error('Mute error:', error)
+      toast.error('Mute feature requires database migration')
     }
   }
 
@@ -606,7 +680,7 @@ export default function AdminDashboard() {
         </div>
         
         {/* Stats Bar */}
-        <div className="grid grid-cols-4 gap-2 text-center">
+        <div className="grid grid-cols-5 gap-2 text-center">
           <div className="glass-panel-dark rounded-xl p-2">
             <p className="text-lg font-bold text-fernhill-gold">{stats.activeUsers}</p>
             <p className="text-xs text-fernhill-sand/50">Active</p>
@@ -614,6 +688,10 @@ export default function AdminDashboard() {
           <div className="glass-panel-dark rounded-xl p-2">
             <p className="text-lg font-bold text-yellow-400">{stats.pendingUsers}</p>
             <p className="text-xs text-fernhill-sand/50">Pending</p>
+          </div>
+          <div className="glass-panel-dark rounded-xl p-2">
+            <p className="text-lg font-bold text-orange-400">{stats.mutedUsers}</p>
+            <p className="text-xs text-fernhill-sand/50">Muted</p>
           </div>
           <div className="glass-panel-dark rounded-xl p-2">
             <p className="text-lg font-bold text-red-400">{stats.bannedUsers}</p>
@@ -835,11 +913,22 @@ export default function AdminDashboard() {
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <h3 className="font-medium text-fernhill-cream">{user.tribe_name || 'Unnamed'}</h3>
                         <span className={`px-2 py-0.5 text-xs rounded-full ${getStatusBadge(user.status)}`}>
                           {user.status}
                         </span>
+                        {(user as any).is_demo && (
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                            DEMO
+                          </span>
+                        )}
+                        {user.muted && (
+                          <span className="px-2 py-0.5 text-xs rounded-full bg-orange-500/20 text-orange-400 flex items-center gap-1">
+                            <VolumeX className="w-3 h-3" />
+                            Muted
+                          </span>
+                        )}
                         {!(user as any).avatar_url && user.status === 'pending' && (
                           <span className="px-2 py-0.5 text-xs rounded-full bg-red-500/20 text-red-400">
                             No photo
@@ -854,6 +943,19 @@ export default function AdminDashboard() {
                         <p className="text-xs text-fernhill-sand/40 mt-1">
                           Vouched by: {user.vouched_by_name}
                         </p>
+                      )}
+                      {/* Mute Info */}
+                      {user.muted && user.mute_reason && (
+                        <div className="mt-2 p-2 rounded-lg bg-orange-500/10 border border-orange-500/20">
+                          <p className="text-xs text-orange-400">
+                            <strong>Mute reason:</strong> {user.mute_reason}
+                          </p>
+                          {user.muted_at && (
+                            <p className="text-xs text-orange-400/60 mt-0.5">
+                              Muted {formatDistanceToNow(new Date(user.muted_at), { addSuffix: true })}
+                            </p>
+                          )}
+                        </div>
                       )}
                       {/* Trust Level Toggle */}
                       {user.status !== 'admin' && user.status !== 'banned' && user.status !== 'pending' && (
@@ -916,6 +1018,30 @@ export default function AdminDashboard() {
                           <option value="admin">Admin</option>
                           <option value="banned">Banned</option>
                         </select>
+                      )}
+                      
+                      {/* Mute/Unmute button - don't allow muting yourself or other admins */}
+                      {user.id !== currentUserId && user.status !== 'admin' && user.status !== 'banned' && (
+                        <button
+                          onClick={() => {
+                            if (user.muted) {
+                              toggleUserMute(user.id, user.tribe_name || 'User', true)
+                            } else {
+                              const reason = prompt('Reason for muting (optional):')
+                              if (reason !== null) { // null means cancelled
+                                toggleUserMute(user.id, user.tribe_name || 'User', false, reason)
+                              }
+                            }
+                          }}
+                          className={`p-2 rounded-lg transition-colors ${
+                            user.muted
+                              ? 'bg-orange-500/20 text-orange-400 hover:bg-orange-500/30'
+                              : 'hover:bg-orange-500/20 text-orange-400/60 hover:text-orange-400'
+                          }`}
+                          title={user.muted ? 'Unmute user' : 'Mute user (shadow ban)'}
+                        >
+                          {user.muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                        </button>
                       )}
                       
                       {/* Show "You" badge for current user */}

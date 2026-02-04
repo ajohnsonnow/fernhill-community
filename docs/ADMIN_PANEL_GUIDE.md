@@ -1,5 +1,8 @@
 # 🛡️ Admin Panel Documentation
 
+> **Last Updated:** February 4, 2026  
+> **Version:** 1.21.0 "Shadow & Light"
+
 ## Overview
 The Fernhill Community Admin Panel provides comprehensive tools for community management, moderation, and system administration.
 
@@ -42,6 +45,84 @@ WHERE email = 'user@example.com';
 - Promote to Admin
 - Ban User
 - Delete User
+- **Mute/Unmute User** 🆕
+
+---
+
+### 🔇 User Mute Feature (Shadow Ban) 🆕
+
+**What is Muting?**
+- A "shadow ban" where muted users can still post and comment
+- Their content is only visible to themselves and admins
+- Other community members won't see muted users' posts or replies
+- More graceful than banning—gives time for intervention
+
+**When to Use Muting:**
+- Member is posting inappropriate content but isn't malicious
+- Temporary cooling-off period needed
+- Testing behavior patterns before permanent action
+- Protecting community while investigating reports
+
+**How to Mute a User:**
+1. Navigate to Admin Panel → Users tab
+2. Find the user you want to mute
+3. Click the 🔊 (Volume) icon in their row
+4. Enter a reason for the mute (required)
+5. Click "Mute User"
+
+**Mute Indicators:**
+- 🟠 Orange "MUTED" badge appears on user profile
+- Mute reason displayed to admins
+- Timestamp of when muted
+- Name of admin who applied the mute
+
+**How to Unmute a User:**
+1. Find the muted user (they'll have orange MUTED badge)
+2. Click the 🔇 (Mute) icon
+3. Confirm unmute action
+- Audit trail is preserved in `mute_audit_log` table
+
+**Admin Visibility:**
+- Admins can see ALL content, including muted users' posts
+- This allows monitoring and evaluation
+- Post filtering happens at the database query level
+
+**Technical Details:**
+- Uses `muted` boolean field in profiles table
+- `mute_audit_log` table tracks all mute/unmute actions
+- RLS policies ensure data integrity
+- Post filtering in Hearth and Discussion Boards
+
+---
+
+### 🧪 Demo Data Management 🆕
+
+**Demo Badges:**
+- 🔵 Blue "DEMO" badges mark test accounts and content
+- Visible to all users
+- Helps distinguish practice content from real posts
+
+**Demo Data Generator:**
+- Tool for creating realistic test data
+- All generated content automatically marked with `is_demo: true`
+- Useful for:
+  - Testing new features safely
+  - Training new admins
+  - Demonstrating app functionality
+  - QA testing
+
+**Smart Cleanup:**
+- "Reset to Baseline" button prioritizes deleting demo data
+- Preserves admin accounts (never deleted)
+- Admin always prompted before deletion
+- Graceful fallback if `is_demo` columns don't exist
+
+**Viewing Demo Content:**
+- Demo accounts show blue DEMO badge in user list
+- Demo posts show blue DEMO badge next to author name
+- Filter or sort by demo status (future enhancement)
+
+---
 
 ### 2. Sacred Gate (`/admin/gate`)
 

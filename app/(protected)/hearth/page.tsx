@@ -26,9 +26,11 @@ interface Post {
   expires_at: string | null
   likes_count: number
   author_id: string
+  is_demo?: boolean
   author: {
     tribe_name: string
     avatar_url: string | null
+    is_demo?: boolean
   }
 }
 
@@ -80,11 +82,26 @@ export default function HearthPage() {
 
   const fetchPosts = async () => {
     try {
+      // Get current user to check if admin
+      const { data: { user } } = await supabase.auth.getUser()
+      const userId = user?.id
+      
+      // Get current user's profile to check admin status
+      let isAdmin = false
+      if (userId) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('status')
+          .eq('id', userId)
+          .single()
+        isAdmin = (profile as any)?.status === 'admin'
+      }
+
       let query = supabase
         .from('posts')
         .select(`
           *,
-          author:profiles!posts_author_id_fkey(tribe_name, avatar_url)
+          author:profiles!posts_author_id_fkey(tribe_name, avatar_url, muted, is_demo)
         `)
         .order('created_at', { ascending: false })
         .limit(50)
@@ -96,7 +113,19 @@ export default function HearthPage() {
       const { data, error } = await query
 
       if (error) throw error
-      setPosts(data as any || [])
+      
+      // Filter out muted users' posts (unless it's the user's own post or user is admin)
+      const filteredPosts = (data || []).filter((post: any) => {
+        // Show post if:
+        // 1. Author is not muted
+        // 2. Current user is the author (can see their own posts)
+        // 3. Current user is an admin (can see all posts)
+        const authorMuted = post.author?.muted === true
+        const isOwnPost = post.author_id === userId
+        return !authorMuted || isOwnPost || isAdmin
+      })
+      
+      setPosts(filteredPosts as any || [])
     } catch (error: any) {
       toast.error('Failed to fetch posts')
     } finally {
@@ -237,7 +266,14 @@ export default function HearthPage() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-white">{post.author.tribe_name}</p>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <p className="font-medium text-white">{post.author.tribe_name}</p>
+                      {(post.is_demo || post.author.is_demo) && (
+                        <span className="px-2 py-0.5 text-xs rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                          DEMO
+                        </span>
+                      )}
+                    </div>
                     <p className="text-white/50 text-sm">
                       {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
                     </p>

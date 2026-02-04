@@ -5,6 +5,63 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21.0] - 2026-02-04
+
+### 🎭 "Shadow & Light" - User Mute & Demo Tagging
+
+Advanced moderation tools and comprehensive demo data management.
+
+### 🔇 User Mute Feature (Shadow Ban)
+- **Mute Button** - Admins can mute users from the admin panel
+- **Shadow Ban** - Muted users can post, but only they and admins see their content
+- **Mute Reason** - Admins can provide optional reason when muting
+- **Muted Badge** - Orange badge on muted user profiles in admin panel
+- **Mute Stats** - Muted user count displayed in admin dashboard stats
+- **Mute Audit Log** - All mute/unmute actions tracked in audit trail
+- **Smart Filtering** - Posts from muted users hidden in Hearth and Discussion Boards
+- **Self-Visibility** - Muted users always see their own content (no indication of mute)
+- **Admin Override** - Admins see all content including from muted users
+- **Protection** - Cannot mute admins or yourself
+
+### 🎮 Demo Data Tagging
+- **is_demo Field** - Added to profiles, posts, board_posts, events, announcements
+- **Visual Badges** - Blue "DEMO" badges on all demo content throughout UI
+- **Auto-Tagging** - DemoDataGenerator marks all created content as demo
+- **Smart Cleanup** - Reset function prioritizes deleting is_demo=true records
+- **Database Indexes** - Efficient filtering with partial indexes
+- **Graceful Fallback** - Works with or without is_demo columns
+- **Clear Identification** - Easy to distinguish demo from real content
+- **Testing-Friendly** - Create demo data, test features, clean up easily
+
+### 📊 Database Enhancements
+- **user_mute_migration.sql** - Adds mute functionality to profiles
+- **mute_audit_log Table** - Tracks all mute/unmute actions
+- **demo_tagging_migration.sql** - Adds is_demo fields to multiple tables
+- **COMPLETE_SETUP.sql** - Updated with mute and demo fields
+
+### 🎨 Admin Panel Improvements
+- **Mute/Unmute UI** - Speaker icons (🔊/🔇) in user list
+- **5-Column Stats** - Added "Muted" count to dashboard stats
+- **Demo Badge** - Blue "DEMO" badge on demo users
+- **Mute Info Card** - Shows mute reason, timestamp, and muting admin
+
+### 📱 UI Updates
+- **Hearth Feed** - Demo badges on posts from demo users
+- **Discussion Boards** - Muted users' posts filtered correctly
+- **User Profiles** - Mute status visible to admins
+
+### 📚 Documentation
+- **USER_MUTE_FEATURE.md** - Complete technical documentation
+- **ADMIN_MUTE_GUIDE.md** - Simple guide for admins
+- **DEMO_TAGGING.md** - Demo data tagging documentation
+
+### 🔒 Security
+- **RLS Policies** - Mute audit log only accessible to admins
+- **Type Safety** - All mute fields properly typed in TypeScript
+- **Audit Trail** - Every mute action logged with admin, user, reason, timestamp
+
+---
+
 ## [1.20.0] - 2026-02-04
 
 ### 🚀 "Community Catalyst" - Ride Share, Demo Data & Database Fixes

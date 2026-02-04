@@ -54,7 +54,12 @@ CREATE TABLE IF NOT EXISTS profiles (
   website TEXT,
   public_key TEXT,
   show_in_directory BOOLEAN DEFAULT true,
-  requires_review BOOLEAN DEFAULT true
+  requires_review BOOLEAN DEFAULT true,
+  muted BOOLEAN DEFAULT false,
+  muted_at TIMESTAMPTZ,
+  muted_by UUID REFERENCES auth.users(id),
+  mute_reason TEXT,
+  is_demo BOOLEAN DEFAULT false
 );
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
@@ -79,13 +84,44 @@ DROP POLICY IF EXISTS "Users can update own profile" ON profiles;
 CREATE POLICY "Users can update own profile" ON profiles
   FOR UPDATE TO authenticated USING (auth.uid() = id);
 
+-- Create index for muted users (for efficient filtering)
+CREATE INDEX IF NOT EXISTS idx_profiles_muted ON profiles(muted) WHERE muted = true;
+Create index for demo users (for efficient filtering)
+CREATE INDEX IF NOT EXISTS idx_profiles_is_demo ON profiles(is_demo) WHERE is_demo = true;
+
+-- 
+-- MUTE AUDIT LOG
+CREATE TABLE IF NOT EXISTS mute_audit_log (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  admin_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
+  action TEXT NOT NULL CHECK (action IN ('mute', 'unmute')),
+  reason TEXT
+);
+
+ALTER TABLE mute_audit_log ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Admins can view mute audit log" ON mute_audit_log;
+CREATE POLICY "Admins can view mute audit log" ON mute_audit_log
+  FOR SELECT USING (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND status = 'admin')
+  );
+
+DROP POLICY IF EXISTS "Admins can insert mute audit log" ON mute_audit_log;
+CREATE POLICY "Admins can insert mute audit log" ON mute_audit_log
+  FOR INSERT WITH CHECK (
+    EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND status = 'admin')
+  );
+
 -- POSTS
 CREATE TABLE IF NOT EXISTS posts (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
   updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
   author_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
-  category post_category NOT NULL,
+  category post_category NOT NU,
+  is_demo BOOLEAN DEFAULT falseLL,
   content TEXT NOT NULL,
   image_url TEXT,
   expires_at TIMESTAMPTZ,

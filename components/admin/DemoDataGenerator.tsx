@@ -103,7 +103,7 @@ export default function DemoDataGenerator({ onDataChanged }: DemoDataGeneratorPr
           continue;
         }
 
-        const { data: profile, error } = await (supabase.from('profiles') as any).insert({
+        const { data: profile, error} = await (supabase.from('profiles') as any).insert({
           id: fakeId,
           full_name: persona.name,
           tribe_name: persona.tribe,
@@ -113,11 +113,11 @@ export default function DemoDataGenerator({ onDataChanged }: DemoDataGeneratorPr
           status: 'active',
           show_in_directory: true,
           requires_review: false,
-          is_demo_account: true // Mark as demo for easy cleanup
+          is_demo: true // Mark as demo for easy cleanup and filtering
         }).select().single();
 
         if (error) {
-          // Try without is_demo_account column (might not exist)
+          // Try without is_demo column (might not exist yet - migration not run)
           const { data: profile2, error: error2 } = await (supabase.from('profiles') as any).insert({
             id: fakeId,
             full_name: persona.name,
@@ -149,12 +149,25 @@ export default function DemoDataGenerator({ onDataChanged }: DemoDataGeneratorPr
         
         if (!authorId) continue;
         
-        const { error } = await (supabase.from('posts') as any).insert({
+        // Try with is_demo field first
+        let { error } = await (supabase.from('posts') as any).insert({
           author_id: authorId,
           category: post.category,
           content: post.content,
-          likes_count: Math.floor(Math.random() * 20)
+          likes_count: Math.floor(Math.random() * 20),
+          is_demo: true
         });
+        
+        // Fall back without is_demo if column doesn't exist yet
+        if (error && error.message?.includes('is_demo')) {
+          const result = await (supabase.from('posts') as any).insert({
+            author_id: authorId,
+            category: post.category,
+            content: post.content,
+            likes_count: Math.floor(Math.random() * 20)
+          });
+          error = result.error;
+        }
         
         if (error) {
           addProgress(`  ⚠️ Post failed: ${error.message}`);
@@ -166,15 +179,31 @@ export default function DemoDataGenerator({ onDataChanged }: DemoDataGeneratorPr
       // 3. Create demo announcements (as current admin)
       addProgress('Creating demo announcements...');
       for (const announcement of DEMO_ANNOUNCEMENTS) {
-        const { error } = await (supabase.from('announcements') as any).insert({
+        // Try with is_demo field first
+        let { error } = await (supabase.from('announcements') as any).insert({
           author_id: user.id,
           title: announcement.title,
           content: announcement.content,
           category: announcement.category,
           priority: announcement.priority,
           status: 'published',
-          is_pinned: announcement.priority === 'high'
+          is_pinned: announcement.priority === 'high',
+          is_demo: true
         });
+        
+        // Fall back without is_demo if column doesn't exist yet
+        if (error && error.message?.includes('is_demo')) {
+          const result = await (supabase.from('announcements') as any).insert({
+            author_id: user.id,
+            title: announcement.title,
+            content: announcement.content,
+            category: announcement.category,
+            priority: announcement.priority,
+            status: 'published',
+            is_pinned: announcement.priority === 'high'
+          });
+          error = result.error;
+        }
         
         if (error) {
           addProgress(`  ⚠️ Announcement failed: ${error.message}`);
@@ -340,8 +369,56 @@ export default function DemoDataGenerator({ onDataChanged }: DemoDataGeneratorPr
       const adminIds = (admins as any[])?.map(a => a.id) || [];
       addProgress(`  → Preserving ${adminIds.length} admin account(s)`);
 
-      // Delete all non-admin content
+      // Delete all demo content (prioritize is_demo flag)
       addProgress('Cleaning up demo data...');
+
+      // Delete demo profiles first (if is_demo column exists)
+      addProgress('Removing demo user profiles...');
+      let deletedDemoProfiles = 0;
+      const { error: demoProfileError, count: demoCount } = await supabase
+        .from('profiles')
+        .delete({ count: 'exact' })
+        .eq('is_demo', true);
+      
+      if (!demoProfileError && demoCount) {
+        deletedDemoProfiles = demoCount;
+        addProgress(`  ✓ Removed ${demoCount} demo profile(s)`);
+      } else if (demoProfileError && !demoProfileError.message?.includes('is_demo')) {
+        addProgress(`  ⚠️ Error removing demo profiles: ${demoProfileError.message}`);
+      } else {
+        // Fallback: delete non-admin profiles if is_demo column doesn't exist
+        addProgress('  → is_demo column not found, removing non-admin profiles...');
+        const { error: profilesError, count: fallbackCount } = await supabase
+          .from('profiles')
+          .delete({ count: 'exact' })
+          .not('id', 'in', `(${adminIds.join(',')})`);
+        
+        if (!profilesError && fallbackCount) {
+          deletedDemoProfiles = fallbackCount;
+          addProgress(`  ✓ Removed ${fallbackCount} non-admin profile(s)`);
+        }
+      }
+
+      // Delete demo posts
+      const { error: demoPostError, count: postCount } = await (supabase.from('posts') as any)
+        .delete({ count: 'exact' })
+        .eq('is_demo', true);
+      if (!demoPostError && postCount) {
+        addProgress(`  ✓ Cleared ${postCount} demo post(s)`);
+      } else if (!demoPostError?.message?.includes('is_demo')) {
+        // Fallback: delete posts from non-admin users
+        const { count: fallbackPostCount } = await supabase
+          .from('posts')
+          .delete({ count: 'exact' })
+          .not('author_id', 'in', `(${adminIds.join(',')})`);
+        if (fallbackPostCount) addProgress(`  ✓ Cleared ${fallbackPostCount} non-admin post(s)`);
+      }
+
+      // Delete demo announcements
+      const { count: annCount } = await (supabase.from('announcements') as any)
+        .delete({ count: 'exact' })
+        .eq('is_demo', true);
+      if (annCount) addProgress(`  ✓ Cleared ${annCount} demo announcement(s)`);
 
       // Delete notifications (except for admins)
       const { error: notifError } = await (supabase.from('notifications') as any)
@@ -358,10 +435,6 @@ export default function DemoDataGenerator({ onDataChanged }: DemoDataGeneratorPr
       await (supabase.from('story_reactions') as any).delete().neq('id', '00000000-0000-0000-0000-000000000000');
       addProgress('  ✓ Cleared story data');
 
-      // Delete announcements
-      const { error: annError } = await (supabase.from('announcements') as any).delete().neq('id', '00000000-0000-0000-0000-000000000000');
-      if (!annError) addProgress('  ✓ Cleared announcements');
-
       // Delete announcement reads
       await (supabase.from('announcement_reads') as any).delete().neq('id', '00000000-0000-0000-0000-000000000000');
 
@@ -369,13 +442,6 @@ export default function DemoDataGenerator({ onDataChanged }: DemoDataGeneratorPr
       await (supabase.from('ride_requests') as any).delete().neq('id', '00000000-0000-0000-0000-000000000000');
       const { error: rideError } = await (supabase.from('ride_share') as any).delete().neq('id', '00000000-0000-0000-0000-000000000000');
       if (!rideError) addProgress('  ✓ Cleared ride shares');
-
-      // Delete posts from non-admins
-      const { error: postsError } = await supabase
-        .from('posts')
-        .delete()
-        .not('author_id', 'in', `(${adminIds.join(',')})`);
-      if (!postsError) addProgress('  ✓ Cleared non-admin posts');
 
       // Delete post reactions
       await (supabase.from('post_reactions') as any).delete().neq('id', '00000000-0000-0000-0000-000000000000');
@@ -390,19 +456,6 @@ export default function DemoDataGenerator({ onDataChanged }: DemoDataGeneratorPr
       const { error: fbError } = await supabase.from('feedback').delete().neq('id', '00000000-0000-0000-0000-000000000000');
       if (!fbError) addProgress('  ✓ Cleared feedback');
 
-      // Delete non-admin profiles
-      addProgress('Removing demo user profiles...');
-      const { error: profilesError } = await supabase
-        .from('profiles')
-        .delete()
-        .not('id', 'in', `(${adminIds.join(',')})`);
-      
-      if (!profilesError) {
-        addProgress('  ✓ Removed non-admin profiles');
-      } else {
-        addProgress(`  ⚠️ Some profiles may have auth references: ${profilesError.message}`);
-      }
-
       // Clear content queue
       await (supabase.from('content_queue') as any).delete().neq('id', '00000000-0000-0000-0000-000000000000');
       addProgress('  ✓ Cleared content queue');
@@ -413,6 +466,7 @@ export default function DemoDataGenerator({ onDataChanged }: DemoDataGeneratorPr
         action: 'database_reset_to_baseline',
         details: { 
           admins_preserved: adminIds.length,
+          demo_profiles_deleted: deletedDemoProfiles,
           timestamp: new Date().toISOString()
         }
       });
