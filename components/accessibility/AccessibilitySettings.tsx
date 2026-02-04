@@ -139,7 +139,7 @@ export default function AccessibilitySettings({ onClose, showCloseButton = true 
         <div className="flex items-center gap-2">
           <button
             onClick={handleReset}
-            className="p-2 rounded-lg hover:bg-white/10 text-white/60 hover:text-white"
+            className="p-1.5 rounded-full hover:bg-white/10 text-white/60 hover:text-white"
             aria-label="Reset to defaults"
           >
             <RotateCcw className="w-5 h-5" />
@@ -147,7 +147,7 @@ export default function AccessibilitySettings({ onClose, showCloseButton = true 
           {showCloseButton && onClose && (
             <button
               onClick={onClose}
-              className="p-2 rounded-lg hover:bg-white/10 text-white/60 hover:text-white"
+              className="p-1.5 rounded-full hover:bg-white/10 text-white/60 hover:text-white"
               aria-label="Close settings"
             >
               <X className="w-5 h-5" />
