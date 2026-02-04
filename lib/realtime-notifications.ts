@@ -89,7 +89,7 @@ export function useRealtimeNotifications({
         {
           event: 'INSERT',
           schema: 'public',
-          table: 'direct_messages',
+          table: 'messages',
           filter: `recipient_id=eq.${userId}`,
         },
         (payload) => {

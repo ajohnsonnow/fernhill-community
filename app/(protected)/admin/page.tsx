@@ -12,7 +12,7 @@ import {
   Bug, Flag
 } from 'lucide-react'
 import { formatDistanceToNow, format } from 'date-fns'
-import { BugSquasher, ContentModerator } from '@/components/admin'
+import { BugSquasher, ContentModerator, DemoDataGenerator } from '@/components/admin'
 
 type TabType = 'users' | 'content' | 'events' | 'settings' | 'feedback' | 'logs' | 'reports' | 'bugs'
 
@@ -1322,6 +1322,9 @@ export default function AdminDashboard() {
                 </div>
               </div>
             </div>
+
+            {/* Demo Data Generator */}
+            <DemoDataGenerator onDataChanged={fetchAllData} />
           </div>
         )}
 

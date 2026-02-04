@@ -5,6 +5,63 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.20.0] - 2026-02-04
+
+### 🚀 "Community Catalyst" - Ride Share, Demo Data & Database Fixes
+
+Complete rideshare integration, admin demo tools, and critical database schema fixes.
+
+### 🚗 Event Ride Share System
+- **EventRideShare Component** - Collapsible rideshare section for all events
+- **Offer Rides** - Community members can offer rides with seat count and notes
+- **Request Rides** - Members can request rides with pickup location
+- **Ride Requests Table** - Track who's requested to join rides
+- **MutualAid Integration** - Ride share banner tip in transportation category
+
+### 🎮 Demo Data Generator (Admin)
+- **Generate Demo Data** - Create 8 unique test user personas with distinct names/tribes/gifts
+- **Sample Content** - Auto-generate posts, announcements, notifications, ride shares
+- **Polls & Feedback** - Demo polls and feedback items for testing
+- **Reset to Baseline** - Safely delete all demo data while preserving admin accounts
+- **Progress Logging** - Real-time progress display during generation/reset
+
+### 🗄️ Database Schema Fixes
+- **stories Table** - 24-hour ephemeral content with view tracking
+- **story_views Table** - Track who viewed each story
+- **story_reactions Table** - Emoji reactions on stories
+- **notifications Table** - Comprehensive notification system
+- **announcements Table** - Admin announcements with priority levels
+- **announcement_reads Table** - Track read status per user
+- **ride_share Table** - Complete rideshare with event_id linking
+- **ride_requests Table** - Passenger requests for rides
+- **Stories Storage Bucket** - Private storage with RLS policies
+
+### 🎨 UI/UX Improvements
+- **Roadmap Icon Change** - Changed from Map to Compass to avoid Soul Gallery conflict
+- **Tab Data Attributes** - Added data-tab for cross-component navigation
+- **Accessibility Fixes** - Added aria-labels and title attributes to buttons
+
+### 🔧 Code Quality
+- **TypeScript Fixes** - Fixed 'never' type errors in DemoDataGenerator
+- **Table Name Fix** - Corrected `direct_messages` → `messages` in realtime-notifications.ts
+- **Export Updates** - Added new component exports to index files
+
+### 📁 New Files
+- `components/events/EventRideShare.tsx` - Event ride sharing component
+- `components/admin/DemoDataGenerator.tsx` - Demo data admin tool
+- `supabase/stories_notifications_announcements_migration.sql` - Complete schema migration
+
+### 🔄 Updated Files
+- `app/(protected)/events/page.tsx` - Integrated EventRideShare
+- `app/(protected)/community/page.tsx` - Changed roadmap icon, added data-tab
+- `app/(protected)/admin/page.tsx` - Added DemoDataGenerator to settings tab
+- `components/community/MutualAid.tsx` - Added ride share tip banner
+- `components/events/index.ts` - Added EventRideShare export
+- `components/admin/index.ts` - Added DemoDataGenerator export
+- `lib/realtime-notifications.ts` - Fixed table name reference
+
+---
+
 ## [1.19.0] - 2026-02-03
 
 ### 🛡️ "Safe Haven" - Complete Accountability & Moderation System

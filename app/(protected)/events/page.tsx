@@ -21,6 +21,7 @@ import {
 } from 'lucide-react'
 import { format, parseISO, isToday, isTomorrow, isThisWeek, differenceInDays } from 'date-fns'
 import { BookmarkButton } from '@/components/social/BookmarkButton'
+import { EventRideShare } from '@/components/events/EventRideShare'
 
 // Types
 interface CalendarEvent {
@@ -537,6 +538,14 @@ function EventDetailModal({
               </p>
             </div>
           )}
+
+          {/* Ride Share Section */}
+          <EventRideShare
+            eventId={event.id}
+            eventTitle={event.title}
+            eventLocation={event.location || 'Portland, OR'}
+            eventDate={event.start}
+          />
         </div>
 
         {/* Action Buttons */}

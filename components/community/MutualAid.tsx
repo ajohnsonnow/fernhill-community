@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Heart, HandHelping, AlertCircle, MapPin, Clock, Search, Filter, Plus, X, Send, Award } from 'lucide-react';
+import { Heart, HandHelping, AlertCircle, MapPin, Clock, Search, Filter, Plus, X, Send, Award, Car } from 'lucide-react';
 
 interface MutualAidPost {
   id: string;
@@ -179,6 +179,29 @@ export default function MutualAid() {
               <option value="urgent">Urgent</option>
             </select>
           </div>
+
+          {/* Ride Share Tip Banner */}
+          {(filters.category === 'transportation' || filters.category === 'all') && (
+            <div className="mt-4 p-3 rounded-lg bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-800 flex items-center gap-3">
+              <Car className="w-5 h-5 text-indigo-600 dark:text-indigo-400 flex-shrink-0" />
+              <div className="flex-1 text-sm">
+                <span className="text-indigo-700 dark:text-indigo-300">
+                  Looking for rides to events? Check out the{' '}
+                </span>
+                <button
+                  onClick={() => {
+                    // Navigate to rides tab - this works because we're in the same parent component
+                    const ridesTab = document.querySelector('[data-tab="rides"]') as HTMLButtonElement;
+                    if (ridesTab) ridesTab.click();
+                  }}
+                  className="font-medium text-indigo-600 dark:text-indigo-400 underline hover:no-underline"
+                >
+                  Ride Share
+                </button>
+                <span className="text-indigo-700 dark:text-indigo-300"> tab for event carpooling!</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

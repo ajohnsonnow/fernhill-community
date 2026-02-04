@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Home, Package, Store, HandHelping, Search, MessageSquare, Car, GraduationCap, BarChart3, Users2, Map, Lightbulb } from 'lucide-react';
+import { Home, Package, Store, HandHelping, Search, MessageSquare, Car, GraduationCap, BarChart3, Users2, Compass, Lightbulb } from 'lucide-react';
 import HousingHub from '@/components/community/HousingHub';
 import Classifieds from '@/components/community/Classifieds';
 import BusinessDirectory from '@/components/community/BusinessDirectory';
@@ -21,7 +21,7 @@ export default function CommunityPage() {
   const [activeTab, setActiveTab] = useState<TabKey>('roadmap');
 
   const tabs = [
-    { key: 'roadmap' as TabKey, label: 'Roadmap', icon: Map, component: CommunityRoadmap },
+    { key: 'roadmap' as TabKey, label: 'Roadmap', icon: Compass, component: CommunityRoadmap },
     { key: 'features' as TabKey, label: 'Feature Requests', icon: Lightbulb, component: FeatureRequestTracker },
     { key: 'housing' as TabKey, label: 'Housing', icon: Home, component: HousingHub },
     { key: 'classifieds' as TabKey, label: 'Marketplace', icon: Package, component: Classifieds },
@@ -46,6 +46,7 @@ export default function CommunityPage() {
             {tabs.map(tab => (
               <button
                 key={tab.key}
+                data-tab={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 className={`flex items-center gap-2 px-4 py-3 font-medium transition-all whitespace-nowrap text-sm ${
                   activeTab === tab.key

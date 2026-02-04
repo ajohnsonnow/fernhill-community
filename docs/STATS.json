@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-02-04T06:06:19.958Z",
-  "version": "1.19.1",
-  "codename": "Unnamed Release",
+  "timestamp": "2026-02-04T09:00:00.000Z",
+  "version": "1.20.0",
+  "codename": "Community Catalyst",
   "git": {
     "branch": "main",
-    "commit": "4ecabc9",
-    "commitCount": "97"
+    "commit": "078a78c",
+    "commitCount": "99"
   },
   "files": {
-    "ts": 76,
-    "tsx": 97,
+    "ts": 81,
+    "tsx": 99,
     "js": 8,
-    "css": 1,
-    "sql": 30,
+    "css": 2,
+    "sql": 31,
     "md": 11
   },
-  "linesOfCode": 49178,
+  "linesOfCode": 58012,
   "routes": [
     "/admin/events",
     "/admin",
@@ -46,6 +46,7 @@
     "WordPrediction",
     "BugSquasher",
     "ContentModerator",
+    "DemoDataGenerator",
     "index",
     "AIAssistantUI",
     "index",
@@ -74,6 +75,7 @@
     "SoulModal",
     "EncryptionInitializer",
     "CheckInUI",
+    "EventRideShare",
     "index",
     "LiveEventUI",
     "GamificationUI",
@@ -154,7 +156,15 @@
     "altar_posts",
     "push_subscriptions",
     "music_sets",
-    "custom_vibe_tags"
+    "custom_vibe_tags",
+    "stories",
+    "story_views",
+    "story_reactions",
+    "notifications",
+    "announcements",
+    "announcement_reads",
+    "ride_share",
+    "ride_requests"
   ],
-  "lastDeploy": "2026-02-04T06:06:19.958Z"
+  "lastDeploy": "2026-02-04T09:00:00.000Z"
 }
