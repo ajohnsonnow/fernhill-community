@@ -290,6 +290,7 @@ export default function SafetyReportPage() {
                 value={formData.email}
                 onChange={(e) => updateField('email', e.target.value)}
                 placeholder="you@example.com"
+                autoComplete="email"
                 className="w-full px-4 py-3 rounded-xl glass-panel-dark border border-fernhill-sand/20 text-white placeholder-fernhill-sand/40 focus:outline-none focus:ring-2 focus:ring-fernhill-gold/50"
               />
             </div>

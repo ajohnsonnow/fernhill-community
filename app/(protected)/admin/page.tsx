@@ -1639,6 +1639,7 @@ function AddUserModal({ onClose, onAdd, loading }: AddUserModalProps) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="member@example.com"
+                autoComplete="email"
                 required
                 className="w-full pl-10 pr-4 py-3 rounded-xl glass-panel-dark border border-fernhill-sand/20 text-white placeholder-fernhill-sand/40 focus:outline-none focus:ring-2 focus:ring-fernhill-gold/50"
               />

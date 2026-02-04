@@ -191,6 +191,7 @@ function LoginPageContent() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
+                    autoComplete="email"
                     required
                     className="input-field pl-11"
                   />
@@ -240,6 +241,7 @@ function LoginPageContent() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="admin@email.com"
+                    autoComplete="email"
                     required
                     className="input-field pl-11"
                   />
@@ -336,6 +338,7 @@ function LoginPageContent() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="your@email.com"
+                      autoComplete="email"
                       required
                       className="input-field pl-11"
                     />
