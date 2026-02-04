@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Accessibility, X } from 'lucide-react'
+import { Accessibility } from 'lucide-react'
 import { useAccessibility } from './AccessibilityContext'
 import AccessibilitySettings from './AccessibilitySettings'
 import Link from 'next/link'
@@ -50,7 +50,8 @@ export default function AccessibilityFAB() {
     <>
       {/* Floating Action Button - positioned on the LEFT */}
       <div className="fixed z-40 left-4 bottom-20">
-        <div className="relative">
+        <div className="flex flex-col items-center gap-1">
+          {/* Main accessibility button */}
           <button
             onClick={handleOpen}
             className={`
@@ -68,14 +69,14 @@ export default function AccessibilityFAB() {
             <Accessibility className={settings.largeButtons ? 'w-8 h-8' : 'w-6 h-6'} />
           </button>
           
-          {/* Tiny dismiss button at top-right corner */}
+          {/* Dismiss button BELOW main button - proper mobile touch target */}
           <button
             onClick={handleDismiss}
-            className="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 flex items-center justify-center rounded-full bg-fernhill-dark/90 text-fernhill-sand/60 hover:text-white hover:bg-red-500/80 transition-colors"
+            className="px-2 py-1 text-[10px] rounded-full bg-fernhill-dark/80 text-fernhill-sand/50 hover:text-white hover:bg-red-500/80 transition-colors border border-fernhill-sand/20"
             aria-label="Hide accessibility button"
             title="Hide (find in Profile)"
           >
-            <X className="w-2 h-2" />
+            hide
           </button>
         </div>
       </div>

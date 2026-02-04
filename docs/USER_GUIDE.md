@@ -1,7 +1,7 @@
 # 🌿 Fernhill Community App - User Guide
 
-> **Last Updated:** January 30, 2026  
-> **Version:** 1.4.0  
+> **Last Updated:** February 3, 2026  
+> **Version:** 1.19.0 "Safe Haven"  
 > **Platform:** Progressive Web App (iOS, Android, Desktop)
 
 ---
@@ -409,6 +409,33 @@ Share how you're feeling with the community:
 
 ## 🆘 Safety & Support
 
+### Reporting Content 🆕
+
+You can report any content that concerns you directly from the app:
+
+**How to Report:**
+1. **Long-press** on any post, comment, or message
+2. Tap "Report" from the menu
+3. Select a reason:
+   - Harassment or Bullying
+   - Spam
+   - Inappropriate Content
+   - Hate Speech
+   - Misinformation
+   - Privacy Violation
+   - Threats or Violence
+   - Impersonation
+   - Scam or Fraud
+   - Other
+4. Add additional details (optional)
+5. Submit report
+
+**What Happens:**
+- Your report goes directly to community admins
+- The content is preserved (snapshot) for review
+- Admins can issue warnings, remove content, or take action
+- You can check your report status in the Help section
+
 ### Reporting Boundary Violations
 
 If you experience or witness a boundary violation:
@@ -448,6 +475,21 @@ React to posts with multiple emojis:
 - 🔥 Fire
 - 🙏 Gratitude
 - 💃 Dance
+
+### Message Reactions 🆕
+
+React to messages in DMs:
+- ❤️ Love
+- 👍 Thumbs Up
+- 😂 Laugh
+- 😮 Wow
+- 🙏 Thanks
+- 💯 100
+
+**How to React:**
+1. Tap the emoji icon below any message
+2. Select your reaction
+3. Tap again to remove
 - ✨ Magic
 - 🌀 Flow
 

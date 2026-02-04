@@ -13,6 +13,11 @@ interface WeatherData {
     wind?: { speed: number }
     name: string
   }
+  hourly: Array<{
+    dt: number
+    main: { temp: number }
+    weather: Array<{ main: string; icon: string }>
+  }>
   forecast: Array<{
     dt: number
     main: { temp_max: number; temp_min: number }
@@ -73,6 +78,15 @@ export default function TopHeader({ profile }: TopHeaderProps) {
     if (date.toDateString() === today.toDateString()) return 'Today'
     if (date.toDateString() === tomorrow.toDateString()) return 'Tomorrow'
     return date.toLocaleDateString('en-US', { weekday: 'short' })
+  }
+
+  const getHourLabel = (timestamp: number) => {
+    const date = new Date(timestamp * 1000)
+    const now = new Date()
+    const diffHours = Math.round((date.getTime() - now.getTime()) / (1000 * 60 * 60))
+    
+    if (diffHours <= 1) return 'Now'
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true })
   }
 
   const menuItems = [
@@ -211,6 +225,29 @@ export default function TopHeader({ profile }: TopHeaderProps) {
                       <span>{Math.round(currentWeather.wind.speed)} mph</span>
                     </div>
                   )}
+                </div>
+              </div>
+            )}
+
+            {/* Hourly Forecast */}
+            {weather?.hourly && weather.hourly.length > 0 && (
+              <div className="p-4 border-b border-fernhill-sand/10">
+                <h3 className="text-sm font-medium text-fernhill-sand/60 mb-3">Today&apos;s Forecast</h3>
+                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                  {weather.hourly.map((hour, idx) => (
+                    <div 
+                      key={idx}
+                      className="flex flex-col items-center min-w-[60px] p-2 rounded-xl bg-fernhill-charcoal/50"
+                    >
+                      <span className="text-xs text-fernhill-sand/60 mb-1">
+                        {getHourLabel(hour.dt)}
+                      </span>
+                      {getWeatherIcon(hour.weather?.[0]?.main, 'w-6 h-6')}
+                      <span className="text-fernhill-cream font-medium mt-1">
+                        {Math.round(hour.main?.temp)}°
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}

@@ -2,15 +2,15 @@
 
 **A Secure Digital Hearth for the Ecstatic Dance Tribe**
 
-[![Version](https://img.shields.io/badge/version-1.17.2-green.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-1.19.0-green.svg)](package.json)
 [![TypeScript](https://img.shields.io/badge/TypeScript-100%25-blue.svg)](tsconfig.json)
-[![Lines of Code](https://img.shields.io/badge/lines-44,985+-brightgreen.svg)](#)
+[![Lines of Code](https://img.shields.io/badge/lines-49,178+-brightgreen.svg)](#)
 [![License](https://img.shields.io/badge/license-Private-red.svg)](LICENSE)
 [![Deployed](https://img.shields.io/badge/deployed-Render.com-blueviolet.svg)](https://fernhill-community.onrender.com)
 
 The Fernhill Community App is a best-in-class, private Progressive Web App designed to foster connection, safety, and mutual aid within the ecstatic dance community of Portland, Oregon. Moving away from mainstream social media, this platform prioritizes **Consent, Privacy, and Presence**.
 
-> 💡 **Development Note:** This entire application was built by a single Content Engineer using AI assistance (Claude + GitHub Copilot), demonstrating the power of modern development tools. **~17 hours total development. $358K-718K equivalent value.** See [VALUE_PROPOSITION.md](docs/VALUE_PROPOSITION.md) for the full analysis.
+> 💡 **Development Note:** This entire application was built by a single Content Engineer using AI assistance (Claude + GitHub Copilot), demonstrating the power of modern development tools. **~32 hours total development. $358K-718K equivalent value.** See [VALUE_PROPOSITION.md](docs/VALUE_PROPOSITION.md) for the full analysis.
 
 ---
 
@@ -53,11 +53,17 @@ Topic-based community discussions organized by category.
 ### 🆘 Safety Reporting
 Comprehensive 4-step boundary violation report form matching official community standards.
 
+### 🛡️ Universal Content Reporting (NEW!)
+Report any post, comment, or message directly to admins with 10 reason categories. Content snapshots preserved for review.
+
 ### 🎉 Social Features
 - **Multi-emoji reactions** (❤️🔥🙏💃✨🌀) like Slack/Discord
+- **Message reactions** (❤️👍😂😮🙏💯) on DMs (NEW!)
 - **Event RSVPs** (Going / Maybe / Can't Go)
 - **Community Polls** with voting and results
 - **Achievement Badges** (11 types: First Dance, Regular Dancer, DJ Debut, etc.)
+- **Community Roadmap** - Track feature development progress (NEW!)
+- **Feature Requests** - Submit and vote on new features (NEW!)
 
 ### 🔐 Security Features
 - Magic link authentication (no passwords)
@@ -193,10 +199,10 @@ Visit http://localhost:3000
 
 ### 📊 Codebase Statistics
 - **Version:** 1.17.2
-- **TypeScript Files:** 160
-- **Components:** 85
+- **TypeScript Files:** 173
+- **Components:** 97
 - **Database Tables:** 0
-- **Lines of Code:** 44,985
+- **Lines of Code:** 49,178
 - **Last Updated:** 2/3/2026
 
 ---

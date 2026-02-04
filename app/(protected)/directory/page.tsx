@@ -17,6 +17,7 @@ import {
   MessageCircle
 } from 'lucide-react'
 import { BlockUserMenuItem } from '@/components/social/UserSafetyActions'
+import { SoulModal } from '@/components/directory'
 import Link from 'next/link'
 
 interface MemberProfile {
@@ -24,8 +25,18 @@ interface MemberProfile {
   tribe_name: string
   avatar_url: string | null
   mycelial_gifts: string | null
+  bio: string | null
+  pronouns: string | null
+  location: string | null
   soundcloud_url: string | null
   website: string | null
+  instagram_url: string | null
+  facebook_url: string | null
+  twitter_url: string | null
+  tiktok_url: string | null
+  spotify_url: string | null
+  bandcamp_url: string | null
+  linkedin_url: string | null
   vibe_status: string | null
   show_in_directory: boolean
   status: string | null
@@ -69,6 +80,7 @@ export default function DirectoryPage() {
   const [showOnlineOnly, setShowOnlineOnly] = useState(false)
   const [menuOpenId, setMenuOpenId] = useState<string | null>(null)
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
+  const [selectedMember, setSelectedMember] = useState<MemberProfile | null>(null)
   const supabase = createClient()
 
   useEffect(() => {
@@ -87,7 +99,7 @@ export default function DirectoryPage() {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, tribe_name, avatar_url, mycelial_gifts, soundcloud_url, website, vibe_status, show_in_directory, status')
+        .select('id, tribe_name, avatar_url, mycelial_gifts, bio, pronouns, location, soundcloud_url, website, instagram_url, facebook_url, twitter_url, tiktok_url, spotify_url, bandcamp_url, linkedin_url, vibe_status, show_in_directory, status')
         .eq('show_in_directory', true)
         .in('status', ['active', 'facilitator', 'admin'])
         .order('tribe_name', { ascending: true })
@@ -104,7 +116,7 @@ export default function DirectoryPage() {
           .in('status', ['active', 'facilitator', 'admin'])
           .order('tribe_name', { ascending: true })
         
-        setMembers((data || []).map((m: any) => ({ ...m, show_in_directory: true })))
+        setMembers((data || []).map((m: any) => ({ ...m, show_in_directory: true, bio: null, pronouns: null, location: null, instagram_url: null, facebook_url: null, twitter_url: null, tiktok_url: null, spotify_url: null, bandcamp_url: null, linkedin_url: null })))
       } catch {
         toast.error('Failed to load directory')
       }
@@ -235,7 +247,8 @@ export default function DirectoryPage() {
               return (
                 <div 
                   key={member.id}
-                  className="glass-panel rounded-2xl p-4 hover:bg-white/5 transition-colors"
+                  onClick={() => setSelectedMember(member)}
+                  className="glass-panel rounded-2xl p-4 hover:bg-white/5 transition-colors cursor-pointer active:scale-[0.98]"
                 >
                   <div className="flex items-start gap-4">
                     {/* Avatar */}
@@ -252,7 +265,7 @@ export default function DirectoryPage() {
                         )}
                       </div>
                       {vibeInfo && (
-                        <div className="absolute -bottom-1 -right-1 px-1.5 py-0.5 rounded-full glass-panel text-xs">
+                        <div className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full glass-panel text-[10px] flex items-center justify-center">
                           {vibeInfo.emoji}
                         </div>
                       )}
@@ -269,14 +282,18 @@ export default function DirectoryPage() {
                         )}
                       </div>
 
+                      {member.pronouns && (
+                        <p className="text-fernhill-sand/50 text-xs">({member.pronouns})</p>
+                      )}
+
                       {member.mycelial_gifts && (
                         <p className="text-fernhill-sand/80 text-sm mt-1 line-clamp-2">
                           {member.mycelial_gifts}
                         </p>
                       )}
 
-                      {/* Links */}
-                      <div className="flex gap-2 mt-3">
+                      {/* Quick Actions - stop propagation to prevent modal opening */}
+                      <div className="flex gap-2 mt-3" onClick={(e) => e.stopPropagation()}>
                         {/* Message Button */}
                         {member.id !== currentUserId && (
                           <Link
@@ -314,7 +331,10 @@ export default function DirectoryPage() {
                         {member.id !== currentUserId && (
                           <div className="relative ml-auto">
                             <button
-                              onClick={() => setMenuOpenId(menuOpenId === member.id ? null : member.id)}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setMenuOpenId(menuOpenId === member.id ? null : member.id)
+                              }}
                               className="p-2 rounded-lg glass-panel-dark text-fernhill-sand/60 hover:bg-white/10 transition-colors"
                               aria-label="More options"
                             >
@@ -325,7 +345,10 @@ export default function DirectoryPage() {
                               <>
                                 <div 
                                   className="fixed inset-0 z-40"
-                                  onClick={() => setMenuOpenId(null)}
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    setMenuOpenId(null)
+                                  }}
                                 />
                                 <div className="absolute right-0 top-full mt-1 w-48 bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden">
                                   <BlockUserMenuItem 
@@ -346,6 +369,16 @@ export default function DirectoryPage() {
               )
             })}
           </div>
+        )}
+
+        {/* Soul Modal */}
+        {selectedMember && (
+          <SoulModal
+            member={selectedMember}
+            currentUserId={currentUserId}
+            onClose={() => setSelectedMember(null)}
+            vibeInfo={getVibeInfo(selectedMember.vibe_status)}
+          />
         )}
       </div>
     </div>

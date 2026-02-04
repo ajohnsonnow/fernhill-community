@@ -5,6 +5,143 @@ All notable changes to Fernhill Community will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.19.0] - 2026-02-03
+
+### 🛡️ "Safe Haven" - Complete Accountability & Moderation System
+
+Ultra-safe environment with full user accountability and admin oversight. Reports, moderation, and reactions everywhere.
+
+### 🚨 Report-to-Admin System
+- **Universal Reporting** - Report posts, comments, messages, users, events, listings
+- **10 Report Reasons** - Harassment, spam, hate speech, threats, impersonation, scams, etc.
+- **Content Snapshots** - Preserve reported content at time of report
+- **Report Dialog Component** - Beautiful, accessible modal for submitting reports
+- **useReportDialog Hook** - Easy integration across all pages
+
+### 🐛 Bug Squasher (Admin Panel)
+- **Comprehensive Dashboard** - View all bug reports with stats and filtering
+- **Severity Indicators** - Critical (red), High (orange), Medium (yellow), Low (blue)
+- **Status Workflow** - Open → Investigating → In Progress → Resolved → Closed
+- **Admin Notes** - Add internal notes to bug reports
+- **Resolution Tracking** - Document how bugs were fixed
+- **One-Click Actions** - Quick status updates from list view
+
+### 🛡️ Content Moderator (Admin Panel)
+- **Report Queue** - All user reports in one place
+- **Status Tabs** - Pending, Reviewing, Escalated, Resolved
+- **Type Filtering** - Filter by post, comment, message, user reports
+- **Action Menu** - Issue warnings, remove content, suspend/ban users
+- **Audit Logging** - All admin actions logged for accountability
+- **Reporter & Reported Info** - Full context for each report
+
+### 💬 Message Reactions
+- **React to Messages** - ❤️ 👍 😂 😮 🙏 💯
+- **Direct Messages** - Reactions in 1:1 conversations
+- **Group Messages** - Reactions in circle chats
+- **Toggle Reactions** - Click to add/remove your reaction
+- **Reaction Counts** - See how many reacted with each emoji
+
+### 📝 Post Comments (Wired Up!)
+- **post_comments Table** - Now exists in database!
+- **Nested Replies** - Reply to comments, threaded discussions
+- **Edit/Delete** - Manage your own comments
+- **Admin Moderation** - Hide inappropriate comments
+- **Reactions on Comments** - Like/react to comments too
+
+### 🔒 User Warnings System
+- **Issue Warnings** - Admins can warn users for violations
+- **Severity Levels** - Mild (1), Moderate (2), Severe (3)
+- **Expiring Warnings** - Optional expiration date
+- **Warning History** - Users can see their own warnings
+- **Linked Reports** - Warnings can reference the report that triggered them
+
+### 📚 Bookmarks (Wired Up!)
+- **toggle_bookmark RPC** - Database function for bookmarking posts
+- **bookmarks Table** - Persistent storage of saved posts
+- **Long-Press Menu** - Bookmark from post context menu
+
+### 🗄️ New Database Migration (accountability_migration.sql)
+- **8 New Tables** - post_comments, content_reports, message_reactions, group_message_reactions, comment_reactions, user_warnings, bookmarks
+- **3 New ENUMs** - report_type, report_status, report_reason
+- **8 RPC Functions** - report_content, resolve_report, issue_warning, toggle_bookmark, toggle_message_reaction, etc.
+- **Enhanced audit_logs** - Added target_user_id, target_content_id, ip_address columns
+- **Full RLS Policies** - Row-level security on all new tables
+
+### 📁 New Files
+- `components/safety/ReportDialog.tsx` - Universal report submission dialog
+- `components/safety/index.ts` - Safety component exports
+- `components/admin/BugSquasher.tsx` - Bug report management panel
+- `components/admin/ContentModerator.tsx` - User report moderation panel
+- `components/admin/index.ts` - Admin component exports
+- `components/messages/MessageReactions.tsx` - Reactions for messages
+- `components/messages/index.ts` - Message component exports
+- `supabase/accountability_migration.sql` - Complete accountability schema
+
+### 🔧 Updated Files
+- `app/(protected)/hearth/page.tsx` - Integrated ReportDialog, wired up bookmarks
+- `components/social/ReactionButtons.tsx` - Already working (post_reactions)
+- `components/social/PostComments.tsx` - Already coded (needs table from migration)
+
+---
+
+## [1.18.0] - 2026-02-03
+
+### 🗺️ "Community Voice" - Feature Request & Roadmap System
+
+Comprehensive feature request tracking, bug reporting, and public roadmap system with community voting.
+
+### 🗺️ Community Roadmap
+- **Kanban Board View** - Visual roadmap with Planned/In Progress/Completed columns
+- **Community Voting** - Upvote features you want to see built
+- **Category Filtering** - Filter by Social, Events, Messaging, Community, etc.
+- **Status Tracking** - Track feature progress from planned to shipped
+- **Featured Items** - Highlight high-priority roadmap items
+- **Stats Dashboard** - Real-time counts of planned/in-progress/completed items
+
+### 💡 Feature Request Tracker
+- **Submit Requests** - Community members can propose new features
+- **Upvoting System** - Vote for features you want
+- **Category Assignment** - 10 categories (Social, Events, Messaging, etc.)
+- **Status Workflow** - Submitted → Under Review → Accepted → In Progress → Completed
+- **Admin Notes** - Facilitators can add response notes
+- **Discussion Threads** - Comment system on feature requests
+
+### 🐛 Enhanced Bug Reporting
+- **Severity Levels** - Low, Medium, High, Critical
+- **Detailed Reports** - Steps to reproduce, expected vs actual behavior
+- **Browser Info Capture** - Automatic device/viewport detection
+- **Status Tracking** - Reported → Confirmed → In Progress → Fixed
+- **Version Tagging** - Track which version fixed the bug
+
+### 🎮 Demo Data System
+- **Comprehensive Seed Data** - 20+ roadmap items, 20 feature requests, 15 bug reports
+- **Demo Flagging** - All demo data marked with `is_demo = true`
+- **Easy Clearing** - `SELECT clear_demo_data()` function
+- **Data Manager UI** - Admin panel for managing demo data
+- **Export/Import** - JSON export for backup and migration
+
+### 🗄️ Database Migration
+- **6 New Tables** - roadmap_items, roadmap_upvotes, feature_requests, feature_request_upvotes, bug_reports, feature_request_comments
+- **5 New ENUMs** - roadmap_status, feature_status, bug_severity, bug_status, feature_category
+- **4 Helper Functions** - toggle_roadmap_upvote, toggle_feature_request_upvote, get_roadmap_stats, clear_demo_data
+- **Full RLS Policies** - Row-level security on all new tables
+- **Performance Indexes** - Optimized queries for status and category filtering
+
+### 📱 Community Page Updates
+- **New Roadmap Tab** - First tab in community navigation
+- **New Feature Requests Tab** - Second tab for submitting/viewing requests
+- **12 Total Tabs** - Roadmap, Features, Housing, Marketplace, Lost & Found, Businesses, Mutual Aid, Chat Lounge, Ride Share, Skill Exchange, Polls, Dance Partners
+
+### 📁 New Files
+- `components/community/CommunityRoadmap.tsx` - Roadmap kanban board (~380 lines)
+- `components/community/FeatureRequestTracker.tsx` - Feature/bug tracker (~840 lines)
+- `components/community/DemoDataManager.tsx` - Demo data admin panel (~200 lines)
+- `lib/roadmap.ts` - Utility functions and type definitions (~315 lines)
+- `supabase/roadmap_migration.sql` - Database migration (~350 lines)
+- `supabase/demo_data_seed.sql` - Demo data seed script (~250 lines)
+
+---
+
 ## [1.17.2] - 2026-02-03
 
 ### ✨ "Production Polish" - Final Release Prep

@@ -6,6 +6,7 @@ export async function GET() {
     
     // Return mock data in development if no API key
     if (!apiKey) {
+      const now = Date.now() / 1000
       return NextResponse.json({
         current: {
           main: { temp: 52, humidity: 65, feels_like: 49 },
@@ -13,12 +14,20 @@ export async function GET() {
           wind: { speed: 8 },
           name: 'Portland'
         },
+        hourly: [
+          { dt: now + 3600, main: { temp: 53 }, weather: [{ main: 'Clouds', icon: '02d' }] },
+          { dt: now + 7200, main: { temp: 54 }, weather: [{ main: 'Clouds', icon: '02d' }] },
+          { dt: now + 10800, main: { temp: 55 }, weather: [{ main: 'Clear', icon: '01d' }] },
+          { dt: now + 14400, main: { temp: 54 }, weather: [{ main: 'Clear', icon: '01d' }] },
+          { dt: now + 18000, main: { temp: 52 }, weather: [{ main: 'Clouds', icon: '02n' }] },
+          { dt: now + 21600, main: { temp: 50 }, weather: [{ main: 'Clouds', icon: '02n' }] },
+        ],
         forecast: [
-          { dt: Date.now() / 1000 + 86400, main: { temp_max: 55, temp_min: 42 }, weather: [{ main: 'Clouds', icon: '02d' }] },
-          { dt: Date.now() / 1000 + 172800, main: { temp_max: 58, temp_min: 44 }, weather: [{ main: 'Rain', icon: '10d' }] },
-          { dt: Date.now() / 1000 + 259200, main: { temp_max: 52, temp_min: 40 }, weather: [{ main: 'Rain', icon: '10d' }] },
-          { dt: Date.now() / 1000 + 345600, main: { temp_max: 54, temp_min: 41 }, weather: [{ main: 'Clouds', icon: '03d' }] },
-          { dt: Date.now() / 1000 + 432000, main: { temp_max: 56, temp_min: 43 }, weather: [{ main: 'Clear', icon: '01d' }] },
+          { dt: now + 86400, main: { temp_max: 55, temp_min: 42 }, weather: [{ main: 'Clouds', icon: '02d' }] },
+          { dt: now + 172800, main: { temp_max: 58, temp_min: 44 }, weather: [{ main: 'Rain', icon: '10d' }] },
+          { dt: now + 259200, main: { temp_max: 52, temp_min: 40 }, weather: [{ main: 'Rain', icon: '10d' }] },
+          { dt: now + 345600, main: { temp_max: 54, temp_min: 41 }, weather: [{ main: 'Clouds', icon: '03d' }] },
+          { dt: now + 432000, main: { temp_max: 56, temp_min: 43 }, weather: [{ main: 'Clear', icon: '01d' }] },
         ]
       })
     }
@@ -41,10 +50,17 @@ export async function GET() {
 
     const currentData = await currentRes.json()
     
-    // Process forecast - get one entry per day (noon readings)
+    // Process forecast - get hourly and daily data
+    let hourlyData: any[] = []
     let forecastData: any[] = []
+    
     if (forecastRes.ok) {
       const forecastJson = await forecastRes.json()
+      
+      // Get next 6 hours for hourly forecast
+      hourlyData = (forecastJson.list || []).slice(0, 6)
+      
+      // Process daily forecast - get one entry per day (noon readings)
       const dailyMap = new Map()
       
       forecastJson.list?.forEach((item: any) => {
@@ -66,11 +82,13 @@ export async function GET() {
     
     return NextResponse.json({
       current: currentData,
+      hourly: hourlyData,
       forecast: forecastData
     })
   } catch (error) {
     console.error('Weather API error:', error)
     // Return mock data on error
+    const now = Date.now() / 1000
     return NextResponse.json({
       current: {
         main: { temp: 52, humidity: 65, feels_like: 49 },
@@ -78,6 +96,11 @@ export async function GET() {
         wind: { speed: 8 },
         name: 'Portland'
       },
+      hourly: [
+        { dt: now + 3600, main: { temp: 53 }, weather: [{ main: 'Clouds', icon: '02d' }] },
+        { dt: now + 7200, main: { temp: 54 }, weather: [{ main: 'Clouds', icon: '02d' }] },
+        { dt: now + 10800, main: { temp: 55 }, weather: [{ main: 'Clear', icon: '01d' }] },
+      ],
       forecast: []
     })
   }

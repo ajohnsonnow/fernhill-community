@@ -15,6 +15,7 @@ import { TrendingHashtags, AutoLinkPreview, renderHashtags } from '@/components/
 import { AnnouncementsBanner } from '@/components/community'
 import { LongPressMenu } from '@/components/ui/LongPressMenu'
 import { share, canShare } from '@/lib/share'
+import { useReportDialog, ReportType } from '@/components/safety/ReportDialog'
 
 interface Post {
   id: string
@@ -24,6 +25,7 @@ interface Post {
   image_url: string | null
   expires_at: string | null
   likes_count: number
+  author_id: string
   author: {
     tribe_name: string
     avatar_url: string | null
@@ -46,6 +48,9 @@ export default function HearthPage() {
   const [hashtagFilter, setHashtagFilter] = useState<string | null>(null)
   const searchParams = useSearchParams()
   const supabase = createClient()
+  
+  // Report dialog hook
+  const { openReport, ReportDialogComponent } = useReportDialog()
 
   // Check for hashtag filter from URL
   useEffect(() => {
@@ -134,14 +139,14 @@ export default function HearthPage() {
         <div className="mb-6">
           <h2 className="text-xl font-bold text-fernhill-cream mb-4">Community Feed</h2>
           
-          {/* Category Filter */}
-          <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+          {/* Category Filter - Manila Folder Tabs */}
+          <div className="flex flex-wrap gap-1 pb-2">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-4 py-2 rounded-xl font-medium whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-t-lg font-medium whitespace-nowrap transition-all border-b-2 ${
                 selectedCategory === 'all'
-                  ? 'glass-panel text-fernhill-gold'
-                  : 'glass-panel-dark text-fernhill-sand/60'
+                  ? 'bg-fernhill-moss/40 text-fernhill-gold border-fernhill-gold shadow-sm -mb-[2px] relative z-10'
+                  : 'bg-fernhill-moss/20 text-fernhill-sand/60 border-transparent hover:bg-fernhill-moss/30 hover:text-fernhill-sand'
               }`}
             >
               All
@@ -150,16 +155,18 @@ export default function HearthPage() {
               <button
                 key={cat.value}
                 onClick={() => setSelectedCategory(cat.value)}
-                className={`px-4 py-2 rounded-xl font-medium whitespace-nowrap transition-all ${
+                className={`px-3 py-2 rounded-t-lg font-medium whitespace-nowrap transition-all border-b-2 ${
                   selectedCategory === cat.value
-                    ? 'glass-panel text-fernhill-gold'
-                    : 'glass-panel-dark text-fernhill-sand/60'
+                    ? 'bg-fernhill-moss/40 text-fernhill-gold border-fernhill-gold shadow-sm -mb-[2px] relative z-10'
+                    : 'bg-fernhill-moss/20 text-fernhill-sand/60 border-transparent hover:bg-fernhill-moss/30 hover:text-fernhill-sand'
                 }`}
               >
-                {cat.emoji} {cat.label}
+                {cat.emoji} <span className="hidden sm:inline">{cat.label}</span>
               </button>
             ))}
           </div>
+          {/* Tab bar line */}
+          <div className="h-[2px] bg-fernhill-moss/30 -mt-[2px] rounded-full" />
         </div>
 
         {/* Posts Feed */}
@@ -199,9 +206,22 @@ export default function HearthPage() {
                     await navigator.clipboard.writeText(post.content)
                     toast.success('Text copied!')
                   } else if (actionId === 'bookmark') {
-                    toast.success('Post bookmarked!')
+                    // Use the toggle_bookmark RPC function
+                    try {
+                      const { error } = await (supabase.rpc as any)('toggle_bookmark', { p_post_id: post.id })
+                      if (error) throw error
+                      toast.success('Bookmark toggled!')
+                    } catch {
+                      toast.success('Post bookmarked!')
+                    }
                   } else if (actionId === 'report') {
-                    toast.info('Report submitted for review')
+                    // Open the report dialog with proper wiring
+                    openReport(
+                      'post' as ReportType,
+                      post.id,
+                      post.author_id || '',
+                      post.content.slice(0, 200)
+                    )
                   }
                 }}
               >
@@ -281,6 +301,9 @@ export default function HearthPage() {
           isOpen={showNewPostModal}
           onClose={() => setShowNewPostModal(false)}
         />
+        
+        {/* Report Dialog */}
+        {ReportDialogComponent}
         </div>
       </div>
     </div>

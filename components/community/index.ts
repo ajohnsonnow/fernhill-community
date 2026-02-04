@@ -12,3 +12,7 @@ export { default as RideShare } from './RideShare';
 export { default as SkillExchange } from './SkillExchange';
 export { default as CommunityPolls } from './CommunityPolls';
 export { default as DancePartnerFinder } from './DancePartnerFinder';
+
+// Phase L - Roadmap & Feature Tracking
+export { default as CommunityRoadmap } from './CommunityRoadmap';
+export { default as FeatureRequestTracker } from './FeatureRequestTracker';

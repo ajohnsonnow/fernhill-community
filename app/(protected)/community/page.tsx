@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Home, Package, Store, HandHelping, Search, MessageSquare, Megaphone, Car, GraduationCap, BarChart3, Users2 } from 'lucide-react';
+import { Home, Package, Store, HandHelping, Search, MessageSquare, Car, GraduationCap, BarChart3, Users2, Map, Lightbulb } from 'lucide-react';
 import HousingHub from '@/components/community/HousingHub';
 import Classifieds from '@/components/community/Classifieds';
 import BusinessDirectory from '@/components/community/BusinessDirectory';
@@ -12,13 +12,17 @@ import RideShare from '@/components/community/RideShare';
 import SkillExchange from '@/components/community/SkillExchange';
 import CommunityPolls from '@/components/community/CommunityPolls';
 import DancePartnerFinder from '@/components/community/DancePartnerFinder';
+import CommunityRoadmap from '@/components/community/CommunityRoadmap';
+import FeatureRequestTracker from '@/components/community/FeatureRequestTracker';
 
-type TabKey = 'housing' | 'classifieds' | 'businesses' | 'mutual-aid' | 'lost-found' | 'lounge' | 'rides' | 'skills' | 'polls' | 'partners';
+type TabKey = 'roadmap' | 'features' | 'housing' | 'classifieds' | 'businesses' | 'mutual-aid' | 'lost-found' | 'lounge' | 'rides' | 'skills' | 'polls' | 'partners';
 
 export default function CommunityPage() {
-  const [activeTab, setActiveTab] = useState<TabKey>('housing');
+  const [activeTab, setActiveTab] = useState<TabKey>('roadmap');
 
   const tabs = [
+    { key: 'roadmap' as TabKey, label: 'Roadmap', icon: Map, component: CommunityRoadmap },
+    { key: 'features' as TabKey, label: 'Feature Requests', icon: Lightbulb, component: FeatureRequestTracker },
     { key: 'housing' as TabKey, label: 'Housing', icon: Home, component: HousingHub },
     { key: 'classifieds' as TabKey, label: 'Marketplace', icon: Package, component: Classifieds },
     { key: 'lost-found' as TabKey, label: 'Lost & Found', icon: Search, component: LostAndFound },

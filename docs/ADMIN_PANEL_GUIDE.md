@@ -108,7 +108,72 @@ WHERE email = 'user@example.com';
 - ✅ Approve → Event appears in public calendar
 - ✅ Reject → Submitter notified (if notifications enabled)
 
-### 6. Feedback Management (`/admin` → Feedback Tab)
+### 6. Content Reports (`/admin` → Reports Tab) 🆕
+
+**Purpose:** Review and moderate user-reported content
+
+**Report Types:**
+- 📝 Post reports
+- 💬 Comment reports
+- ✉️ Message reports
+- 👤 User reports
+- 📅 Event reports
+- 🏪 Listing reports
+
+**Report Reasons:**
+- Harassment or Bullying
+- Spam
+- Inappropriate Content
+- Hate Speech
+- Misinformation
+- Privacy Violation
+- Threats or Violence
+- Impersonation
+- Scam or Fraud
+- Other
+
+**Features:**
+- ✅ View all reports with status filtering (Pending, Reviewing, Escalated, Resolved)
+- ✅ Filter by report type
+- ✅ See content snapshot at time of report
+- ✅ View reporter and reported user info
+- ✅ Take action: Issue warning, remove content, ban user
+- ✅ Add admin notes
+- ✅ Full audit trail of all actions
+
+**Actions:**
+- **Issue Warning** - Send formal warning to user (severity 1-3)
+- **Remove Content** - Delete the reported content
+- **Suspend User** - Temporarily ban user
+- **Ban User** - Permanently ban from community
+- **Dismiss** - Mark report as unfounded
+
+### 7. Bug Squasher (`/admin` → Bugs Tab) 🆕
+
+**Purpose:** Manage and track bug reports from users
+
+**Bug Severity:**
+- 🔴 **Critical** - System breaking, security issues
+- 🟠 **High** - Major feature broken
+- 🟡 **Medium** - Feature partially working
+- 🔵 **Low** - Minor cosmetic issues
+
+**Bug Status:**
+- **Open** - New, unreviewed
+- **Investigating** - Admin reviewing
+- **In Progress** - Being fixed
+- **Resolved** - Fix deployed
+- **Closed** - Won't fix / Duplicate
+
+**Features:**
+- ✅ Dashboard with stats (open, critical, resolved counts)
+- ✅ Filter by severity and status
+- ✅ View browser info and console logs
+- ✅ Add admin notes
+- ✅ Document resolution
+- ✅ Quick status updates
+
+### 8. Feedback Management (`/admin` → Feedback Tab)
 
 **Types of Feedback:**
 - 🐛 Bug Reports (with optional console logs)
@@ -186,13 +251,14 @@ Expandable sections show:
 ```
 /admin
 ├── Main Dashboard (all tabs accessible)
-│   ├── Users Tab
-│   ├── Queue Tab
-│   ├── Content Tab
-│   ├── Events Tab
-│   ├── Settings Tab
-│   ├── Feedback Tab
-│   └── Audit Logs Tab
+│   ├── Users Tab       - Member management
+│   ├── Content Tab     - Post moderation
+│   ├── Reports Tab     - User reports (NEW!)
+│   ├── Bugs Tab        - Bug tracking (NEW!)
+│   ├── Events Tab      - Event submissions
+│   ├── Settings Tab    - System settings
+│   ├── Feedback Tab    - User feedback
+│   └── Audit Logs Tab  - Admin actions log
 │
 ├── /admin/gate (Sacred Gate - Dedicated Vetting)
 │

@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-02-03T10:53:27.600Z",
-  "version": "1.17.2",
-  "codename": "Unnamed Release",
+  "timestamp": "2026-02-03T16:30:00.000Z",
+  "version": "1.19.0",
+  "codename": "Safe Haven",
   "git": {
     "branch": "main",
-    "commit": "230484d",
-    "commitCount": "89"
+    "commit": "b6a7fe6",
+    "commitCount": "90"
   },
   "files": {
-    "ts": 71,
-    "tsx": 89,
+    "ts": 76,
+    "tsx": 97,
     "js": 8,
     "css": 1,
-    "sql": 26,
+    "sql": 30,
     "md": 10
   },
-  "linesOfCode": 44985,
+  "linesOfCode": 49178,
   "routes": [
     "/admin/events",
     "/admin",
@@ -44,6 +44,9 @@
     "index",
     "SpeechInput",
     "WordPrediction",
+    "BugSquasher",
+    "ContentModerator",
+    "index",
     "AIAssistantUI",
     "index",
     "AudioContext",
@@ -56,7 +59,10 @@
     "BusinessDirectory",
     "Classifieds",
     "CommunityPolls",
+    "CommunityRoadmap",
     "DancePartnerFinder",
+    "DemoDataManager",
+    "FeatureRequestTracker",
     "HousingHub",
     "index",
     "LostAndFound",
@@ -64,6 +70,8 @@
     "RideShare",
     "SkillExchange",
     "SpicyChatLounge",
+    "index",
+    "SoulModal",
     "EncryptionInitializer",
     "CheckInUI",
     "index",
@@ -73,6 +81,8 @@
     "index",
     "InsightsUI",
     "GroupDMs",
+    "index",
+    "MessageReactions",
     "VoiceMessage",
     "index",
     "MoodUI",
@@ -94,6 +104,8 @@
     "SyncStatus",
     "index",
     "RecommendationsUI",
+    "index",
+    "ReportDialog",
     "BadgeDisplay",
     "BookmarkButton",
     "HashtagsAndTrending",
@@ -144,5 +156,5 @@
     "music_sets",
     "custom_vibe_tags"
   ],
-  "lastDeploy": "2026-02-03T10:53:27.600Z"
+  "lastDeploy": "2026-02-04T00:26:17.343Z"
 }

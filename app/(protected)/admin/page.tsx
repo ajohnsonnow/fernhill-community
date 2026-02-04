@@ -8,11 +8,13 @@ import {
   Search, ChevronDown, Ban, CheckCircle, Crown, UserX,
   Trash2, Eye, Filter, AlertTriangle, Clock, Activity,
   RefreshCw, Download, Upload, Lock, Unlock, Calendar,
-  UserPlus, Loader2, Mail, ExternalLink, Sparkles
+  UserPlus, Loader2, Mail, ExternalLink, Sparkles,
+  Bug, Flag
 } from 'lucide-react'
 import { formatDistanceToNow, format } from 'date-fns'
+import { BugSquasher, ContentModerator } from '@/components/admin'
 
-type TabType = 'users' | 'content' | 'events' | 'settings' | 'feedback' | 'logs'
+type TabType = 'users' | 'content' | 'events' | 'settings' | 'feedback' | 'logs' | 'reports' | 'bugs'
 
 interface Profile {
   id: string
@@ -569,6 +571,8 @@ export default function AdminDashboard() {
   const tabs = [
     { id: 'users', label: 'Users', icon: Users, count: stats.activeUsers },
     { id: 'content', label: 'Content', icon: MessageSquare, count: stats.totalPosts, highlight: stats.pendingQueue > 0 },
+    { id: 'reports', label: 'Reports', icon: Flag, highlight: true },
+    { id: 'bugs', label: 'Bugs', icon: Bug },
     { id: 'events', label: 'Events', icon: Calendar, count: stats.pendingEvents, highlight: stats.pendingEvents > 0 },
     { id: 'settings', label: 'Settings', icon: Settings },
     { id: 'feedback', label: 'Feedback', icon: FileText, count: stats.totalFeedback },
@@ -1411,6 +1415,16 @@ export default function AdminDashboard() {
               ))
             )}
           </div>
+        )}
+
+        {/* CONTENT REPORTS TAB */}
+        {activeTab === 'reports' && (
+          <ContentModerator />
+        )}
+
+        {/* BUG SQUASHER TAB */}
+        {activeTab === 'bugs' && (
+          <BugSquasher />
         )}
       </div>
 

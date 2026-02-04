@@ -115,7 +115,7 @@ export default function ProfilePage() {
               {/* Vibe Status Indicator */}
               <button
                 onClick={() => setShowVibeSelector(true)}
-                className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full glass-panel flex items-center justify-center text-xs hover:scale-110 transition-transform border border-sacred-gold/30"
+                className="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full glass-panel flex items-center justify-center text-[10px] hover:scale-110 transition-transform border border-sacred-gold/30"
               >
                 {currentVibe.emoji}
               </button>
@@ -402,12 +402,23 @@ interface EditProfileModalProps {
 
 function EditProfileModal({ profile, onClose, onSuccess }: EditProfileModalProps) {
   const [tribeName, setTribeName] = useState(profile.tribe_name || '')
+  const [bio, setBio] = useState(profile.bio || '')
+  const [pronouns, setPronouns] = useState(profile.pronouns || '')
+  const [location, setLocation] = useState(profile.location || '')
   const [gifts, setGifts] = useState(profile.mycelial_gifts || '')
   const [soundcloud, setSoundcloud] = useState(profile.soundcloud_url || '')
   const [website, setWebsite] = useState(profile.website || '')
+  const [instagram, setInstagram] = useState(profile.instagram_url || '')
+  const [facebook, setFacebook] = useState(profile.facebook_url || '')
+  const [twitter, setTwitter] = useState(profile.twitter_url || '')
+  const [tiktok, setTiktok] = useState(profile.tiktok_url || '')
+  const [spotify, setSpotify] = useState(profile.spotify_url || '')
+  const [bandcamp, setBandcamp] = useState(profile.bandcamp_url || '')
+  const [linkedin, setLinkedin] = useState(profile.linkedin_url || '')
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState<string | null>(profile.avatar_url)
   const [loading, setLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState<'basic' | 'social'>('basic')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const supabase = createClient()
 
@@ -459,9 +470,19 @@ function EditProfileModal({ profile, onClose, onSuccess }: EditProfileModalProps
         .from('profiles') as any)
         .update({
           tribe_name: tribeName,
+          bio: bio || null,
+          pronouns: pronouns || null,
+          location: location || null,
           mycelial_gifts: gifts || null,
           soundcloud_url: soundcloud || null,
           website: website || null,
+          instagram_url: instagram || null,
+          facebook_url: facebook || null,
+          twitter_url: twitter || null,
+          tiktok_url: tiktok || null,
+          spotify_url: spotify || null,
+          bandcamp_url: bandcamp || null,
+          linkedin_url: linkedin || null,
           avatar_url: avatarUrl,
         })
         .eq('id', profile.id)
@@ -480,91 +501,244 @@ function EditProfileModal({ profile, onClose, onSuccess }: EditProfileModalProps
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-lg glass-panel rounded-2xl p-6 my-8 animate-fadeIn">
-        <div className="flex items-center justify-between mb-6">
+      <div className="relative w-full max-w-lg glass-panel rounded-2xl p-6 my-8 animate-fadeIn max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-white">Edit Profile</h2>
           <button onClick={onClose} aria-label="Close" className="p-2 rounded-lg glass-panel-dark hover:bg-white/10">
             <X className="w-5 h-5 text-white/60" />
           </button>
         </div>
 
+        {/* Tabs */}
+        <div className="flex gap-2 mb-6">
+          <button
+            type="button"
+            onClick={() => setActiveTab('basic')}
+            className={`flex-1 py-2 px-4 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'basic'
+                ? 'bg-sacred-gold text-sacred-charcoal'
+                : 'glass-panel-dark text-white/60 hover:text-white'
+            }`}
+          >
+            Basic Info
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('social')}
+            className={`flex-1 py-2 px-4 rounded-xl text-sm font-medium transition-all ${
+              activeTab === 'social'
+                ? 'bg-sacred-gold text-sacred-charcoal'
+                : 'glass-panel-dark text-white/60 hover:text-white'
+            }`}
+          >
+            Social Links
+          </button>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Avatar */}
-          <div className="flex justify-center">
-            <div className="relative">
-              <div className="w-24 h-24 rounded-full glass-panel-dark overflow-hidden">
-                {avatarPreview ? (
-                  <img src={avatarPreview} alt="" className="w-full h-full object-cover aspect-square" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-sacred-gold font-bold text-3xl">
-                    {tribeName?.[0]?.toUpperCase()}
+          {activeTab === 'basic' && (
+            <>
+              {/* Avatar */}
+              <div className="flex justify-center">
+                <div className="relative">
+                  <div className="w-24 h-24 rounded-full glass-panel-dark overflow-hidden">
+                    {avatarPreview ? (
+                      <img src={avatarPreview} alt="" className="w-full h-full object-cover aspect-square" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-sacred-gold font-bold text-3xl">
+                        {tribeName?.[0]?.toUpperCase()}
+                      </div>
+                    )}
                   </div>
-                )}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleAvatarSelect}
+                    aria-label="Upload avatar image"
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    aria-label="Change avatar"
+                    className="absolute bottom-0 right-0 p-2 rounded-full glass-panel hover:bg-white/10"
+                  >
+                    <Camera className="w-4 h-4 text-sacred-gold" />
+                  </button>
+                </div>
               </div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleAvatarSelect}
-                aria-label="Upload avatar image"
-                className="hidden"
-              />
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                aria-label="Change avatar"
-                className="absolute bottom-0 right-0 p-2 rounded-full glass-panel hover:bg-white/10"
-              >
-                <Camera className="w-4 h-4 text-sacred-gold" />
-              </button>
-            </div>
-          </div>
 
-          <div>
-            <label htmlFor="tribe-name" className="block text-sm font-medium text-white/80 mb-2">Tribe Name *</label>
-            <input
-              id="tribe-name"
-              type="text"
-              value={tribeName}
-              onChange={(e) => setTribeName(e.target.value)}
-              required
-              placeholder="Your tribe name"
-              className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
-            />
-          </div>
+              <div>
+                <label htmlFor="tribe-name" className="block text-sm font-medium text-white/80 mb-2">Tribe Name *</label>
+                <input
+                  id="tribe-name"
+                  type="text"
+                  value={tribeName}
+                  onChange={(e) => setTribeName(e.target.value)}
+                  required
+                  placeholder="Your tribe name"
+                  className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                />
+              </div>
 
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">Gifts to the Mycelium</label>
-            <textarea
-              value={gifts}
-              onChange={(e) => setGifts(e.target.value)}
-              placeholder="What do you bring to the tribe?"
-              rows={3}
-              className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50 resize-none"
-            />
-          </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">Pronouns</label>
+                  <input
+                    type="text"
+                    value={pronouns}
+                    onChange={(e) => setPronouns(e.target.value)}
+                    placeholder="they/them, she/her..."
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">Location</label>
+                  <input
+                    type="text"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder="Portland, OR"
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+              </div>
 
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">SoundCloud URL</label>
-            <input
-              type="url"
-              value={soundcloud}
-              onChange={(e) => setSoundcloud(e.target.value)}
-              placeholder="https://soundcloud.com/..."
-              className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
-            />
-          </div>
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">Bio</label>
+                <textarea
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  placeholder="Tell us about yourself..."
+                  rows={3}
+                  maxLength={500}
+                  className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50 resize-none"
+                />
+                <p className="text-white/40 text-xs mt-1 text-right">{bio.length}/500</p>
+              </div>
 
-          <div>
-            <label className="block text-sm font-medium text-white/80 mb-2">Website</label>
-            <input
-              type="url"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-              placeholder="https://..."
-              className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
-            />
-          </div>
+              <div>
+                <label className="block text-sm font-medium text-white/80 mb-2">Gifts to the Mycelium</label>
+                <textarea
+                  value={gifts}
+                  onChange={(e) => setGifts(e.target.value)}
+                  placeholder="What do you bring to the tribe? (skills, talents, offerings)"
+                  rows={2}
+                  className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50 resize-none"
+                />
+              </div>
+            </>
+          )}
+
+          {activeTab === 'social' && (
+            <>
+              <p className="text-white/60 text-sm mb-4">
+                Add your social media links. Use full URLs (e.g., https://instagram.com/username)
+              </p>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">📸 Instagram</label>
+                  <input
+                    type="url"
+                    value={instagram}
+                    onChange={(e) => setInstagram(e.target.value)}
+                    placeholder="https://instagram.com/username"
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">👥 Facebook</label>
+                  <input
+                    type="url"
+                    value={facebook}
+                    onChange={(e) => setFacebook(e.target.value)}
+                    placeholder="https://facebook.com/username"
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">𝕏 Twitter / X</label>
+                  <input
+                    type="url"
+                    value={twitter}
+                    onChange={(e) => setTwitter(e.target.value)}
+                    placeholder="https://x.com/username"
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">🎵 TikTok</label>
+                  <input
+                    type="url"
+                    value={tiktok}
+                    onChange={(e) => setTiktok(e.target.value)}
+                    placeholder="https://tiktok.com/@username"
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">🎧 SoundCloud</label>
+                  <input
+                    type="url"
+                    value={soundcloud}
+                    onChange={(e) => setSoundcloud(e.target.value)}
+                    placeholder="https://soundcloud.com/username"
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">💚 Spotify</label>
+                  <input
+                    type="url"
+                    value={spotify}
+                    onChange={(e) => setSpotify(e.target.value)}
+                    placeholder="https://open.spotify.com/artist/..."
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">🎸 Bandcamp</label>
+                  <input
+                    type="url"
+                    value={bandcamp}
+                    onChange={(e) => setBandcamp(e.target.value)}
+                    placeholder="https://username.bandcamp.com"
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">💼 LinkedIn</label>
+                  <input
+                    type="url"
+                    value={linkedin}
+                    onChange={(e) => setLinkedin(e.target.value)}
+                    placeholder="https://linkedin.com/in/username"
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-white/80 mb-2">🌐 Website</label>
+                  <input
+                    type="url"
+                    value={website}
+                    onChange={(e) => setWebsite(e.target.value)}
+                    placeholder="https://yourwebsite.com"
+                    className="w-full px-4 py-3 glass-panel-dark rounded-xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-sacred-gold/50"
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="flex gap-3 pt-4">
             <button type="button" onClick={onClose} className="flex-1 btn-secondary">

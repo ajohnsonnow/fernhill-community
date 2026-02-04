@@ -22,8 +22,18 @@ export type Database = {
           vibe_status: 'flowing' | 'staccato' | 'chaos' | 'lyrical' | 'stillness' | 'open_to_dance' | 'mycelial' | 'offline'
           vouched_by_name: string | null
           mycelial_gifts: string | null
+          bio: string | null
+          pronouns: string | null
+          location: string | null
           soundcloud_url: string | null
           website: string | null
+          instagram_url: string | null
+          facebook_url: string | null
+          twitter_url: string | null
+          tiktok_url: string | null
+          spotify_url: string | null
+          bandcamp_url: string | null
+          linkedin_url: string | null
           public_key: string | null
           show_in_directory: boolean
         }
@@ -39,8 +49,18 @@ export type Database = {
           vibe_status?: 'flowing' | 'staccato' | 'chaos' | 'lyrical' | 'stillness' | 'open_to_dance' | 'mycelial' | 'offline'
           vouched_by_name?: string | null
           mycelial_gifts?: string | null
+          bio?: string | null
+          pronouns?: string | null
+          location?: string | null
           soundcloud_url?: string | null
           website?: string | null
+          instagram_url?: string | null
+          facebook_url?: string | null
+          twitter_url?: string | null
+          tiktok_url?: string | null
+          spotify_url?: string | null
+          bandcamp_url?: string | null
+          linkedin_url?: string | null
           public_key?: string | null
           show_in_directory?: boolean
         }
@@ -56,8 +76,18 @@ export type Database = {
           vibe_status?: 'flowing' | 'staccato' | 'chaos' | 'lyrical' | 'stillness' | 'open_to_dance' | 'mycelial' | 'offline'
           vouched_by_name?: string | null
           mycelial_gifts?: string | null
+          bio?: string | null
+          pronouns?: string | null
+          location?: string | null
           soundcloud_url?: string | null
           website?: string | null
+          instagram_url?: string | null
+          facebook_url?: string | null
+          twitter_url?: string | null
+          tiktok_url?: string | null
+          spotify_url?: string | null
+          bandcamp_url?: string | null
+          linkedin_url?: string | null
           public_key?: string | null
           show_in_directory?: boolean
         }

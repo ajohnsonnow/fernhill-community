@@ -25,6 +25,8 @@ import TypingIndicator from '@/components/social/TypingIndicator'
 import GroupDMs from '@/components/messages/GroupDMs'
 import { VoiceMessageRecorder, VoiceMessagePlayer } from '@/components/messages/VoiceMessage'
 import { SwipeableRow } from '@/components/ui/SwipeableRow'
+import { MessageReactions } from '@/components/messages/MessageReactions'
+import { useReportDialog } from '@/components/safety/ReportDialog'
 
 type TabType = 'direct' | 'circles';
 
@@ -74,6 +76,9 @@ export default function MessagesPage() {
   const [showVoiceRecorder, setShowVoiceRecorder] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const supabase = createClient()
+  
+  // Report dialog hook
+  const { openReport, ReportDialogComponent } = useReportDialog()
 
   useEffect(() => {
     initializeE2EE()
@@ -550,27 +555,48 @@ export default function MessagesPage() {
             key={msg.id}
             className={`flex ${msg.sender_id === currentUserId ? 'justify-end' : 'justify-start'}`}
           >
-            <div
-              className={`max-w-[80%] rounded-2xl px-4 py-2 ${
-                msg.sender_id === currentUserId
-                  ? 'bg-fernhill-gold text-fernhill-dark'
-                  : 'glass-panel text-fernhill-cream'
-              }`}
-            >
-              <p>{msg.decrypted_content || msg.encrypted_content}</p>
-              <div className={`flex items-center gap-1 text-xs mt-1 ${
-                msg.sender_id === currentUserId ? 'text-fernhill-dark/60' : 'text-fernhill-sand/60'
-              }`}>
-                {msg.is_encrypted === false && (
-                  <span title="Not encrypted"><Unlock className="w-3 h-3" /></span>
-                )}
-                <span>{formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}</span>
+            <div className="group relative">
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-2 ${
+                  msg.sender_id === currentUserId
+                    ? 'bg-fernhill-gold text-fernhill-dark'
+                    : 'glass-panel text-fernhill-cream'
+                }`}
+                onContextMenu={(e) => {
+                  // Long-press/right-click to report (only other user's messages)
+                  if (msg.sender_id !== currentUserId) {
+                    e.preventDefault()
+                    openReport(
+                      'message',
+                      msg.id,
+                      msg.sender_id,
+                      msg.decrypted_content || '[Encrypted message]'
+                    )
+                  }
+                }}
+              >
+                <p>{msg.decrypted_content || msg.encrypted_content}</p>
+                <div className={`flex items-center gap-1 text-xs mt-1 ${
+                  msg.sender_id === currentUserId ? 'text-fernhill-dark/60' : 'text-fernhill-sand/60'
+                }`}>
+                  {msg.is_encrypted === false && (
+                    <span title="Not encrypted"><Unlock className="w-3 h-3" /></span>
+                  )}
+                  <span>{formatDistanceToNow(new Date(msg.created_at), { addSuffix: true })}</span>
+                </div>
+              </div>
+              {/* Message Reactions */}
+              <div className={`mt-1 ${msg.sender_id === currentUserId ? 'text-right' : 'text-left'}`}>
+                <MessageReactions messageId={msg.id} />
               </div>
             </div>
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
+
+      {/* Report Dialog */}
+      {ReportDialogComponent}
 
       {/* Message Input */}
       <div className="glass-panel p-4">
