@@ -6,7 +6,7 @@
  */
 
 export const APP_VERSION = {
-  version: '1.19.0',
+  version: '1.19.1',
   codename: 'Safe Haven',
   releaseDate: '2026-02-03',
   buildTime: new Date().toISOString(),

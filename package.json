@@ -1,6 +1,6 @@
 {
   "name": "fernhill-tribe-app",
-  "version": "1.19.0",
+  "version": "1.19.1",
   "private": true,
   "description": "A secure digital hearth for the Fernhill Ecstatic Dance community",
   "scripts": {
