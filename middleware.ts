@@ -9,7 +9,7 @@ interface CookieToSet {
   options?: Record<string, unknown>
 }
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   // Update session
   const response = await updateSession(request)
   
