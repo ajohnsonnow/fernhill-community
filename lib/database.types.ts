@@ -41,6 +41,11 @@ export type Database = {
           muted_by: string | null
           mute_reason: string | null
           is_demo: boolean
+          total_posts: number
+          total_storage_bytes: number
+          last_post_at: string | null
+          posts_this_week: number
+          posts_this_month: number
         }
         Insert: {
           id: string
@@ -73,6 +78,11 @@ export type Database = {
           muted_by?: string | null
           is_demo?: boolean
           mute_reason?: string | null
+          total_posts?: number
+          total_storage_bytes?: number
+          last_post_at?: string | null
+          posts_this_week?: number
+          posts_this_month?: number
         }
         Update: {
           id?: string
@@ -101,6 +111,11 @@ export type Database = {
           muted_by?: string | null
           mute_reason?: string | null
           is_demo?: boolean
+          total_posts?: number
+          total_storage_bytes?: number
+          last_post_at?: string | null
+          posts_this_week?: number
+          posts_this_month?: number
           bandcamp_url?: string | null
           linkedin_url?: string | null
           public_key?: string | null

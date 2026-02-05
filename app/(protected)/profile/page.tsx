@@ -3,12 +3,13 @@
 import { useEffect, useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { LogOut, Settings as SettingsIcon, Edit3, Bug, Lightbulb, Heart, Camera, Loader2, X, Shield, Key, Bell, Eye, EyeOff, Smartphone, Monitor, Lock, Accessibility } from 'lucide-react'
+import { LogOut, Settings as SettingsIcon, Edit3, Bug, Lightbulb, Heart, Camera, Loader2, X, Shield, Key, Bell, Eye, EyeOff, Smartphone, Monitor, Lock, Accessibility, TrendingUp, Database, Activity, Users } from 'lucide-react'
 import { toast } from 'sonner'
 import { compressAvatar } from '@/lib/image-utils'
 import NotificationManager from '@/components/notifications/NotificationManager'
 import { exportPrivateKey, generateRecoveryPhrase } from '@/lib/crypto'
 import { AccessibilitySettingsPanel } from '@/components/accessibility'
+import { getUserUsageStats, getCommunityAverages, formatBytes, type UserUsageStats, type CommunityAverages } from '@/lib/user-usage'
 
 const VIBE_OPTIONS = [
   { value: 'offline', label: 'Offline', emoji: '⚫' },
@@ -30,11 +31,15 @@ export default function ProfilePage() {
   const [showSecurityModal, setShowSecurityModal] = useState(false)
   const [showAccessibilityModal, setShowAccessibilityModal] = useState(false)
   const [showDirectoryToggle, setShowDirectoryToggle] = useState(false)
+  const [usageStats, setUsageStats] = useState<UserUsageStats | null>(null)
+  const [communityAverages, setCommunityAverages] = useState<CommunityAverages | null>(null)
+  const [loadingUsage, setLoadingUsage] = useState(true)
   const supabase = createClient()
   const router = useRouter()
 
   useEffect(() => {
     fetchProfile()
+    fetchUsageStats()
   }, [])
 
   const fetchProfile = async () => {
@@ -53,6 +58,25 @@ export default function ProfilePage() {
       console.error('Failed to fetch profile:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchUsageStats = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      const [stats, averages] = await Promise.all([
+        getUserUsageStats(user.id),
+        getCommunityAverages()
+      ])
+
+      setUsageStats(stats)
+      setCommunityAverages(averages)
+    } catch (error) {
+      console.error('Failed to fetch usage stats:', error)
+    } finally {
+      setLoadingUsage(false)
     }
   }
 
@@ -155,6 +179,134 @@ export default function ProfilePage() {
             )}
           </div>
         </div>
+
+        {/* Usage Stats Card */}
+        {!loadingUsage && usageStats && communityAverages && (
+          <div className="glass-panel rounded-2xl p-6 mb-4">
+            <div className="flex items-center gap-2 mb-4">
+              <TrendingUp className="w-5 h-5 text-fernhill-gold" />
+              <h3 className="text-xl font-bold text-white">Your Community Footprint</h3>
+            </div>
+            
+            <p className="text-white/60 text-sm mb-6">
+              See how much space you're taking up in our community. Balance your voice to help amplify quieter members! 🌿
+            </p>
+
+            {/* Activity Level Indicator */}
+            <div className="glass-panel-dark rounded-xl p-4 mb-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-white/60 text-sm">Activity Level</span>
+                <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                  usageStats.activityLevel === 'quiet' ? 'bg-gray-500/20 text-gray-300' :
+                  usageStats.activityLevel === 'moderate' ? 'bg-blue-500/20 text-blue-300' :
+                  usageStats.activityLevel === 'active' ? 'bg-emerald-500/20 text-emerald-300' :
+                  'bg-amber-500/20 text-amber-300'
+                }`}>
+                  {usageStats.activityLevel === 'quiet' ? '🤫 Quiet' :
+                   usageStats.activityLevel === 'moderate' ? '💬 Moderate' :
+                   usageStats.activityLevel === 'active' ? '🎉 Active' :
+                   '🔥 Very Active'}
+                </span>
+              </div>
+              <div className="text-white/80 text-sm">
+                {usageStats.activityLevel === 'quiet' && "Your voice is welcome! Share your thoughts when you're ready."}
+                {usageStats.activityLevel === 'moderate' && "Great balance! You're contributing thoughtfully."}
+                {usageStats.activityLevel === 'active' && "You're a vibrant part of our community!"}
+                {usageStats.activityLevel === 'very_active' && "You're a community pillar! Consider amplifying quieter voices."}
+              </div>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="glass-panel-dark rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Activity className="w-4 h-4 text-fernhill-gold" />
+                  <span className="text-white/60 text-xs uppercase tracking-wide">Total Posts</span>
+                </div>
+                <div className="text-2xl font-bold text-white mb-1">{usageStats.totalPosts}</div>
+                <div className="text-xs text-white/50">
+                  {usageStats.percentageOfCommunity.toFixed(1)}% of community
+                </div>
+              </div>
+
+              <div className="glass-panel-dark rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Database className="w-4 h-4 text-fernhill-gold" />
+                  <span className="text-white/60 text-xs uppercase tracking-wide">Storage Used</span>
+                </div>
+                <div className="text-2xl font-bold text-white mb-1">{usageStats.storageFormatted}</div>
+                <div className="text-xs text-white/50">
+                  Media & photos
+                </div>
+              </div>
+
+              <div className="glass-panel-dark rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp className="w-4 h-4 text-fernhill-gold" />
+                  <span className="text-white/60 text-xs uppercase tracking-wide">This Week</span>
+                </div>
+                <div className="text-2xl font-bold text-white mb-1">{usageStats.postsThisWeek}</div>
+                <div className="text-xs text-white/50">
+                  Avg: {communityAverages.avgPostsPerWeek} posts
+                </div>
+              </div>
+
+              <div className="glass-panel-dark rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Users className="w-4 h-4 text-fernhill-gold" />
+                  <span className="text-white/60 text-xs uppercase tracking-wide">This Month</span>
+                </div>
+                <div className="text-2xl font-bold text-white mb-1">{usageStats.postsThisMonth}</div>
+                <div className="text-xs text-white/50">
+                  Last 30 days
+                </div>
+              </div>
+            </div>
+
+            {/* Community Comparison */}
+            <div className="glass-panel-dark rounded-xl p-4">
+              <div className="text-white/60 text-sm mb-3">Community Balance</div>
+              <div className="space-y-3">
+                <div>
+                  <div className="flex items-center justify-between text-xs text-white/60 mb-1">
+                    <span>Your posts vs average</span>
+                    <span>{usageStats.totalPosts} / {communityAverages.avgPosts}</span>
+                  </div>
+                  <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full rounded-full transition-all ${
+                        usageStats.totalPosts > communityAverages.avgPosts * 1.5 ? 'bg-amber-500' :
+                        usageStats.totalPosts > communityAverages.avgPosts ? 'bg-emerald-500' :
+                        'bg-blue-500'
+                      }`}
+                      style={{ width: `${Math.min((usageStats.totalPosts / communityAverages.avgPosts) * 50, 100)}%` }}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="flex items-center justify-between text-xs text-white/60 mb-1">
+                    <span>Your storage vs average</span>
+                    <span>{formatBytes(usageStats.totalStorageBytes)} / {formatBytes(communityAverages.avgStorage)}</span>
+                  </div>
+                  <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full rounded-full transition-all ${
+                        usageStats.totalStorageBytes > communityAverages.avgStorage * 1.5 ? 'bg-amber-500' :
+                        usageStats.totalStorageBytes > communityAverages.avgStorage ? 'bg-emerald-500' :
+                        'bg-blue-500'
+                      }`}
+                      style={{ width: `${Math.min((usageStats.totalStorageBytes / communityAverages.avgStorage) * 50, 100)}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-4 p-3 bg-fernhill-gold/10 rounded-lg text-xs text-white/70">
+                💡 <strong>Tip:</strong> If you're above average, consider taking a pause to listen and amplify voices that might be getting drowned out. Community balance helps everyone feel heard!
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Community Links */}
         <div className="card-warm p-4 mb-4">
