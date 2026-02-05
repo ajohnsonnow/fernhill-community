@@ -63,21 +63,21 @@ CREATE OR REPLACE FUNCTION calculate_user_storage(user_uuid UUID)
 RETURNS BIGINT AS $$
 DECLARE
   total_bytes BIGINT := 0;
-  altar_storage BIGINT := 0;
-  story_storage BIGINT := 0;
+  story_count INTEGER := 0;
+  altar_count INTEGER := 0;
 BEGIN
-  -- Calculate storage from altar photos
-  SELECT COALESCE(SUM(COALESCE(file_size, 0)), 0) INTO altar_storage
-  FROM altar_photos
-  WHERE user_id = user_uuid;
-  
-  -- Calculate storage from stories (rough estimate based on count)
-  -- Since stories don't store file size, we'll estimate 500KB per story
-  SELECT COUNT(*) * 500000 INTO story_storage
+  -- Count stories (estimate 500KB per story)
+  SELECT COUNT(*) INTO story_count
   FROM stories
   WHERE user_id = user_uuid;
   
-  total_bytes := altar_storage + story_storage;
+  -- Count altar posts (estimate 2MB per photo)
+  SELECT COUNT(*) INTO altar_count
+  FROM altar_posts
+  WHERE author_id = user_uuid;
+  
+  -- Calculate estimated total storage
+  total_bytes := (story_count * 500000) + (altar_count * 2000000);
   
   RETURN total_bytes;
 END;
