@@ -201,14 +201,7 @@ BEGIN
     )
   WHERE id = NEW.author_id;
   
-  -- Log daily activity
-  INSERT INTO user_activity_log (user_id, date, posts_count, storage_added_bytes)
-  VALUES (
-    NEW.author_id, 
-    CURRENT_DATE, 
-    1,
-    COALESCE(NEW.media_size, 0)
-  ) (no storage tracking for posts)
+  -- Log daily activity (no storage tracking for posts)
   INSERT INTO user_activity_log (user_id, date, posts_count, storage_added_bytes)
   VALUES (
     NEW.author_id, 
@@ -218,7 +211,14 @@ BEGIN
   )
   ON CONFLICT (user_id, date)
   DO UPDATE SET
-    posts_count = user_activity_log.posts_count + 1
+    posts_count = user_activity_log.posts_count + 1;
+  
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create trigger on posts table
+DROP TRIGGER IF EXISTS trigger_update_user_stats_on_post ON posts;
 CREATE TRIGGER trigger_update_user_stats_on_post
 AFTER INSERT ON posts
 FOR EACH ROW
