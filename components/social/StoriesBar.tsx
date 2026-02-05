@@ -79,6 +79,34 @@ export function StoriesBar() {
       .order('created_at', { ascending: false });
 
     if (!error && stories) {
+      // Generate fresh signed URLs for all stories
+      const storiesWithSignedUrls = await Promise.all(
+        stories.map(async (story: Story) => {
+          // Extract the file path from the media_url (could be a path or old signed URL)
+          let filePath = story.media_url;
+          
+          // If it's already a full URL, extract the path
+          if (filePath.includes('/storage/v1/object/')) {
+            const urlParts = filePath.split('/storage/v1/object/');
+            if (urlParts[1]) {
+              // Extract path after bucket name
+              const pathAfterBucket = urlParts[1].split('/').slice(1).join('/');
+              filePath = pathAfterBucket.split('?')[0]; // Remove query params
+            }
+          }
+          
+          // Generate fresh signed URL
+          const { data: signedUrlData } = await supabase.storage
+            .from('stories')
+            .createSignedUrl(filePath, 60 * 60 * 24); // 24 hours
+          
+          return {
+            ...story,
+            media_url: signedUrlData?.signedUrl || story.media_url
+          };
+        })
+      );
+
       // Get viewed stories for current user
       if (user) {
         const { data: views } = await (supabase
@@ -92,11 +120,11 @@ export function StoriesBar() {
       }
 
       // Separate my stories
-      const mine = stories.filter((s: Story) => s.user_id === user?.id);
+      const mine = storiesWithSignedUrls.filter((s: Story) => s.user_id === user?.id);
       setMyStories(mine);
 
       // Group other users' stories
-      const otherStories = stories.filter((s: Story) => s.user_id !== user?.id);
+      const otherStories = storiesWithSignedUrls.filter((s: Story) => s.user_id !== user?.id);
       const grouped: Map<string, GroupedStories> = new Map();
 
       otherStories.forEach((story: Story) => {
@@ -489,23 +517,12 @@ function CreateStoryModal({ onClose, onCreated }: { onClose: () => void; onCreat
       return;
     }
 
-    // Get signed URL (stories bucket is private)
-    const { data: signedUrlData, error: urlError } = await supabase.storage
-      .from('stories')
-      .createSignedUrl(fileName, 60 * 60 * 24); // 24 hour expiry
-
-    if (urlError || !signedUrlData) {
-      console.error('Signed URL error:', urlError);
-      setUploading(false);
-      return;
-    }
-
-    // Create story record
+    // Store the file path (not signed URL) so we can generate fresh URLs later
     const { error: insertError } = await (supabase
       .from('stories') as any)
       .insert({
         user_id: user.id,
-        media_url: signedUrlData.signedUrl,
+        media_url: fileName, // Store path instead of signed URL
         media_type: image.type.startsWith('video/') ? 'video' : 'image',
         caption: caption || null
       });
