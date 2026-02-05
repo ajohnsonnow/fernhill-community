@@ -63,27 +63,21 @@ CREATE OR REPLACE FUNCTION calculate_user_storage(user_uuid UUID)
 RETURNS BIGINT AS $$
 DECLARE
   total_bytes BIGINT := 0;
-  post_storage BIGINT := 0;
   altar_storage BIGINT := 0;
   story_storage BIGINT := 0;
 BEGIN
-  -- Calculate storage from posts table (if media exists)
-  SELECT COALESCE(SUM(COALESCE(media_size, 0)), 0) INTO post_storage
-  FROM posts
-  WHERE author_id = user_uuid;
-  
   -- Calculate storage from altar photos
   SELECT COALESCE(SUM(COALESCE(file_size, 0)), 0) INTO altar_storage
   FROM altar_photos
   WHERE user_id = user_uuid;
   
-  -- Calculate storage from stories (rough estimate based on file path)
-  -- Since stories don't store file size, we'll estimate
-  SELECT COUNT(*) * 500000 INTO story_storage -- Estimate 500KB per story
+  -- Calculate storage from stories (rough estimate based on count)
+  -- Since stories don't store file size, we'll estimate 500KB per story
+  SELECT COUNT(*) * 500000 INTO story_storage
   FROM stories
   WHERE user_id = user_uuid;
   
-  total_bytes := post_storage + altar_storage + story_storage;
+  total_bytes := altar_storage + story_storage;
   
   RETURN total_bytes;
 END;
@@ -141,7 +135,6 @@ CREATE OR REPLACE FUNCTION log_user_daily_activity(user_uuid UUID, activity_date
 RETURNS void AS $$
 DECLARE
   day_posts INTEGER;
-  day_storage BIGINT;
   day_comments INTEGER;
   day_reactions INTEGER;
 BEGIN
@@ -163,15 +156,9 @@ BEGIN
   WHERE user_id = user_uuid
     AND DATE(created_at) = activity_date;
   
-  -- Estimate storage added (simplified)
-  SELECT COALESCE(SUM(COALESCE(media_size, 0)), 0) INTO day_storage
-  FROM posts
-  WHERE author_id = user_uuid
-    AND DATE(created_at) = activity_date;
-  
   -- Insert or update activity log
   INSERT INTO user_activity_log (user_id, date, posts_count, storage_added_bytes, comments_count, reactions_count)
-  VALUES (user_uuid, activity_date, day_posts, day_storage, day_comments, day_reactions)
+  VALUES (user_uuid, activity_date, day_posts, 0, day_comments, day_reactions)
   ON CONFLICT (user_id, date)
   DO UPDATE SET
     posts_count = EXCLUDED.posts_count,
@@ -221,18 +208,17 @@ BEGIN
     CURRENT_DATE, 
     1,
     COALESCE(NEW.media_size, 0)
+  ) (no storage tracking for posts)
+  INSERT INTO user_activity_log (user_id, date, posts_count, storage_added_bytes)
+  VALUES (
+    NEW.author_id, 
+    CURRENT_DATE, 
+    1,
+    0
   )
   ON CONFLICT (user_id, date)
   DO UPDATE SET
-    posts_count = user_activity_log.posts_count + 1,
-    storage_added_bytes = user_activity_log.storage_added_bytes + COALESCE(NEW.media_size, 0);
-  
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Create trigger on posts table
-DROP TRIGGER IF EXISTS trigger_update_user_stats_on_post ON posts;
+    posts_count = user_activity_log.posts_count + 1
 CREATE TRIGGER trigger_update_user_stats_on_post
 AFTER INSERT ON posts
 FOR EACH ROW
