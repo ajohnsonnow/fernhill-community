@@ -587,7 +587,25 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      update_user_usage_stats: {
+        Args: {
+          user_uuid: string
+        }
+        Returns: undefined
+      }
+      calculate_user_storage: {
+        Args: {
+          user_uuid: string
+        }
+        Returns: number
+      }
+      log_user_daily_activity: {
+        Args: {
+          user_uuid: string
+          activity_date: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       membership_status: 'pending' | 'active' | 'facilitator' | 'admin' | 'banned'

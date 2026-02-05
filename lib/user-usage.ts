@@ -54,7 +54,7 @@ export async function getUserUsageStats(userId: string): Promise<UserUsageStats 
     .from('profiles')
     .select('total_posts, total_storage_bytes, last_post_at, posts_this_week, posts_this_month')
     .eq('id', userId)
-    .single();
+    .single() as any;
   
   if (error || !profile) {
     console.error('Error fetching user usage stats:', error);
@@ -65,9 +65,9 @@ export async function getUserUsageStats(userId: string): Promise<UserUsageStats 
   const { data: communityStats } = await supabase
     .from('profiles')
     .select('total_posts, total_storage_bytes')
-    .eq('status', 'active');
+    .eq('status', 'active') as any;
   
-  const totalCommunityPosts = communityStats?.reduce((sum, p) => sum + (p.total_posts || 0), 0) || 1;
+  const totalCommunityPosts = communityStats?.reduce((sum: number, p: any) => sum + (p.total_posts || 0), 0) || 1;
   
   return {
     totalPosts: profile.total_posts || 0,
@@ -92,7 +92,7 @@ export async function getCommunityAverages(): Promise<CommunityAverages | null> 
   const { data: profiles, error } = await supabase
     .from('profiles')
     .select('total_posts, total_storage_bytes, posts_this_week')
-    .in('status', ['active', 'facilitator', 'admin']);
+    .in('status', ['active', 'facilitator', 'admin']) as any;
   
   if (error || !profiles || profiles.length === 0) {
     console.error('Error fetching community averages:', error);
@@ -100,9 +100,9 @@ export async function getCommunityAverages(): Promise<CommunityAverages | null> 
   }
   
   const totalUsers = profiles.length;
-  const totalPosts = profiles.reduce((sum, p) => sum + (p.total_posts || 0), 0);
-  const totalStorage = profiles.reduce((sum, p) => sum + (p.total_storage_bytes || 0), 0);
-  const totalWeeklyPosts = profiles.reduce((sum, p) => sum + (p.posts_this_week || 0), 0);
+  const totalPosts = profiles.reduce((sum: number, p: any) => sum + (p.total_posts || 0), 0);
+  const totalStorage = profiles.reduce((sum: number, p: any) => sum + (p.total_storage_bytes || 0), 0);
+  const totalWeeklyPosts = profiles.reduce((sum: number, p: any) => sum + (p.posts_this_week || 0), 0);
   
   return {
     avgPosts: Math.round(totalPosts / totalUsers),
@@ -123,7 +123,7 @@ export async function updateUserUsageStats(userId: string): Promise<void> {
   
   try {
     // Call the database function to recalculate stats
-    const { error } = await supabase.rpc('update_user_usage_stats', {
+    const { error } = await (supabase.rpc as any)('update_user_usage_stats', {
       user_uuid: userId
     });
     
