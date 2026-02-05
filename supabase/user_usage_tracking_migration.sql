@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS user_activity_log (
   date DATE NOT NULL,
   posts_count INTEGER DEFAULT 0,
   storage_added_bytes BIGINT DEFAULT 0,
-  comments_count INTEGER DEFAULT 0,
   reactions_count INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
   CONSTRAINT unique_user_date UNIQUE (user_id, date)
@@ -135,7 +134,6 @@ CREATE OR REPLACE FUNCTION log_user_daily_activity(user_uuid UUID, activity_date
 RETURNS void AS $$
 DECLARE
   day_posts INTEGER;
-  day_comments INTEGER;
   day_reactions INTEGER;
 BEGIN
   -- Count posts for the day
@@ -144,26 +142,19 @@ BEGIN
   WHERE author_id = user_uuid
     AND DATE(created_at) = activity_date;
   
-  -- Count comments for the day
-  SELECT COUNT(*) INTO day_comments
-  FROM comments
-  WHERE user_id = user_uuid
-    AND DATE(created_at) = activity_date;
-  
   -- Count reactions for the day
   SELECT COUNT(*) INTO day_reactions
-  FROM reactions
+  FROM post_reactions
   WHERE user_id = user_uuid
     AND DATE(created_at) = activity_date;
   
   -- Insert or update activity log
-  INSERT INTO user_activity_log (user_id, date, posts_count, storage_added_bytes, comments_count, reactions_count)
-  VALUES (user_uuid, activity_date, day_posts, 0, day_comments, day_reactions)
+  INSERT INTO user_activity_log (user_id, date, posts_count, storage_added_bytes, reactions_count)
+  VALUES (user_uuid, activity_date, day_posts, 0, day_reactions)
   ON CONFLICT (user_id, date)
   DO UPDATE SET
     posts_count = EXCLUDED.posts_count,
     storage_added_bytes = EXCLUDED.storage_added_bytes,
-    comments_count = EXCLUDED.comments_count,
     reactions_count = EXCLUDED.reactions_count;
 END;
 $$ LANGUAGE plpgsql;
