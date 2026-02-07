@@ -1,21 +1,21 @@
 {
-  "timestamp": "2026-02-04T23:50:40.645Z",
+  "timestamp": "2026-02-07T09:20:35.736Z",
   "version": "1.21.0",
   "codename": "Unnamed Release",
   "git": {
     "branch": "main",
-    "commit": "4b52931",
-    "commitCount": "101"
+    "commit": "e679b03",
+    "commitCount": "112"
   },
   "files": {
-    "ts": 76,
-    "tsx": 99,
+    "ts": 77,
+    "tsx": 100,
     "js": 8,
     "css": 1,
-    "sql": 33,
+    "sql": 34,
     "md": 14
   },
-  "linesOfCode": 50463,
+  "linesOfCode": 51542,
   "routes": [
     "/admin/events",
     "/admin",
@@ -129,6 +129,7 @@
     "ThemeBuilderUI",
     "index",
     "TribesUI",
+    "CollapsibleSection",
     "index",
     "LongPressMenu",
     "OptimizedImage",
@@ -159,5 +160,5 @@
     "music_sets",
     "custom_vibe_tags"
   ],
-  "lastDeploy": "2026-02-04T23:50:40.645Z"
+  "lastDeploy": "2026-02-07T09:20:35.736Z"
 }
