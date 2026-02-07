@@ -45,12 +45,11 @@ export function PlaylistHeader({
   
   return (
     <div 
-      className="relative rounded-xl overflow-hidden p-6"
+      className="relative rounded-xl overflow-hidden p-6 dynamic-gradient"
       style={{ 
-        background: vibe 
-          ? `linear-gradient(135deg, ${vibe.gradient[0]}, ${vibe.gradient[1]})`
-          : 'linear-gradient(135deg, #1a1a2e, #16213e)'
-      }}
+        '--gradient-from': vibe?.gradient[0] || '#1a1a2e',
+        '--gradient-to': vibe?.gradient[1] || '#16213e'
+      } as React.CSSProperties}
     >
       <div className="relative z-10">
         <div className="flex items-start gap-4">
@@ -147,9 +146,9 @@ export function TrackRow({ track, index, onVote, isPlaying, userVoted }: TrackRo
       <div className="w-6 text-center">
         {isPlaying ? (
           <span className="flex justify-center gap-0.5">
-            <span className="w-0.5 h-3 bg-fernhill-gold rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
-            <span className="w-0.5 h-3 bg-fernhill-gold rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
-            <span className="w-0.5 h-3 bg-fernhill-gold rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+            <span className="w-0.5 h-3 bg-fernhill-gold rounded-full animate-pulse animate-delay-0" />
+            <span className="w-0.5 h-3 bg-fernhill-gold rounded-full animate-pulse animate-delay-150" />
+            <span className="w-0.5 h-3 bg-fernhill-gold rounded-full animate-pulse animate-delay-300" />
           </span>
         ) : (
           <span className="text-stone-500 text-sm">{index + 1}</span>
@@ -209,6 +208,7 @@ export function TrackRow({ track, index, onVote, isPlaying, userVoted }: TrackRo
           rel="noopener noreferrer"
           className="p-2 text-stone-500 hover:text-green-500 transition-colors"
           onClick={(e) => e.stopPropagation()}
+          aria-label="Open track in Spotify"
         >
           <ExternalLink className="w-4 h-4" />
         </a>
@@ -341,9 +341,11 @@ export function VibePicker({ selectedVibe, onChange }: VibePickerProps) {
               : ''
             }
           `}
+          className="dynamic-gradient"
           style={{
-            background: `linear-gradient(135deg, ${vibe.gradient[0]}, ${vibe.gradient[1]})`
-          }}
+            '--gradient-from': vibe.gradient[0],
+            '--gradient-to': vibe.gradient[1]
+          } as React.CSSProperties}
         >
           <span className="text-lg">{vibe.emoji}</span>
           <span className="text-sm font-medium text-white">{vibe.label}</span>
@@ -370,12 +372,11 @@ export function PlaylistCard({ playlist, onClick }: PlaylistCardProps) {
       className="w-full text-left rounded-xl overflow-hidden hover:scale-[1.02] transition-transform"
     >
       <div 
-        className="p-4 h-32"
+        className="p-4 h-32 dynamic-gradient"
         style={{ 
-          background: vibe 
-            ? `linear-gradient(135deg, ${vibe.gradient[0]}, ${vibe.gradient[1]})`
-            : 'linear-gradient(135deg, #1a1a2e, #16213e)'
-        }}
+          '--gradient-from': vibe?.gradient[0] || '#1a1a2e',
+          '--gradient-to': vibe?.gradient[1] || '#16213e'
+        } as React.CSSProperties}
       >
         <div className="flex items-center gap-2 mb-2">
           {vibe && <span className="text-lg">{vibe.emoji}</span>}

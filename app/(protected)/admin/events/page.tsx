@@ -233,12 +233,12 @@ export default function AdminEventsPage() {
         </div>
 
         {/* Filter tabs */}
-        <div className="flex gap-2 mb-4 overflow-x-auto no-scrollbar">
+        <div className="flex flex-wrap gap-2 mb-4">
           {(['pending', 'approved', 'rejected', 'all'] as const).map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-2 rounded-xl text-sm whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-xl text-sm transition-all min-h-[44px] ${
                 filter === f
                   ? 'bg-fernhill-gold text-fernhill-dark font-medium'
                   : 'glass-panel text-fernhill-sand hover:bg-fernhill-brown/30'

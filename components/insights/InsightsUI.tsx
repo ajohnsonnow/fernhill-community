@@ -116,8 +116,8 @@ function InsightHeader({
         <div className="flex-1">
           <div className="h-2 bg-white/20 rounded-full overflow-hidden">
             <div
-              className="h-full bg-white rounded-full transition-all duration-1000"
-              style={{ width: `${score}%` }}
+              className="h-full bg-white rounded-full transition-all duration-1000 dynamic-width"
+              style={{ '--dynamic-width': `${score}%` } as React.CSSProperties}
             />
           </div>
         </div>
@@ -146,15 +146,15 @@ function PeriodSelector({
   const periods: InsightPeriod[] = ['week', 'month', 'quarter', 'year'];
 
   return (
-    <div className="flex gap-2 overflow-x-auto pb-2">
+    <div className="flex flex-wrap gap-2 mb-4">
       {periods.map(period => (
         <button
           key={period}
           onClick={() => onChange(period)}
-          className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
+          className={`px-4 py-2 min-h-[44px] rounded-full text-sm font-medium transition-colors ${
             current === period
-              ? 'bg-purple-500 text-white'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200'
+              ? 'bg-fernhill-gold text-fernhill-dark'
+              : 'bg-fernhill-charcoal text-fernhill-sand hover:bg-fernhill-brown/30'
           }`}
         >
           {PERIOD_LABELS[period]}
@@ -206,10 +206,10 @@ function ActivityChart({ activity }: { activity: PersonalInsights['activity'] })
             <div key={day} className="flex-1 flex flex-col items-center gap-1">
               <div className="w-full flex-1 flex items-end">
                 <div
-                  className={`w-full rounded-t transition-all duration-500 ${
+                  className={`w-full rounded-t transition-all duration-500 dynamic-height ${
                     isToday ? 'bg-purple-500' : 'bg-gray-200 dark:bg-gray-700'
                   }`}
-                  style={{ height: `${Math.max(height, 4)}%` }}
+                  style={{ '--dynamic-height': `${Math.max(height, 4)}%` } as React.CSSProperties}
                 />
               </div>
               <span className={`text-xs ${isToday ? 'font-bold text-purple-500' : 'text-gray-500'}`}>
@@ -320,8 +320,8 @@ function LevelProgressCard({ growth }: { growth: PersonalInsights['growth'] }) {
 
       <div className="relative h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
         <div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000"
-          style={{ width: `${levelProgress.percentToNext}%` }}
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 dynamic-width"
+          style={{ '--dynamic-width': `${levelProgress.percentToNext}%` } as React.CSSProperties}
         />
       </div>
 

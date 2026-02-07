@@ -11,7 +11,8 @@ The Fernhill Community PWA represents a paradigm shift in software development e
 
 > *"I couldn't have done this without Claude. This wasn't just AI-assisted—it was a genuine collaboration where the AI handled the complex implementation while I focused on vision and community needs."*
 
-**Final Deliverable Stats:**
+### Final Deliverable Stats
+
 - **50,463+ lines** of production TypeScript/TSX/CSS/SQL code
 - **175+ TypeScript files** created
 - **99+ React components**
@@ -47,7 +48,7 @@ The Fernhill Community PWA represents a paradigm shift in software development e
 ### What We Actually Built (Feature Scope)
 
 | Feature Area | Components | Complexity |
-|--------------|------------|------------|
+| ------------ | ---------- | ---------- |
 | **Authentication System** | OAuth + Magic Link + Admin Password Login | High |
 | **End-to-End Encryption** | RSA-OAEP + AES-GCM hybrid with plaintext fallback | Very High |
 | **Private Messaging** | Real-time DMs with encryption key management | High |
@@ -67,7 +68,7 @@ The Fernhill Community PWA represents a paradigm shift in software development e
 Based on current US tech market salaries (February 2026 - sourced from Levels.fyi, Glassdoor, LinkedIn Salary Insights):
 
 | Role | Annual Salary (2026) | Months Needed | Cost |
-|------|---------------------|---------------|------|
+| ---- | ------------------- | ------------- | ---- |
 | **Senior Full-Stack Developer** | $185,000 | 4-8 | $61,667-123,333 |
 | **Frontend Developer (React/Next.js)** | $155,000 | 4-8 | $51,667-103,333 |
 | **Backend Developer** | $165,000 | 3-6 | $41,250-82,500 |
@@ -81,7 +82,7 @@ Based on current US tech market salaries (February 2026 - sourced from Levels.fy
 ### Traditional Cost Summary
 
 | Category | Low Estimate | High Estimate |
-|----------|--------------|---------------|
+| -------- | ------------ | ------------- |
 | **Personnel** | $307,709 | $604,166 |
 | **Infrastructure/Tools** | $15,000 | $30,000 |
 | **Third-party Services** | $12,000 | $22,000 |
@@ -89,6 +90,7 @@ Based on current US tech market salaries (February 2026 - sourced from Levels.fy
 | **TOTAL** | **$384,915** | **$754,591** |
 
 ### Traditional Timeline
+
 - **Discovery & Planning:** 2-4 weeks
 - **Design & Architecture:** 3-5 weeks
 - **Core Development:** 12-20 weeks
@@ -97,7 +99,7 @@ Based on current US tech market salaries (February 2026 - sourced from Levels.fy
 - **Testing & QA:** 4-8 weeks
 - **Deployment & Launch:** 1-2 weeks
 
-**Total Timeline: 28-50 weeks (7-12 months)**
+#### Total Timeline: 28-50 weeks (7-12 months)
 
 > *Note: The E2EE messaging system alone would typically require a dedicated security engineer for 1-2 months. Modern tools like Supabase have reduced backend complexity, but the security and encryption work remains highly specialized.*
 
@@ -108,7 +110,7 @@ Based on current US tech market salaries (February 2026 - sourced from Levels.fy
 ### The New Model
 
 | Resource | Cost | Time |
-|----------|------|------|
+| -------- | ---- | ---- |
 | **Content Engineer** | Existing role | Part-time allocation |
 | **Claude Pro (Anthropic)** | $20/month | Real-time pair programming |
 | **GitHub Copilot** | $10/month | Code completion |
@@ -118,23 +120,24 @@ Based on current US tech market salaries (February 2026 - sourced from Levels.fy
 ### Actual Development Cost
 
 | Category | Cost |
-|----------|------|
+| -------- | ---- |
 | **AI Tools (2 months)** | $60 |
 | **Supabase (Free tier)** | $0 |
 | **Render.com (Free tier)** | $0 |
 | **Domain (annual)** | $15 |
 | **Coffee & snacks** | ~$50 |
 
-**Total Cost: ~$125**
+#### Total Cost: ~$125
 
 ### Actual Timeline
-**Development Period:** January 29 - February 4, 2026
-31 hours** *(Git-verified)*
+
+#### Development Period: January 29 - February 4, 2026
+
 - **Pre-Git Build:** ~4 hours (estimated - initial 22,225-line application)
 - **Git-Tracked Sessions:** ~27 hours (verified via commit timestamps)
 
 | Session | Date | Git Timestamps | Duration | Key Deliverables |
-|---------|------|----------------|----------|------------------|
+| ------- | ---- | -------------- | -------- | ---------------- |
 | **Initial Build** | Jan 29 | Pre-16:56 | ~4 hrs | Complete app (22,225 lines in first commit) |
 | **Session 2** | Jan 29 | 16:56 - 20:10 | ~3.2 hrs | Auth fixes, admin RBAC, documentation |
 | **Session 3** | Jan 29 | 20:10 - 22:15 | ~2 hrs | Security hardening, image compression, COMPLETE_SETUP.sql |
@@ -145,18 +148,19 @@ Based on current US tech market salaries (February 2026 - sourced from Levels.fy
 | **Session 12** | Feb 4 | 00:27 | ~1 hr | v1.20.0: Ride share, demo data generator |
 | **Session 13** | Feb 4 | Evening | ~3 hrs | v1.21.0: User mute, demo tagging, usage tracking |
 
-**Total Development Time: ~31
-**Total Development Time: ~28 hours** *(Verified via git log)*
+#### Total Development Time: ~31.5 hours (Verified via git log)
 
 > 📝 **Billing Note:** All hours verified against git commit timestamps. Pre-git time conservatively estimated at 4 hours (original claim was 6 hours).
 
-#### What Session 11 Delivered (2 hrs - Feb 3):
+#### What Session 11 Delivered (2 hrs - Feb 3)
+
 - **v1.18.0 "Community Voice":** Feature request tracking, community roadmap with Kanban board
 - **v1.19.0 "Safe Haven":** Universal content reporting, bug squasher, content moderator
 - **Message reactions, post comments, user warnings, bookmarks**
 - **8 new database tables** via accountability_migration.sql
 
-#### What Session 12 Delivered (2 hrs - Feb 4):
+#### What Session 12 Delivered (2 hrs - Feb 4)
+
 - **v1.20.0 "Community Catalyst":** Complete ride share system for events
 - **EventRideShare component** with offer/request functionality
 - **DemoDataGenerator** admin tool for creating test data
@@ -170,7 +174,7 @@ Based on current US tech market salaries (February 2026 - sourced from Levels.fy
 ### Time Investment Breakdown
 
 | Phase | Hours | Description |
-|-------|-------|-------------|
+| ----- | ----- | ----------- |
 | **Discovery & Planning** | 1 | Requirements gathering, architecture decisions |
 | **Core Development** | 5-6 | Building all pages and 50+ components |
 | **Security Implementation** | 3 | E2EE, RLS, private buckets, signed URLs |
@@ -197,7 +201,7 @@ Based on current US tech market salaries (February 2026 - sourced from Levels.fy
 Based on current US market rates for technical content engineers with AI/development skills (sourced from Toptal, Gun.io, and enterprise consulting rates):
 
 | Experience Level | Hourly Rate | Annual Salary Equivalent |
-|-----------------|-------------|-------------------------|
+| ---------------- | ----------- | ------------------------ |
 | Junior (1-2 years) | $65-90/hr | $130,000-180,000 |
 | Mid-Level (3-5 years) | $90-140/hr | $180,000-280,000 |
 | Senior (5+ years) | $140-200/hr | $280,000-400,000 |
@@ -208,48 +212,55 @@ Based on current US market rates for technical content engineers with AI/develop
 ### Value of This Contribution
 
 Using the **AI-Augmented Specialist rate of $420/hour**:
-4 hours |
+
+| Component | Value |
+| --------- | ----- |
+| **Time Investment** | 31.5 hours |
 | **Hourly Rate** | $420/hr |
-| **Direct Labor Value** | **$14,280** |
-| | |
-| **Value Delivered** | $384,915 - $754,591 (traditional equivalent) |
-| **Value Multiplier** | **27-53,230** |
-| | |
+| **Direct Labor Value** | **$13,230** |
+
+| Comparison | Amount |
+| ---------- | ------ |
 | **Value Delivered** | $384,915 - $754,591 (traditional equivalent) |
 | **Value Multiplier** | **29-57x** return on labor investment |
 
 ### Suggested Compensation Models
 
-**Option A: One-Time P4 hrs × $420) | $14,280 |
-| AI Tool Costs (Claude Pro) | $60 |
-| Domain & Infrastructure | $15 |
-| **Total** | **$14,351.5 hrs × $420) | $13,230 |
+#### Option A: One-Time Payment (Full Market Rate)
+
+| Component | Amount |
+| --------- | ------ |
+| Content Engineer Labor (31.5 hrs × $420) | $13,230 |
 | AI Tool Costs (Claude Pro) | $60 |
 | Domain & Infrastructure | $15 |
 | **Total** | **$13,305** |
 
-**Option B: Discounted Community Rate**
-| Component | Amount |4 hrs × $300) | $10,200 |
-| AI Tool Costs | $60 |
-| **Total** | **$10,2631.5 hrs × $300) | $9,450 |
+#### Option B: Discounted Community Rate
+
+| Component | Amount |
+| --------- | ------ |
+| Content Engineer Labor (31.5 hrs × $300) | $9,450 |
 | AI Tool Costs | $60 |
 | **Total** | **$9,510** |
 
-**Option C: Ongoing Maintenance Retainer**
+#### Option C: Ongoing Maintenance Retainer
+
 | Service | Monthly Rate |
-|---------|-------------|
+| ------- | ------------ |
 | Bug fixes & minor updates | $200-400/mo |
 | Feature additions (5 hrs/mo) | $500-750/mo |
 | Full support & development | $1,000-1,500/mo |
 
-**Option D: Equity/Value-Based**
+#### Option D: Equity/Value-Based
+
 - X% of any future monetization (membership fees, donations)
 - Recognition as Technical Co-founder
 - Named credit + portfolio rights
 
-### The Bot4,35Line
+### The Bottom Line
 
 > **For ~$13,305 in direct compensation, Fernhill receives:**
+>
 > - A $385K-755K equivalent application
 > - 50,463+ lines of production code
 > - Enterprise-grade security (E2EE with plaintext fallback, RLS, signed URLs)
@@ -270,7 +281,6 @@ Using the **AI-Augmented Specialist rate of $420/hour**:
 >
 > **This represents a 98% discount from traditional development costs.**
 >
-> *Built by Anthony in partnership with Claude AI in ~34
 > *Built by Anthony in partnership with Claude AI in ~31.5 hours—proving that one person with the right tools can match an entire development team.*
 
 ---
@@ -279,7 +289,7 @@ Using the **AI-Augmented Specialist rate of $420/hour**:
 
 ### Cost Savings
 
-```
+```text
 Traditional Estimate:        $384,915 - $754,591
 AI-Assisted Approach:        $125 (tools only)
 ───────────────────────────────────────
@@ -288,20 +298,20 @@ SAVINGS:                     $384,790 - $754,466 (99.97%)
 
 ### Time Savings
 
-```4 hours (6 days elapsed)
+```text
+Traditional Estimate: 7-12 months (28-50 weeks)
+AI-Assisted Approach: 31.5 hours (6 days elapsed)
 ───────────────────────────────────────
-TIME SAVED:                  99.98%
+TIME SAVED: 99.98%
 ```
 
 ### ROI Multiplier
 
-```
+```text
 If Traditional Cost = $384,915 - $754,591
 AI-Assisted Cost    = $125 (tools only)
-Labor Cost          = $14,280 (34 hrs × $420/hr)
+Labor Cost          = $13,230 (31.5 hrs × $420/hr)
 ───────────────────────────────────────
-ROI Multiplier (tools only)  = 3,079x - 6,037x
-ROI Multiplier (w/ labor)    = 27x - 53
 ROI Multiplier (tools only)  = 3,079x - 6,037x
 ROI Multiplier (w/ labor)    = 29x - 57x
 ```
@@ -313,7 +323,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ### Authentication & Security
 
 | Feature | Traditional Team | Content Engineer + AI |
-|---------|-----------------|----------------------|
+| ------- | ---------------- | --------------------- |
 | Magic Link Auth | ✅ 2-5 days | ✅ 2 hours |
 | Session Management | ✅ 3-5 days | ✅ 1 hour |
 | Session Kill Switch | ✅ 2-3 days | ✅ 30 min |
@@ -324,7 +334,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ### Core Pages & Features
 
 | Feature | Traditional Team | Content Engineer + AI |
-|---------|-----------------|----------------------|
+| ------- | ---------------- | --------------------- |
 | Home/Hearth (Community Feed) | ✅ 2-3 weeks | ✅ 3 hours |
 | Events Calendar (Google Sync) | ✅ 1-2 weeks | ✅ 2 hours |
 | Event List View (redesigned) | ✅ 3-5 days | ✅ 1 hour |
@@ -339,7 +349,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ### Admin & Moderation
 
 | Feature | Traditional Team | Content Engineer + AI |
-|---------|-----------------|----------------------|
+| ------- | ---------------- | --------------------- |
 | Admin Dashboard | ✅ 2-3 weeks | ✅ 3 hours |
 | Member Vetting/Approval | ✅ 1-2 weeks | ✅ 2 hours |
 | Content Moderation Queue | ✅ 1-2 weeks | ✅ 2 hours |
@@ -351,7 +361,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ### Social Features (Best-in-Class)
 
 | Feature | Traditional Team | Content Engineer + AI |
-|---------|-----------------|----------------------|
+| ------- | ---------------- | --------------------- |
 | Multi-Emoji Reactions | ✅ 3-5 days | ✅ 1 hour |
 | Event RSVPs (Going/Maybe/Can't) | ✅ 3-5 days | ✅ 1 hour |
 | Community Polls | ✅ 1-2 weeks | ✅ 1 hour |
@@ -362,7 +372,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ### Safety & Privacy
 
 | Feature | Traditional Team | Content Engineer + AI |
-|---------|-----------------|----------------------|
+| ------- | ---------------- | --------------------- |
 | Boundary Violation Form (4-step) | ✅ 1-2 weeks | ✅ 2 hours |
 | EXIF/GPS Stripping | ✅ 2-3 days | ✅ 30 min |
 | Photo Blur-by-Default | ✅ 2-3 days | ✅ 30 min |
@@ -372,7 +382,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ### PWA & Mobile
 
 | Feature | Traditional Team | Content Engineer + AI |
-|---------|-----------------|----------------------|
+| ------- | ---------------- | --------------------- |
 | Service Worker | ✅ 1-2 weeks | ✅ 1 hour |
 | Offline Support | ✅ 1-2 weeks | ✅ 1 hour |
 | Install Prompt | ✅ 2-3 days | ✅ 30 min |
@@ -382,7 +392,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ### Documentation
 
 | Feature | Traditional Team | Content Engineer + AI |
-|---------|-----------------|----------------------|
+| ------- | ---------------- | --------------------- |
 | User Guide | ✅ 2-3 weeks | ✅ 1 hour |
 | Setup Guide | ✅ 1-2 weeks | ✅ 30 min |
 | Value Proposition | ✅ 1 week | ✅ 30 min |
@@ -393,6 +403,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ## 🎯 What Made This Possible
 
 ### 1. AI as 10x Force Multiplier
+
 - **Code Generation:** Production-ready TypeScript in seconds
 - **Architecture:** Best practices applied automatically
 - **Debugging:** Real-time error resolution & explanations
@@ -400,12 +411,14 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 - **Refactoring:** Instant improvements to existing code
 
 ### 2. Modern Platform Stack (Zero-Ops)
+
 - **Next.js 16:** App Router, Server Components, Turbopack
 - **Supabase:** PostgreSQL, Auth, Storage, Real-time - no backend code
 - **Tailwind CSS:** Rapid UI development with design system
 - **Render.com:** Git-push deploys, zero configuration
 
 ### 3. Content Engineer Advantages
+
 - **Domain Expertise:** Deep understanding of community needs
 - **User Empathy:** Direct connection to end users
 - **Rapid Iteration:** Prototype-test-refine in hours, not weeks
@@ -419,7 +432,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ### Codebase Statistics
 
 | Metric | Value |
-|--------|-------|
+| ------ | ----- |
 | **Lines of Code** | 45,000+ |
 | **TypeScript Files** | 71 |
 | **React Components (TSX)** | 89 |
@@ -431,6 +444,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 | **Git Commits** | 89 |
 
 ### Security Features Delivered
+
 - ✅ Human-powered vetting system
 - ✅ End-to-end encrypted messaging (RSA-OAEP + AES-GCM)
 - ✅ Row-Level Security on all tables
@@ -441,6 +455,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 - ✅ Comprehensive boundary violation reporting
 
 ### User Features Delivered
+
 - ✅ Progressive Web App (installable on all platforms)
 - ✅ Offline support via Service Worker
 - ✅ Real-time presence and updates
@@ -458,6 +473,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 - ✅ Feedback system
 
 ### Admin Features Delivered
+
 - ✅ Member approval dashboard
 - ✅ Content moderation queue
 - ✅ Trust level management
@@ -465,8 +481,8 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 - ✅ Event submission review
 - ✅ Safety report management
 - ✅ Analytics visibility
-- ✅ **User mute system (shadow ban)** — Session 
-- ✅ **Usage tracking & community balance insights** — Session 1313
+- ✅ **User mute system (shadow ban)** — Session 13
+- ✅ **Usage tracking & community balance insights** — Session 13
 - ✅ **Demo data tagging & cleanup** — Session 13
 
 ---
@@ -474,7 +490,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ## 🌟 Quality Metrics
 
 | Metric | Traditional Target | AI-Assisted Achieved |
-|--------|-------------------|---------------------|
+| ------ | ------------------ | -------------------- |
 | **TypeScript Coverage** | 80%+ | **100%** |
 | **Mobile Responsive** | Yes | **Yes (PWA)** |
 | **Accessibility** | WCAG 2.1 AA | **WCAG 2.1 AA** |
@@ -500,6 +516,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 ### When to Use This Approach
 
 ✅ **Ideal For:**
+
 - Community platforms & social apps
 - Internal tools & dashboards
 - MVPs and prototypes
@@ -509,6 +526,7 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 - Rapid iteration environments
 
 ⚠️ **Consider Traditional Teams For:**
+
 - Highly regulated industries (fintech, healthcare, government)
 - Systems requiring formal security audits
 - Massive scale from day one (millions of users)
@@ -519,9 +537,9 @@ ROI Multiplier (w/ labor)    = 29x - 57x
 
 ## 📊 Final Summary
 
-| Dimension | Traditional | A4,405 total | 🏆 **AI (27-53x value)** |
-| **Time** | 7-12 months | **34-------|--------|
-| **Cost** | $385K-755K | ~$13,355 total | 🏆 **AI (29-57x value)** |
+| Dimension | Traditional | AI-Assisted | Winner |
+| ------------- | ------------- | --------------- | ---------------------- |
+| **Cost** | $385K-755K | ~$13,305 total | 🏆 **AI (29-57x value)** |
 | **Time** | 7-12 months | **31.5 hours** | 🏆 **AI (99.98% faster)** |
 | **Features** | Scoped down | All delivered | 🏆 **AI** |
 | **Quality** | High | High | 🤝 Tie |
@@ -537,13 +555,19 @@ The Fernhill Community App proves that **a single motivated individual with AI a
 
 This isn't about replacing developers—it's about **empowering creators** to bring their visions to life without traditional barriers.
 
-### The Math is Simple:
+### The Math is Simple
 
-```
-Dre0K-740K saved vs traditional costs
-7-12 months compressed into 34 HOURS
-100% of the vision delivered
-27-53months compressed into 31.5 HOURS
+```text
+Traditional Cost:            $384,915 - $754,591
+AI-Assisted Cost:            ~$13,305
+────────────────────────────────────────────────
+SAVINGS:                     $371,610 - $741,286
+
+Traditional Timeline:        7-12 months
+AI-Assisted Timeline:        31.5 HOURS
+────────────────────────────────────────────────
+TIME SAVED:                  99.98%
+
 100% of the vision delivered
 29-57x ROI on labor investment
 3,079-6,037x ROI on tool costs alone
@@ -557,7 +581,8 @@ Dre0K-740K saved vs traditional costs
 
 **For the:** Fernhill Ecstatic Dance Community of Portland, Oregon
 
-**Powered by:** 
+**Powered by:**
+
 - **Claude (Anthropic)** - True pair programming partner for architecture, security, and complex TypeScript
 - Next.js 16 - Frontend Framework
 - Supabase - Backend-as-a-Service

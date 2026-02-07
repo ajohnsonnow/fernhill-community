@@ -158,25 +158,25 @@ export default function CommunityPolls() {
             setUserVote(null);
             setResults([]);
           }}
-          className="text-indigo-600 hover:text-indigo-800 font-medium"
+          className="text-fernhill-gold hover:text-fernhill-terracotta font-medium"
         >
           ← Back to All Polls
         </button>
 
         {/* Poll Detail */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-bold mb-4">{selectedPoll.question}</h2>
+        <div className="bg-fernhill-charcoal rounded-lg shadow p-6">
+          <h2 className="text-2xl font-bold text-fernhill-cream mb-4">{selectedPoll.question}</h2>
 
           {userVote || expired ? (
             // Show Results
             <div className="space-y-4">
-              <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+              <div className="flex items-center justify-between text-sm text-fernhill-sand/80 mb-4">
                 <span className="flex items-center gap-1">
                   <Users className="w-4 h-4" />
                   {selectedPoll.total_votes || 0} votes
                 </span>
                 {expired && (
-                  <span className="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium">
+                  <span className="px-2 py-1 bg-red-900/30 text-red-400 rounded text-xs font-medium">
                     Poll Closed
                   </span>
                 )}
@@ -185,20 +185,20 @@ export default function CommunityPolls() {
               {results.map((result, idx) => (
                 <div key={idx} className="space-y-2">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium">
+                    <span className="font-medium text-fernhill-cream">
                       {result.option}
                       {userVote === result.option && (
-                        <span className="ml-2 text-xs text-indigo-600">(Your vote)</span>
+                        <span className="ml-2 text-xs text-fernhill-gold">(Your vote)</span>
                       )}
                     </span>
-                    <span className="text-gray-600">
+                    <span className="text-fernhill-sand/80">
                       {result.votes} ({result.percentage}%)
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                  <div className="w-full bg-fernhill-brown rounded-full h-3 overflow-hidden">
                     <div
-                      className="bg-indigo-600 h-full transition-all duration-500"
-                      style={{ width: `${result.percentage}%` }}
+                      className="bg-fernhill-gold h-full transition-all duration-500 dynamic-width"
+                      style={{ '--dynamic-width': `${result.percentage}%` } as React.CSSProperties}
                     />
                   </div>
                 </div>
@@ -211,7 +211,7 @@ export default function CommunityPolls() {
                 <button
                   key={idx}
                   onClick={() => submitVote(selectedPoll.id, option)}
-                  className="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-600 hover:bg-indigo-50 transition-colors text-left font-medium"
+                  className="w-full p-4 border-2 border-fernhill-earth/50 rounded-lg hover:border-fernhill-gold hover:bg-fernhill-gold/10 transition-colors text-left font-medium text-fernhill-cream"
                 >
                   {option}
                 </button>
@@ -219,7 +219,7 @@ export default function CommunityPolls() {
             </div>
           )}
 
-          <div className="mt-6 pt-6 border-t text-sm text-gray-600">
+          <div className="mt-6 pt-6 border-t border-fernhill-earth/50 text-sm text-fernhill-sand/80">
             <div className="flex items-center justify-between">
               <span>
                 Created by {selectedPoll.profiles?.display_name || 'Unknown'} •{' '}
@@ -241,7 +241,7 @@ export default function CommunityPolls() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg shadow p-6">
+      <div className="bg-gradient-to-r from-fernhill-terracotta to-fernhill-gold text-fernhill-dark rounded-lg shadow p-6">
         <div className="flex items-center gap-2 mb-2">
           <BarChart3 className="w-8 h-8" />
           <h2 className="text-2xl font-bold">Community Polls</h2>
@@ -252,30 +252,30 @@ export default function CommunityPolls() {
       {/* New Poll Button */}
       <button
         onClick={() => setShowNewPoll(!showNewPoll)}
-        className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-medium"
+        className="w-full bg-fernhill-gold text-fernhill-dark py-3 rounded-lg hover:bg-fernhill-terracotta font-medium"
       >
         + Create Poll
       </button>
 
       {/* New Poll Form */}
       {showNewPoll && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-bold mb-4">Create a New Poll</h3>
+        <div className="bg-fernhill-charcoal rounded-lg shadow p-6">
+          <h3 className="text-lg font-bold text-fernhill-cream mb-4">Create a New Poll</h3>
           <form onSubmit={handleSubmitPoll} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Question *</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Question *</label>
               <input
                 type="text"
                 value={newPoll.question}
                 onChange={(e) => setNewPoll({...newPoll, question: e.target.value})}
                 placeholder="What do you want to ask?"
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand placeholder:text-fernhill-sand/50"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Options * (minimum 2)</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Options * (minimum 2)</label>
               <div className="space-y-2">
                 {newPoll.options.map((option, idx) => (
                   <div key={idx} className="flex gap-2">
@@ -284,13 +284,13 @@ export default function CommunityPolls() {
                       value={option}
                       onChange={(e) => updateOption(idx, e.target.value)}
                       placeholder={`Option ${idx + 1}`}
-                      className="flex-1 border rounded-lg px-3 py-2"
+                      className="flex-1 bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand placeholder:text-fernhill-sand/50"
                     />
                     {newPoll.options.length > 2 && (
                       <button
                         type="button"
                         onClick={() => removeOption(idx)}
-                        className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg"
+                        className="px-3 py-2 text-red-400 hover:bg-red-900/20 rounded-lg"
                       >
                         ✕
                       </button>
@@ -300,7 +300,7 @@ export default function CommunityPolls() {
                 <button
                   type="button"
                   onClick={addOption}
-                  className="flex items-center gap-1 text-indigo-600 hover:text-indigo-800 text-sm"
+                  className="flex items-center gap-1 text-fernhill-gold hover:text-fernhill-terracotta text-sm"
                 >
                   <PlusCircle className="w-4 h-4" />
                   Add Option
@@ -309,26 +309,27 @@ export default function CommunityPolls() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Expiration Date (Optional)</label>
+              <label htmlFor="poll-expiration-input" className="block text-sm font-medium text-fernhill-cream mb-2">Expiration Date (Optional)</label>
               <input
+                id="poll-expiration-input"
                 type="datetime-local"
                 value={newPoll.expires_at}
                 onChange={(e) => setNewPoll({...newPoll, expires_at: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand"
               />
             </div>
 
             <div className="flex gap-3">
               <button
                 type="submit"
-                className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700"
+                className="flex-1 bg-fernhill-gold text-fernhill-dark py-2 rounded-lg hover:bg-fernhill-terracotta"
               >
                 Create Poll
               </button>
               <button
                 type="button"
                 onClick={() => setShowNewPoll(false)}
-                className="px-6 py-2 border rounded-lg hover:bg-gray-50"
+                className="px-6 py-2 border border-fernhill-earth/50 rounded-lg text-fernhill-sand hover:bg-fernhill-brown/30"
               >
                 Cancel
               </button>
@@ -340,7 +341,7 @@ export default function CommunityPolls() {
       {/* Polls List */}
       <div className="space-y-3">
         {polls.length === 0 ? (
-          <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+          <div className="bg-fernhill-charcoal rounded-lg shadow p-8 text-center text-fernhill-sand/70">
             No polls yet. Create one to get community input!
           </div>
         ) : (
@@ -350,18 +351,18 @@ export default function CommunityPolls() {
               <div
                 key={poll.id}
                 onClick={() => openPoll(poll)}
-                className="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-md transition-shadow"
+                className="bg-fernhill-charcoal rounded-lg shadow p-4 cursor-pointer hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
-                  <h3 className="font-bold text-lg flex-1">{poll.question}</h3>
+                  <h3 className="font-bold text-lg text-fernhill-cream flex-1">{poll.question}</h3>
                   {expired && (
-                    <span className="px-2 py-1 bg-red-100 text-red-700 rounded text-xs font-medium ml-2">
+                    <span className="px-2 py-1 bg-red-900/30 text-red-400 rounded text-xs font-medium ml-2">
                       Closed
                     </span>
                   )}
                 </div>
                 
-                <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center justify-between text-sm text-fernhill-sand/80">
                   <span>
                     {poll.profiles?.display_name || 'Unknown'} •{' '}
                     {new Date(poll.created_at).toLocaleDateString()}

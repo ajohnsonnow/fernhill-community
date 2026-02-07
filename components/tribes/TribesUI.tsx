@@ -64,15 +64,15 @@ export function TribesList({
       </div>
 
       {/* Filters */}
-      <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+      <div className="flex flex-wrap gap-2 mb-4">
         {categoryFilters.map(({ value, label, icon }) => (
           <button
             key={value}
             onClick={() => setFilter(value)}
-            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-sm font-medium transition-colors ${
+            className={`px-3 py-2 min-h-[44px] rounded-full text-sm font-medium transition-colors ${
               filter === value
-                ? 'bg-purple-600 text-white'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                ? 'bg-fernhill-gold text-fernhill-dark'
+                : 'bg-fernhill-charcoal text-fernhill-sand hover:bg-fernhill-brown/30'
             }`}
           >
             {icon} {label}
@@ -126,8 +126,10 @@ export function TribeCard({ tribe, isMember, onJoin, onView }: TribeCardProps) {
     >
       {/* Banner */}
       <div 
-        className="h-20 bg-gradient-to-br from-purple-500 to-pink-500"
-        style={tribe.bannerUrl ? { backgroundImage: `url(${tribe.bannerUrl})`, backgroundSize: 'cover' } : {}}
+        className={`h-20 ${
+          tribe.bannerUrl ? 'dynamic-bg-image' : 'bg-gradient-to-br from-purple-500 to-pink-500'
+        }`}
+        style={tribe.bannerUrl ? { '--bg-image': `url(${tribe.bannerUrl})` } as React.CSSProperties : {}}
       />
 
       {/* Content */}
@@ -267,11 +269,11 @@ export function TribeMemberList({ members, currentUserId, onViewProfile }: Tribe
             </div>
             <div className="flex items-center gap-2 text-sm">
               <span 
-                className="px-2 py-0.5 rounded-full text-xs font-medium"
+                className="px-2 py-0.5 rounded-full text-xs font-medium dynamic-colors"
                 style={{ 
-                  backgroundColor: getRoleBadgeColor(member.role) + '20',
-                  color: getRoleBadgeColor(member.role),
-                }}
+                  '--bg-color': getRoleBadgeColor(member.role) + '20',
+                  '--text-color': getRoleBadgeColor(member.role),
+                } as React.CSSProperties}
               >
                 {getRoleDisplayName(member.role)}
               </span>
@@ -441,10 +443,11 @@ export function CreateTribeModal({ onClose, onCreate }: CreateTribeModalProps) {
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label htmlFor="tribe-category-select" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Category
             </label>
             <select
+              id="tribe-category-select"
               value={category}
               onChange={(e) => setCategory(e.target.value as TribeCategory)}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 outline-none"

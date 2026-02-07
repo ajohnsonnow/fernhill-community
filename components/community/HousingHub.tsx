@@ -163,18 +163,18 @@ export default function HousingHub() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-fernhill-dark">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+      <div className="bg-fernhill-charcoal border-b border-fernhill-earth sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Home className="w-6 h-6 text-purple-600" />
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Housing Hub</h1>
+              <Home className="w-6 h-6 text-fernhill-gold" />
+              <h1 className="text-2xl font-bold text-fernhill-cream">Housing Hub</h1>
             </div>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-fernhill-gold text-fernhill-dark rounded-lg hover:bg-fernhill-terracotta transition-colors"
             >
               <Plus className="w-5 h-5" />
               Post Listing
@@ -184,18 +184,18 @@ export default function HousingHub() {
           {/* Search & Filters */}
           <div className="flex gap-2">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-fernhill-sand/60" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search by location, keywords..."
-                className="w-full pl-10 pr-4 py-2 bg-gray-100 dark:bg-gray-700 border-0 rounded-lg text-gray-900 dark:text-white"
+                className="w-full pl-10 pr-4 py-2 bg-fernhill-brown/50 border-0 rounded-lg text-fernhill-sand placeholder:text-fernhill-sand/50"
               />
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-fernhill-brown/50 rounded-lg hover:bg-fernhill-brown transition-colors text-fernhill-sand"
             >
               <Filter className="w-5 h-5" />
               Filters
@@ -204,16 +204,17 @@ export default function HousingHub() {
 
           {/* Filter Panel */}
           {showFilters && (
-            <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg space-y-4">
+            <div className="mt-4 p-4 bg-fernhill-brown/50 rounded-lg space-y-4">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label htmlFor="housing-type-filter" className="block text-sm font-medium text-fernhill-cream mb-1">
                     Type
                   </label>
                   <select
+                    id="housing-type-filter"
                     value={filters.listing_type}
                     onChange={(e) => setFilters({ ...filters, listing_type: e.target.value })}
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-fernhill-charcoal border border-fernhill-earth rounded-lg text-fernhill-sand"
                   >
                     <option value="all">All Types</option>
                     <option value="room">Room</option>
@@ -225,7 +226,7 @@ export default function HousingHub() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-fernhill-cream mb-1">
                     Max Rent
                   </label>
                   <input
@@ -233,12 +234,12 @@ export default function HousingHub() {
                     value={filters.max_rent}
                     onChange={(e) => setFilters({ ...filters, max_rent: parseInt(e.target.value) || 0 })}
                     placeholder="3000"
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-fernhill-charcoal border border-fernhill-earth rounded-lg text-fernhill-sand"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-fernhill-cream mb-1">
                     Min Bedrooms
                   </label>
                   <input
@@ -246,12 +247,12 @@ export default function HousingHub() {
                     value={filters.bedrooms}
                     onChange={(e) => setFilters({ ...filters, bedrooms: parseInt(e.target.value) || 0 })}
                     placeholder="0"
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-fernhill-charcoal border border-fernhill-earth rounded-lg text-fernhill-sand"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  <label className="block text-sm font-medium text-fernhill-cream mb-1">
                     Neighborhood
                   </label>
                   <input
@@ -259,7 +260,7 @@ export default function HousingHub() {
                     value={filters.neighborhood}
                     onChange={(e) => setFilters({ ...filters, neighborhood: e.target.value })}
                     placeholder="e.g. Pearl District"
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-fernhill-charcoal border border-fernhill-earth rounded-lg text-fernhill-sand placeholder:text-fernhill-sand/50"
                   />
                 </div>
               </div>
@@ -272,25 +273,25 @@ export default function HousingHub() {
       <div className="max-w-7xl mx-auto px-4 py-6">
         {loading ? (
           <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600 dark:text-gray-400">Loading housing listings...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-fernhill-gold mx-auto"></div>
+            <p className="mt-4 text-fernhill-sand/70">Loading housing listings...</p>
           </div>
         ) : listings.length === 0 ? (
           <div className="text-center py-12">
-            <Home className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No listings found</h3>
-            <p className="text-gray-600 dark:text-gray-400">Try adjusting your filters or be the first to post!</p>
+            <Home className="w-16 h-16 text-fernhill-sand/40 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-fernhill-cream mb-2">No listings found</h3>
+            <p className="text-fernhill-sand/70">Try adjusting your filters or be the first to post!</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {listings.map(listing => (
               <div
                 key={listing.id}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
+                className="bg-fernhill-charcoal rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow cursor-pointer"
                 onClick={() => setSelectedListing(listing)}
               >
                 {/* Photo */}
-                <div className="relative h-48 bg-gradient-to-br from-purple-400 to-pink-400">
+                <div className="relative h-48 bg-gradient-to-br from-fernhill-gold to-fernhill-terracotta">
                   {listing.photos?.[0] && (
                     <img
                       src={listing.photos[0]}
@@ -303,44 +304,45 @@ export default function HousingHub() {
                       e.stopPropagation();
                       toggleFavorite(listing.id);
                     }}
-                    className="absolute top-2 right-2 p-2 bg-white/90 rounded-full hover:bg-white transition-colors"
+                    className="absolute top-2 right-2 p-2 bg-fernhill-charcoal/90 rounded-full hover:bg-fernhill-charcoal transition-colors"
+                    aria-label={listing.is_favorited ? "Remove from favorites" : "Add to favorites"}
                   >
                     <Heart
-                      className={`w-5 h-5 ${listing.is_favorited ? 'fill-red-500 text-red-500' : 'text-gray-600'}`}
+                      className={`w-5 h-5 ${listing.is_favorited ? 'fill-red-500 text-red-500' : 'text-fernhill-sand'}`}
                     />
                   </button>
-                  <div className="absolute top-2 left-2 px-3 py-1 bg-purple-600 text-white text-sm font-medium rounded-full">
+                  <div className="absolute top-2 left-2 px-3 py-1 bg-fernhill-gold text-fernhill-dark text-sm font-medium rounded-full">
                     {listing.listing_type.replace('-', ' ')}
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-1">
+                  <h3 className="text-lg font-semibold text-fernhill-cream mb-2 line-clamp-1">
                     {listing.title}
                   </h3>
                   
-                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <div className="flex items-center gap-2 text-sm text-fernhill-sand/70 mb-2">
                     <MapPin className="w-4 h-4" />
                     {listing.neighborhood}, {listing.city}
                   </div>
 
                   <div className="flex items-center justify-between mb-3">
                     {listing.rent_amount && (
-                      <div className="flex items-center gap-1 text-lg font-bold text-purple-600">
+                      <div className="flex items-center gap-1 text-lg font-bold text-fernhill-gold">
                         <DollarSign className="w-5 h-5" />
                         {(listing.rent_amount / 100).toLocaleString()}/mo
                       </div>
                     )}
                     {listing.bedrooms && (
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                      <div className="text-sm text-fernhill-sand/70">
                         {listing.bedrooms} bed • {listing.bathrooms} bath
                       </div>
                     )}
                   </div>
 
                   {listing.available_date && (
-                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    <div className="flex items-center gap-2 text-sm text-fernhill-sand/70 mb-3">
                       <Calendar className="w-4 h-4" />
                       Available {new Date(listing.available_date).toLocaleDateString()}
                     </div>
@@ -352,13 +354,13 @@ export default function HousingHub() {
                       {listing.amenities.slice(0, 3).map((amenity, idx) => (
                         <span
                           key={idx}
-                          className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-xs rounded-full text-gray-700 dark:text-gray-300"
+                          className="px-2 py-1 bg-fernhill-brown/50 text-xs rounded-full text-fernhill-sand"
                         >
                           {amenity}
                         </span>
                       ))}
                       {listing.amenities.length > 3 && (
-                        <span className="px-2 py-1 text-xs text-gray-500">
+                        <span className="px-2 py-1 text-xs text-fernhill-sand/50">
                           +{listing.amenities.length - 3} more
                         </span>
                       )}
@@ -408,10 +410,10 @@ function ListingDetailModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">{listing.title}</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+      <div className="bg-fernhill-charcoal rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-fernhill-charcoal border-b border-fernhill-earth p-4 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-fernhill-cream">{listing.title}</h2>
+          <button onClick={onClose} className="text-fernhill-sand/70 hover:text-fernhill-cream" aria-label="Close listing details">
             <X className="w-6 h-6" />
           </button>
         </div>
@@ -435,30 +437,30 @@ function ListingDetailModal({
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               {listing.rent_amount && (
-                <div className="text-2xl font-bold text-purple-600">
+                <div className="text-2xl font-bold text-fernhill-gold">
                   ${(listing.rent_amount / 100).toLocaleString()}/month
                 </div>
               )}
-              <div className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+              <div className="px-3 py-1 bg-fernhill-gold/20 text-fernhill-gold rounded-full text-sm font-medium">
                 {listing.listing_type.replace('-', ' ')}
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-gray-600 dark:text-gray-400">Location:</span>
-                <span className="ml-2 font-medium">{listing.neighborhood}, {listing.city}</span>
+                <span className="text-fernhill-sand/70">Location:</span>
+                <span className="ml-2 font-medium text-fernhill-cream">{listing.neighborhood}, {listing.city}</span>
               </div>
               {listing.bedrooms && (
                 <div>
-                  <span className="text-gray-600 dark:text-gray-400">Size:</span>
-                  <span className="ml-2 font-medium">{listing.bedrooms} bed, {listing.bathrooms} bath</span>
+                  <span className="text-fernhill-sand/70">Size:</span>
+                  <span className="ml-2 font-medium text-fernhill-cream">{listing.bedrooms} bed, {listing.bathrooms} bath</span>
                 </div>
               )}
               {listing.available_date && (
                 <div>
-                  <span className="text-gray-600 dark:text-gray-400">Available:</span>
-                  <span className="ml-2 font-medium">
+                  <span className="text-fernhill-sand/70">Available:</span>
+                  <span className="ml-2 font-medium text-fernhill-cream">
                     {new Date(listing.available_date).toLocaleDateString()}
                   </span>
                 </div>
@@ -466,18 +468,18 @@ function ListingDetailModal({
             </div>
 
             <div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Description</h3>
-              <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{listing.description}</p>
+              <h3 className="font-semibold text-fernhill-cream mb-2">Description</h3>
+              <p className="text-fernhill-sand whitespace-pre-wrap">{listing.description}</p>
             </div>
 
             {listing.amenities?.length > 0 && (
               <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Amenities</h3>
+                <h3 className="font-semibold text-fernhill-cream mb-2">Amenities</h3>
                 <div className="flex flex-wrap gap-2">
                   {listing.amenities.map((amenity, idx) => (
                     <span
                       key={idx}
-                      className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm"
+                      className="px-3 py-1 bg-fernhill-brown/50 rounded-full text-sm text-fernhill-sand"
                     >
                       {amenity}
                     </span>
@@ -488,14 +490,14 @@ function ListingDetailModal({
           </div>
 
           {/* Contact Form */}
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-            <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Send Inquiry</h3>
+          <div className="border-t border-fernhill-earth pt-4">
+            <h3 className="font-semibold text-fernhill-cream mb-3">Send Inquiry</h3>
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Hi! I'm interested in this listing. Can we set up a time to view it?"
               rows={4}
-              className="w-full px-4 py-2 bg-gray-100 dark:bg-gray-700 border-0 rounded-lg text-gray-900 dark:text-white resize-none"
+              className="w-full px-4 py-2 bg-fernhill-brown/50 border-0 rounded-lg text-fernhill-sand placeholder:text-fernhill-sand/50 resize-none"
             />
             <button
               onClick={() => {
@@ -505,7 +507,7 @@ function ListingDetailModal({
                 }
               }}
               disabled={!message.trim()}
-              className="mt-3 w-full py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+              className="mt-3 w-full py-3 bg-fernhill-gold text-fernhill-dark rounded-lg hover:bg-fernhill-terracotta disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
             >
               Send Inquiry
             </button>
@@ -569,19 +571,20 @@ function CreateListingModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold">Create Housing Listing</h2>
-          <button onClick={onClose}><X className="w-6 h-6" /></button>
+      <div className="bg-fernhill-charcoal rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-fernhill-charcoal border-b border-fernhill-earth p-4 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-fernhill-cream">Create Housing Listing</h2>
+          <button onClick={onClose} className="text-fernhill-sand/70 hover:text-fernhill-cream" aria-label="Close form"><X className="w-6 h-6" /></button>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Listing Type</label>
+            <label htmlFor="housing-listing-type-input" className="block text-sm font-medium text-fernhill-cream mb-1">Listing Type</label>
             <select
+              id="housing-listing-type-input"
               value={formData.listing_type}
               onChange={(e) => setFormData({ ...formData, listing_type: e.target.value })}
-              className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg"
+              className="w-full px-3 py-2 bg-fernhill-brown/50 rounded-lg text-fernhill-sand border-0"
               required
             >
               <option value="room">Room</option>
@@ -593,86 +596,89 @@ function CreateListingModal({
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Title</label>
+            <label className="block text-sm font-medium text-fernhill-cream mb-1">Title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="Cozy room in Pearl District dance community"
-              className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg"
+              className="w-full px-3 py-2 bg-fernhill-brown/50 rounded-lg text-fernhill-sand placeholder:text-fernhill-sand/50 border-0"
               required
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Description</label>
+            <label className="block text-sm font-medium text-fernhill-cream mb-1">Description</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={4}
               placeholder="Describe the space, neighborhood, and what you're looking for..."
-              className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg resize-none"
+              className="w-full px-3 py-2 bg-fernhill-brown/50 rounded-lg text-fernhill-sand placeholder:text-fernhill-sand/50 resize-none border-0"
               required
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Neighborhood</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-1">Neighborhood</label>
               <input
                 type="text"
                 value={formData.neighborhood}
                 onChange={(e) => setFormData({ ...formData, neighborhood: e.target.value })}
                 placeholder="Pearl District"
-                className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg"
+                className="w-full px-3 py-2 bg-fernhill-brown/50 rounded-lg text-fernhill-sand placeholder:text-fernhill-sand/50 border-0"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Monthly Rent ($)</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-1">Monthly Rent ($)</label>
               <input
                 type="number"
                 value={formData.rent_amount}
                 onChange={(e) => setFormData({ ...formData, rent_amount: e.target.value })}
                 placeholder="1200"
-                className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg"
+                className="w-full px-3 py-2 bg-fernhill-brown/50 rounded-lg text-fernhill-sand placeholder:text-fernhill-sand/50 border-0"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-medium mb-1">Bedrooms</label>
+              <label htmlFor="housing-bedrooms-input" className="block text-sm font-medium text-fernhill-cream mb-1">Bedrooms</label>
               <input
+                id="housing-bedrooms-input"
                 type="number"
                 value={formData.bedrooms}
                 onChange={(e) => setFormData({ ...formData, bedrooms: e.target.value })}
-                className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg"
+                className="w-full px-3 py-2 bg-fernhill-brown/50 rounded-lg text-fernhill-sand border-0"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Bathrooms</label>
+              <label htmlFor="housing-bathrooms-input" className="block text-sm font-medium text-fernhill-cream mb-1">Bathrooms</label>
               <input
+                id="housing-bathrooms-input"
                 type="number"
                 step="0.5"
                 value={formData.bathrooms}
                 onChange={(e) => setFormData({ ...formData, bathrooms: e.target.value })}
-                className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg"
+                className="w-full px-3 py-2 bg-fernhill-brown/50 rounded-lg text-fernhill-sand border-0"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1">Available Date</label>
+              <label htmlFor="housing-available-date-input" className="block text-sm font-medium text-fernhill-cream mb-1">Available Date</label>
               <input
+                id="housing-available-date-input"
                 type="date"
                 value={formData.available_date}
                 onChange={(e) => setFormData({ ...formData, available_date: e.target.value })}
-                className="w-full px-3 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg"
+                className="w-full px-3 py-2 bg-fernhill-brown/50 rounded-lg text-fernhill-sand border-0"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">Amenities</label>
+            <label className="block text-sm font-medium text-fernhill-cream mb-2">Amenities</label>
             <div className="flex flex-wrap gap-2">
               {amenitiesList.map(amenity => (
                 <button
@@ -688,8 +694,8 @@ function CreateListingModal({
                   }}
                   className={`px-3 py-1 rounded-full text-sm transition-colors ${
                     formData.amenities.includes(amenity)
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                      ? 'bg-fernhill-gold text-fernhill-dark'
+                      : 'bg-fernhill-brown/50 text-fernhill-sand hover:bg-fernhill-brown'
                   }`}
                 >
                   {amenity}
@@ -700,7 +706,7 @@ function CreateListingModal({
 
           <button
             type="submit"
-            className="w-full py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
+            className="w-full py-3 bg-fernhill-gold text-fernhill-dark rounded-lg hover:bg-fernhill-terracotta transition-colors font-medium"
           >
             Create Listing
           </button>

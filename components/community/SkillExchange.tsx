@@ -83,7 +83,7 @@ export default function SkillExchange() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="bg-gradient-to-r from-orange-500 to-pink-500 text-white rounded-lg shadow p-6">
+      <div className="bg-gradient-to-r from-fernhill-terracotta to-fernhill-gold text-fernhill-dark rounded-lg shadow p-6">
         <div className="flex items-center gap-2 mb-2">
           <Award className="w-8 h-8" />
           <h2 className="text-2xl font-bold">Skill Exchange</h2>
@@ -94,18 +94,18 @@ export default function SkillExchange() {
       {/* New Listing Button */}
       <button
         onClick={() => setShowNewListing(!showNewListing)}
-        className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-medium"
+        className="w-full bg-fernhill-gold text-fernhill-dark py-3 rounded-lg hover:bg-fernhill-terracotta font-medium"
       >
         + Post Skill Exchange
       </button>
 
       {/* New Listing Form */}
       {showNewListing && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-bold mb-4">Post a Skill Exchange</h3>
+        <div className="bg-fernhill-charcoal rounded-lg shadow p-6">
+          <h3 className="text-lg font-bold text-fernhill-cream mb-4">Post a Skill Exchange</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">I want to...</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">I want to...</label>
               <div className="flex gap-4">
                 {['teach', 'learn'].map(type => (
                   <label key={type} className="flex items-center gap-2 cursor-pointer">
@@ -124,11 +124,12 @@ export default function SkillExchange() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Dance Style *</label>
+              <label htmlFor="skill-dance-style-input" className="block text-sm font-medium text-fernhill-cream mb-2">Dance Style *</label>
               <select
+                id="skill-dance-style-input"
                 value={newListing.category}
                 onChange={(e) => setNewListing({...newListing, category: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand"
                 required
               >
                 {categories.map(cat => (
@@ -138,23 +139,24 @@ export default function SkillExchange() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Skill Name *</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Skill Name *</label>
               <input
                 type="text"
                 value={newListing.skill_name}
                 onChange={(e) => setNewListing({...newListing, skill_name: e.target.value})}
                 placeholder="e.g., Cross-body lead technique"
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand placeholder:text-fernhill-sand/50"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Experience Level *</label>
+              <label htmlFor="skill-experience-level-input" className="block text-sm font-medium text-fernhill-cream mb-2">Experience Level *</label>
               <select
+                id="skill-experience-level-input"
                 value={newListing.experience_level}
                 onChange={(e) => setNewListing({...newListing, experience_level: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand"
                 required
               >
                 {levels.map(level => (
@@ -164,38 +166,38 @@ export default function SkillExchange() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Description *</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Description *</label>
               <textarea
                 value={newListing.description}
                 onChange={(e) => setNewListing({...newListing, description: e.target.value})}
                 placeholder="Describe what you want to teach or learn..."
-                className="w-full border rounded-lg px-3 py-2 h-24"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 h-24 text-fernhill-sand placeholder:text-fernhill-sand/50"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Availability</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Availability</label>
               <input
                 type="text"
                 value={newListing.availability}
                 onChange={(e) => setNewListing({...newListing, availability: e.target.value})}
                 placeholder="e.g., Weekends, evenings"
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand placeholder:text-fernhill-sand/50"
               />
             </div>
 
             <div className="flex gap-3">
               <button
                 type="submit"
-                className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700"
+                className="flex-1 bg-fernhill-gold text-fernhill-dark py-2 rounded-lg hover:bg-fernhill-terracotta"
               >
                 Post Listing
               </button>
               <button
                 type="button"
                 onClick={() => setShowNewListing(false)}
-                className="px-6 py-2 border rounded-lg hover:bg-gray-50"
+                className="px-6 py-2 border border-fernhill-earth/50 rounded-lg text-fernhill-sand hover:bg-fernhill-brown/30"
               >
                 Cancel
               </button>
@@ -205,25 +207,25 @@ export default function SkillExchange() {
       )}
 
       {/* Search and Filters */}
-      <div className="bg-white rounded-lg shadow p-4 space-y-3">
+      <div className="bg-fernhill-charcoal rounded-lg shadow p-4 space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-fernhill-sand/60 w-5 h-5" />
           <input
             type="text"
             placeholder="Search skills..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border rounded-lg"
+            className="w-full pl-10 pr-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg text-fernhill-sand placeholder:text-fernhill-sand/50"
           />
         </div>
 
-        <div className="flex gap-2 overflow-x-auto pb-2">
+        <div className="flex flex-wrap gap-2 mb-3">
           {['all', 'teach', 'learn'].map(f => (
             <button
               key={f}
               onClick={() => setFilter(f as any)}
-              className={`px-4 py-2 rounded-lg whitespace-nowrap capitalize ${
-                filter === f ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'
+              className={`px-4 py-2 rounded-lg min-h-[44px] capitalize ${
+                filter === f ? 'bg-fernhill-gold text-fernhill-dark' : 'bg-fernhill-brown/50 text-fernhill-sand'
               }`}
             >
               {f === 'teach' ? 'Can Teach' : f === 'learn' ? 'Want to Learn' : 'All'}
@@ -231,11 +233,11 @@ export default function SkillExchange() {
           ))}
         </div>
 
-        <div className="flex gap-2 overflow-x-auto pb-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => setCategory('all')}
-            className={`px-3 py-1 rounded-full text-sm whitespace-nowrap ${
-              category === 'all' ? 'bg-orange-600 text-white' : 'bg-gray-100'
+            className={`px-3 py-1.5 rounded-full text-sm min-h-[36px] ${
+              category === 'all' ? 'bg-fernhill-terracotta text-fernhill-dark' : 'bg-fernhill-brown/50 text-fernhill-sand'
             }`}
           >
             All Styles
@@ -244,8 +246,8 @@ export default function SkillExchange() {
             <button
               key={cat}
               onClick={() => setCategory(cat)}
-              className={`px-3 py-1 rounded-full text-sm whitespace-nowrap capitalize ${
-                category === cat ? 'bg-orange-600 text-white' : 'bg-gray-100'
+              className={`px-3 py-1.5 rounded-full text-sm min-h-[36px] capitalize ${
+                category === cat ? 'bg-fernhill-terracotta text-fernhill-dark' : 'bg-fernhill-brown/50 text-fernhill-sand'
               }`}
             >
               {cat}
@@ -257,12 +259,12 @@ export default function SkillExchange() {
       {/* Listings */}
       <div className="space-y-3">
         {filteredListings.length === 0 ? (
-          <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+          <div className="bg-fernhill-charcoal rounded-lg shadow p-8 text-center text-fernhill-sand/70">
             No skill exchanges found. Post one to get started!
           </div>
         ) : (
           filteredListings.map(listing => (
-            <div key={listing.id} className="bg-white rounded-lg shadow p-4">
+            <div key={listing.id} className="bg-fernhill-charcoal rounded-lg shadow p-4">
               <div className="flex items-start gap-4">
                 <div className={`p-3 rounded-full ${
                   listing.type === 'teach' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
@@ -277,17 +279,17 @@ export default function SkillExchange() {
                       }`}>
                         {listing.type === 'teach' ? 'Can Teach' : 'Want to Learn'}
                       </span>
-                      <span className="ml-2 px-2 py-1 bg-orange-100 text-orange-700 rounded text-xs font-medium capitalize">
+                      <span className="ml-2 px-2 py-1 bg-fernhill-terracotta/20 text-fernhill-terracotta rounded text-xs font-medium capitalize">
                         <Music className="w-3 h-3 inline mr-1" />
                         {listing.category}
                       </span>
                     </div>
                   </div>
 
-                  <h3 className="font-bold text-lg mb-2">{listing.skill_name}</h3>
-                  <p className="text-gray-700 mb-3">{listing.description}</p>
+                  <h3 className="font-bold text-lg text-fernhill-cream mb-2">{listing.skill_name}</h3>
+                  <p className="text-fernhill-sand mb-3">{listing.description}</p>
 
-                  <div className="flex flex-wrap gap-3 text-sm text-gray-600 mb-3">
+                  <div className="flex flex-wrap gap-3 text-sm text-fernhill-sand/80 mb-3">
                     <span className="flex items-center gap-1 capitalize">
                       <Star className="w-4 h-4" />
                       {listing.experience_level}
@@ -300,7 +302,7 @@ export default function SkillExchange() {
                     )}
                   </div>
 
-                  <div className="text-sm text-gray-600 border-t pt-2">
+                  <div className="text-sm text-fernhill-sand/80 border-t border-fernhill-earth/50 pt-2">
                     Posted by {listing.profiles?.display_name || 'Unknown'} •{' '}
                     {new Date(listing.created_at).toLocaleDateString()}
                   </div>

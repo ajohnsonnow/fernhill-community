@@ -133,21 +133,21 @@ export default function SpicyChatLounge() {
         {/* Back Button */}
         <button
           onClick={() => setSelectedPost(null)}
-          className="text-indigo-600 hover:text-indigo-800 font-medium"
+          className="text-fernhill-gold hover:text-fernhill-terracotta font-medium"
         >
           ← Back to All Posts
         </button>
 
         {/* Post Detail */}
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-fernhill-charcoal rounded-lg shadow p-6">
           <div className="mb-4">
-            <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium capitalize">
+            <span className="px-3 py-1 bg-fernhill-gold/20 text-fernhill-gold rounded-full text-sm font-medium capitalize">
               {selectedPost.topic}
             </span>
           </div>
-          <h2 className="text-2xl font-bold mb-3">{selectedPost.title}</h2>
-          <p className="text-gray-700 mb-4 whitespace-pre-wrap">{selectedPost.content}</p>
-          <div className="flex items-center justify-between text-sm text-gray-600 border-t pt-3">
+          <h2 className="text-2xl font-bold text-fernhill-cream mb-3">{selectedPost.title}</h2>
+          <p className="text-fernhill-sand mb-4 whitespace-pre-wrap">{selectedPost.content}</p>
+          <div className="flex items-center justify-between text-sm text-fernhill-sand/80 border-t border-fernhill-earth/50 pt-3">
             <span>
               {selectedPost.is_anonymous ? 'Anonymous' : selectedPost.profiles?.display_name || 'Unknown'} •{' '}
               {new Date(selectedPost.created_at).toLocaleDateString()}
@@ -169,13 +169,13 @@ export default function SpicyChatLounge() {
         </div>
 
         {/* Reply Form */}
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-fernhill-charcoal rounded-lg shadow p-4">
           <form onSubmit={handleReplySubmit} className="space-y-3">
             <textarea
               value={replyText}
               onChange={(e) => setReplyText(e.target.value)}
               placeholder="Share your thoughts..."
-              className="w-full border rounded-lg px-3 py-2 h-24"
+              className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 h-24 text-fernhill-sand placeholder:text-fernhill-sand/50"
               required
             />
             <div className="flex items-center justify-between">
@@ -190,7 +190,7 @@ export default function SpicyChatLounge() {
               </label>
               <button
                 type="submit"
-                className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700"
+                className="bg-fernhill-gold text-fernhill-dark px-6 py-2 rounded-lg hover:bg-fernhill-terracotta"
               >
                 Reply
               </button>
@@ -200,11 +200,11 @@ export default function SpicyChatLounge() {
 
         {/* Replies */}
         <div className="space-y-3">
-          <h3 className="font-bold text-lg">{replies.length} Replies</h3>
+          <h3 className="font-bold text-lg text-fernhill-cream">{replies.length} Replies</h3>
           {replies.map(reply => (
-            <div key={reply.id} className="bg-white rounded-lg shadow p-4">
-              <p className="text-gray-700 mb-3 whitespace-pre-wrap">{reply.content}</p>
-              <div className="flex items-center justify-between text-sm text-gray-600">
+            <div key={reply.id} className="bg-fernhill-charcoal rounded-lg shadow p-4">
+              <p className="text-fernhill-sand mb-3 whitespace-pre-wrap">{reply.content}</p>
+              <div className="flex items-center justify-between text-sm text-fernhill-sand/80">
                 <span>
                   {reply.is_anonymous ? 'Anonymous' : reply.profiles?.display_name || 'Unknown'} •{' '}
                   {new Date(reply.created_at).toLocaleDateString()}
@@ -224,7 +224,7 @@ export default function SpicyChatLounge() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg shadow p-6">
+      <div className="bg-gradient-to-r from-fernhill-terracotta to-fernhill-gold text-fernhill-dark rounded-lg shadow p-6">
         <h2 className="text-2xl font-bold mb-2">🌶️ Spicy Chat Lounge</h2>
         <p className="opacity-90">18+ only • A safe space for open, honest conversation</p>
       </div>
@@ -232,21 +232,22 @@ export default function SpicyChatLounge() {
       {/* New Post Button */}
       <button
         onClick={() => setShowNewPost(!showNewPost)}
-        className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-medium"
+        className="w-full bg-fernhill-gold text-fernhill-dark py-3 rounded-lg hover:bg-fernhill-terracotta font-medium"
       >
         + Start New Discussion
       </button>
 
       {/* New Post Form */}
       {showNewPost && (
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-fernhill-charcoal rounded-lg shadow p-6">
           <form onSubmit={handlePostSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Topic</label>
+              <label htmlFor="spicy-topic-input" className="block text-sm font-medium text-fernhill-cream mb-2">Topic</label>
               <select
+                id="spicy-topic-input"
                 value={newPost.topic}
                 onChange={(e) => setNewPost({...newPost, topic: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand"
               >
                 {topics.map(t => (
                   <option key={t} value={t} className="capitalize">{t}</option>
@@ -255,24 +256,24 @@ export default function SpicyChatLounge() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Title *</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Title *</label>
               <input
                 type="text"
                 value={newPost.title}
                 onChange={(e) => setNewPost({...newPost, title: e.target.value})}
                 placeholder="Give your post a title..."
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand placeholder:text-fernhill-sand/50"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Content *</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Content *</label>
               <textarea
                 value={newPost.content}
                 onChange={(e) => setNewPost({...newPost, content: e.target.value})}
                 placeholder="Share your thoughts..."
-                className="w-full border rounded-lg px-3 py-2 h-32"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 h-32 text-fernhill-sand placeholder:text-fernhill-sand/50"
                 required
               />
             </div>
@@ -290,14 +291,14 @@ export default function SpicyChatLounge() {
             <div className="flex gap-3">
               <button
                 type="submit"
-                className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700"
+                className="flex-1 bg-fernhill-gold text-fernhill-dark py-2 rounded-lg hover:bg-fernhill-terracotta"
               >
                 Post
               </button>
               <button
                 type="button"
                 onClick={() => setShowNewPost(false)}
-                className="px-6 py-2 border rounded-lg hover:bg-gray-50"
+                className="px-6 py-2 border border-fernhill-earth/50 rounded-lg text-fernhill-sand hover:bg-fernhill-brown/30"
               >
                 Cancel
               </button>
@@ -307,11 +308,11 @@ export default function SpicyChatLounge() {
       )}
 
       {/* Topic Filter */}
-      <div className="flex gap-2 overflow-x-auto pb-2">
+      <div className="flex flex-wrap gap-2 mb-4">
         <button
           onClick={() => setTopic('all')}
-          className={`px-4 py-2 rounded-lg whitespace-nowrap ${
-            topic === 'all' ? 'bg-purple-600 text-white' : 'bg-gray-100'
+          className={`px-4 py-2 rounded-lg min-h-[44px] ${
+            topic === 'all' ? 'bg-fernhill-gold text-fernhill-dark' : 'bg-fernhill-brown/50 text-fernhill-sand'
           }`}
         >
           All Topics
@@ -320,8 +321,8 @@ export default function SpicyChatLounge() {
           <button
             key={t}
             onClick={() => setTopic(t)}
-            className={`px-4 py-2 rounded-lg whitespace-nowrap capitalize ${
-              topic === t ? 'bg-purple-600 text-white' : 'bg-gray-100'
+            className={`px-4 py-2 rounded-lg min-h-[44px] capitalize ${
+              topic === t ? 'bg-fernhill-gold text-fernhill-dark' : 'bg-fernhill-brown/50 text-fernhill-sand'
             }`}
           >
             {t}
@@ -332,7 +333,7 @@ export default function SpicyChatLounge() {
       {/* Posts List */}
       <div className="space-y-3">
         {posts.length === 0 ? (
-          <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+          <div className="bg-fernhill-charcoal rounded-lg shadow p-8 text-center text-fernhill-sand/70">
             No discussions yet. Start one!
           </div>
         ) : (
@@ -340,16 +341,16 @@ export default function SpicyChatLounge() {
             <div
               key={post.id}
               onClick={() => openPost(post)}
-              className="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-md transition-shadow"
+              className="bg-fernhill-charcoal rounded-lg shadow p-4 cursor-pointer hover:shadow-md transition-shadow"
             >
               <div className="mb-2">
-                <span className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium capitalize">
+                <span className="px-2 py-1 bg-fernhill-gold/20 text-fernhill-gold rounded text-xs font-medium capitalize">
                   {post.topic}
                 </span>
               </div>
-              <h3 className="font-bold text-lg mb-2">{post.title}</h3>
-              <p className="text-gray-700 mb-3 line-clamp-2">{post.content}</p>
-              <div className="flex items-center justify-between text-sm text-gray-600">
+              <h3 className="font-bold text-lg text-fernhill-cream mb-2">{post.title}</h3>
+              <p className="text-fernhill-sand mb-3 line-clamp-2">{post.content}</p>
+              <div className="flex items-center justify-between text-sm text-fernhill-sand/80">
                 <span>
                   {post.is_anonymous ? 'Anonymous' : post.profiles?.display_name || 'Unknown'} •{' '}
                   {new Date(post.created_at).toLocaleDateString()}

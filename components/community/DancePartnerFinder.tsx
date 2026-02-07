@@ -154,11 +154,11 @@ export default function DancePartnerFinder() {
   if (showCreateProfile) {
     return (
       <div className="space-y-4">
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-bold mb-6">Create Your Dance Partner Profile</h2>
+        <div className="bg-fernhill-charcoal rounded-lg shadow p-6">
+          <h2 className="text-2xl font-bold text-fernhill-cream mb-6">Create Your Dance Partner Profile</h2>
           <form onSubmit={handleCreateProfile} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium mb-3">Dance Styles * (select all that apply)</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-3">Dance Styles * (select all that apply)</label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                 {danceStyles.map(style => (
                   <button
@@ -167,8 +167,8 @@ export default function DancePartnerFinder() {
                     onClick={() => toggleStyle(style)}
                     className={`p-3 rounded-lg capitalize font-medium ${
                       newProfile.dance_styles.includes(style)
-                        ? 'bg-indigo-600 text-white'
-                        : 'bg-gray-100 text-gray-700'
+                        ? 'bg-fernhill-gold text-fernhill-dark'
+                        : 'bg-fernhill-brown/50 text-fernhill-sand'
                     }`}
                   >
                     {style}
@@ -179,14 +179,15 @@ export default function DancePartnerFinder() {
 
             {newProfile.dance_styles.length > 0 && (
               <div>
-                <label className="block text-sm font-medium mb-3">Experience Levels</label>
+                <label className="block text-sm font-medium text-fernhill-cream mb-3">Experience Levels</label>
                 {newProfile.dance_styles.map(style => (
                   <div key={style} className="mb-3">
-                    <label className="block text-sm text-gray-600 mb-1 capitalize">{style}</label>
+                    <label htmlFor={`experience-${style}`} className="block text-sm text-fernhill-sand/80 mb-1 capitalize">{style}</label>
                     <select
+                      id={`experience-${style}`}
                       value={newProfile.experience_levels[style] || 'beginner'}
                       onChange={(e) => setExperienceForStyle(style, e.target.value)}
-                      className="w-full border rounded-lg px-3 py-2"
+                      className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand"
                     >
                       {experienceLevels.map(level => (
                         <option key={level} value={level} className="capitalize">{level}</option>
@@ -198,7 +199,7 @@ export default function DancePartnerFinder() {
             )}
 
             <div>
-              <label className="block text-sm font-medium mb-2">Preferred Role *</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Preferred Role *</label>
               <div className="flex gap-3">
                 {roles.map(role => (
                   <label key={role} className="flex items-center gap-2 cursor-pointer">
@@ -217,40 +218,40 @@ export default function DancePartnerFinder() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">About Me *</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">About Me *</label>
               <textarea
                 value={newProfile.bio}
                 onChange={(e) => setNewProfile({...newProfile, bio: e.target.value})}
                 placeholder="Tell potential partners about yourself..."
-                className="w-full border rounded-lg px-3 py-2 h-24"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 h-24 text-fernhill-sand placeholder:text-fernhill-sand/50"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Dance Goals</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Dance Goals</label>
               <textarea
                 value={newProfile.goals}
                 onChange={(e) => setNewProfile({...newProfile, goals: e.target.value})}
                 placeholder="What are you looking to achieve? (e.g., social dancing, competitions, teaching)"
-                className="w-full border rounded-lg px-3 py-2 h-20"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 h-20 text-fernhill-sand placeholder:text-fernhill-sand/50"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Availability</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Availability</label>
               <input
                 type="text"
                 value={newProfile.availability}
                 onChange={(e) => setNewProfile({...newProfile, availability: e.target.value})}
                 placeholder="e.g., Weekends, Tuesday & Thursday evenings"
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand placeholder:text-fernhill-sand/50"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 font-medium"
+              className="w-full bg-fernhill-gold text-fernhill-dark py-3 rounded-lg hover:bg-fernhill-terracotta font-medium"
             >
               Create Profile
             </button>
@@ -263,7 +264,7 @@ export default function DancePartnerFinder() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-lg shadow p-6">
+      <div className="bg-gradient-to-r from-fernhill-terracotta to-fernhill-gold text-fernhill-dark rounded-lg shadow p-6">
         <div className="flex items-center gap-2 mb-2">
           <Users className="w-8 h-8" />
           <h2 className="text-2xl font-bold">Dance Partner Finder</h2>
@@ -273,11 +274,11 @@ export default function DancePartnerFinder() {
 
       {/* My Profile Card */}
       {myProfile && (
-        <div className="bg-white rounded-lg shadow p-4">
+        <div className="bg-fernhill-charcoal rounded-lg shadow p-4">
           <div className="flex items-start justify-between mb-3">
             <div>
-              <h3 className="font-bold text-lg">{myProfile.profiles?.display_name}</h3>
-              <p className="text-sm text-gray-600 capitalize">
+              <h3 className="font-bold text-lg text-fernhill-cream">{myProfile.profiles?.display_name}</h3>
+              <p className="text-sm text-fernhill-sand/80 capitalize">
                 {myProfile.preferred_role === 'both' ? 'Lead & Follow' : myProfile.preferred_role}
               </p>
             </div>
@@ -293,14 +294,14 @@ export default function DancePartnerFinder() {
                 });
                 setShowCreateProfile(true);
               }}
-              className="text-sm text-indigo-600 hover:text-indigo-800"
+              className="text-sm text-fernhill-gold hover:text-fernhill-terracotta"
             >
               Edit Profile
             </button>
           </div>
           <div className="flex flex-wrap gap-2">
             {myProfile.dance_styles.map(style => (
-              <span key={style} className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium capitalize">
+              <span key={style} className="px-2 py-1 bg-fernhill-gold/20 text-fernhill-gold rounded text-xs font-medium capitalize">
                 <Music className="w-3 h-3 inline mr-1" />
                 {style}
               </span>
@@ -310,11 +311,11 @@ export default function DancePartnerFinder() {
       )}
 
       {/* Dance Style Filter */}
-      <div className="flex gap-2 overflow-x-auto pb-2">
+      <div className="flex flex-wrap gap-2 mb-4">
         <button
           onClick={() => setFilter('all')}
-          className={`px-4 py-2 rounded-lg whitespace-nowrap ${
-            filter === 'all' ? 'bg-purple-600 text-white' : 'bg-gray-100'
+          className={`px-4 py-2 rounded-lg min-h-[44px] ${
+            filter === 'all' ? 'bg-fernhill-gold text-fernhill-dark' : 'bg-fernhill-brown/50 text-fernhill-sand'
           }`}
         >
           All Styles
@@ -323,8 +324,8 @@ export default function DancePartnerFinder() {
           <button
             key={style}
             onClick={() => setFilter(style)}
-            className={`px-4 py-2 rounded-lg whitespace-nowrap capitalize ${
-              filter === style ? 'bg-purple-600 text-white' : 'bg-gray-100'
+            className={`px-4 py-2 rounded-lg min-h-[44px] capitalize ${
+              filter === style ? 'bg-fernhill-gold text-fernhill-dark' : 'bg-fernhill-brown/50 text-fernhill-sand'
             }`}
           >
             {style}
@@ -335,16 +336,16 @@ export default function DancePartnerFinder() {
       {/* Partners List */}
       <div className="grid md:grid-cols-2 gap-4">
         {partners.length === 0 ? (
-          <div className="col-span-2 bg-white rounded-lg shadow p-8 text-center text-gray-500">
+          <div className="col-span-2 bg-fernhill-charcoal rounded-lg shadow p-8 text-center text-fernhill-sand/70">
             No partners found with these filters. Try adjusting your search!
           </div>
         ) : (
           partners.map(partner => (
-            <div key={partner.id} className="bg-white rounded-lg shadow p-6">
+            <div key={partner.id} className="bg-fernhill-charcoal rounded-lg shadow p-6">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="font-bold text-lg">{partner.profiles?.display_name}</h3>
-                  <p className="text-sm text-gray-600 capitalize">
+                  <h3 className="font-bold text-lg text-fernhill-cream">{partner.profiles?.display_name}</h3>
+                  <p className="text-sm text-fernhill-sand/80 capitalize">
                     {partner.preferred_role === 'both' ? 'Lead & Follow' : partner.preferred_role}
                   </p>
                 </div>
@@ -352,22 +353,22 @@ export default function DancePartnerFinder() {
 
               <div className="flex flex-wrap gap-2 mb-3">
                 {partner.dance_styles.map(style => (
-                  <span key={style} className="px-2 py-1 bg-purple-100 text-purple-700 rounded text-xs font-medium capitalize">
+                  <span key={style} className="px-2 py-1 bg-fernhill-gold/20 text-fernhill-gold rounded text-xs font-medium capitalize">
                     {style} • {partner.experience_levels[style]}
                   </span>
                 ))}
               </div>
 
-              <p className="text-gray-700 text-sm mb-3">{partner.bio}</p>
+              <p className="text-fernhill-sand text-sm mb-3">{partner.bio}</p>
 
               {partner.goals && (
-                <p className="text-sm text-gray-600 mb-3">
-                  <strong>Goals:</strong> {partner.goals}
+                <p className="text-sm text-fernhill-sand/80 mb-3">
+                  <strong className="text-fernhill-cream">Goals:</strong> {partner.goals}
                 </p>
               )}
 
               {partner.availability && (
-                <p className="text-sm text-gray-600 mb-4 flex items-center gap-1">
+                <p className="text-sm text-fernhill-sand/80 mb-4 flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
                   {partner.availability}
                 </p>
@@ -378,7 +379,7 @@ export default function DancePartnerFinder() {
                   setSelectedPartner(partner);
                   setShowMatchRequest(true);
                 }}
-                className="w-full bg-pink-600 text-white py-2 rounded-lg hover:bg-pink-700 flex items-center justify-center gap-2"
+                className="w-full bg-fernhill-terracotta text-fernhill-dark py-2 rounded-lg hover:bg-fernhill-gold flex items-center justify-center gap-2"
               >
                 <Heart className="w-4 h-4" />
                 Send Match Request
@@ -391,33 +392,33 @@ export default function DancePartnerFinder() {
       {/* Match Request Modal */}
       {showMatchRequest && selectedPartner && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
+          <div className="bg-fernhill-charcoal rounded-lg p-6 max-w-md w-full">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-bold">Send Match Request</h3>
-              <button onClick={() => setShowMatchRequest(false)} className="text-gray-500 hover:text-gray-700">
+              <h3 className="text-lg font-bold text-fernhill-cream">Send Match Request</h3>
+              <button onClick={() => setShowMatchRequest(false)} className="text-fernhill-sand/70 hover:text-fernhill-sand" aria-label="Close match request form">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <p className="text-gray-700 mb-4">
-              Send a partner request to <strong>{selectedPartner.profiles?.display_name}</strong>
+            <p className="text-fernhill-sand mb-4">
+              Send a partner request to <strong className="text-fernhill-cream">{selectedPartner.profiles?.display_name}</strong>
             </p>
             <textarea
               value={matchMessage}
               onChange={(e) => setMatchMessage(e.target.value)}
               placeholder="Introduce yourself and explain why you'd like to dance together..."
-              className="w-full border rounded-lg px-3 py-2 h-24 mb-4"
+              className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 h-24 mb-4 text-fernhill-sand placeholder:text-fernhill-sand/50"
               required
             />
             <div className="flex gap-3">
               <button
                 onClick={sendMatchRequest}
-                className="flex-1 bg-pink-600 text-white py-2 rounded-lg hover:bg-pink-700"
+                className="flex-1 bg-fernhill-terracotta text-fernhill-dark py-2 rounded-lg hover:bg-fernhill-gold"
               >
                 Send Request
               </button>
               <button
                 onClick={() => setShowMatchRequest(false)}
-                className="px-6 py-2 border rounded-lg hover:bg-gray-50"
+                className="px-6 py-2 border border-fernhill-earth/50 rounded-lg text-fernhill-sand hover:bg-fernhill-brown/30"
               >
                 Cancel
               </button>

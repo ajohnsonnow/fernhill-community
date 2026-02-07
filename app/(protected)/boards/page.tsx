@@ -398,12 +398,12 @@ export default function BoardsPage() {
           </div>
 
           {/* Filter Tabs */}
-          <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+          <div className="flex flex-wrap gap-2 mb-6">
             {(['all', 'marketplace', 'discussion'] as const).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all min-h-[44px] ${
                   filter === f
                     ? 'bg-sacred-gold text-sacred-charcoal'
                     : 'glass-panel text-white/70 hover:bg-white/10'

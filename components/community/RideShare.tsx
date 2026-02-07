@@ -93,15 +93,15 @@ export default function RideShare() {
   return (
     <div className="space-y-4">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow p-4">
+      <div className="bg-fernhill-charcoal rounded-lg shadow p-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Car className="w-6 h-6 text-indigo-600" />
-            <h2 className="text-xl font-bold">Ride Share</h2>
+            <Car className="w-6 h-6 text-fernhill-gold" />
+            <h2 className="text-xl font-bold text-fernhill-cream">Ride Share</h2>
           </div>
           <button
             onClick={() => setShowNewRide(!showNewRide)}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+            className="bg-fernhill-gold text-fernhill-dark px-4 py-2 rounded-lg hover:bg-fernhill-terracotta"
           >
             + Post Ride
           </button>
@@ -114,7 +114,7 @@ export default function RideShare() {
               key={f}
               onClick={() => setFilter(f as any)}
               className={`px-4 py-2 rounded-lg capitalize ${
-                filter === f ? 'bg-indigo-600 text-white' : 'bg-gray-100 text-gray-700'
+                filter === f ? 'bg-fernhill-gold text-fernhill-dark' : 'bg-fernhill-brown/50 text-fernhill-sand'
               }`}
             >
               {f === 'offer' ? 'Offering Rides' : f === 'request' ? 'Need Rides' : 'All'}
@@ -125,11 +125,11 @@ export default function RideShare() {
 
       {/* New Ride Form */}
       {showNewRide && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-bold mb-4">Post a Ride</h3>
+        <div className="bg-fernhill-charcoal rounded-lg shadow p-6">
+          <h3 className="text-lg font-bold text-fernhill-cream mb-4">Post a Ride</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">I want to...</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">I want to...</label>
               <div className="flex gap-4">
                 {['offer', 'request'].map(type => (
                   <label key={type} className="flex items-center gap-2 cursor-pointer">
@@ -148,89 +148,92 @@ export default function RideShare() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">From *</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">From *</label>
               <input
                 type="text"
                 value={newRide.departure_location}
                 onChange={(e) => setNewRide({...newRide, departure_location: e.target.value})}
                 placeholder="Starting location"
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand placeholder:text-fernhill-sand/50"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">To *</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">To *</label>
               <input
                 type="text"
                 value={newRide.destination}
                 onChange={(e) => setNewRide({...newRide, destination: e.target.value})}
                 placeholder="Destination"
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand placeholder:text-fernhill-sand/50"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Departure Time *</label>
+              <label htmlFor="rideshare-departure-input" className="block text-sm font-medium text-fernhill-cream mb-2">Departure Time *</label>
               <input
+                id="rideshare-departure-input"
                 type="datetime-local"
                 value={newRide.departure_time}
                 onChange={(e) => setNewRide({...newRide, departure_time: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand"
                 required
               />
             </div>
 
             {newRide.type === 'offer' ? (
               <div>
-                <label className="block text-sm font-medium mb-2">Seats Available *</label>
+                <label htmlFor="rideshare-seats-available-input" className="block text-sm font-medium text-fernhill-cream mb-2">Seats Available *</label>
                 <input
+                  id="rideshare-seats-available-input"
                   type="number"
                   min="1"
                   max="8"
                   value={newRide.seats_available}
                   onChange={(e) => setNewRide({...newRide, seats_available: parseInt(e.target.value)})}
-                  className="w-full border rounded-lg px-3 py-2"
+                  className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand"
                   required
                 />
               </div>
             ) : (
               <div>
-                <label className="block text-sm font-medium mb-2">Seats Needed *</label>
+                <label htmlFor="rideshare-seats-needed-input" className="block text-sm font-medium text-fernhill-cream mb-2">Seats Needed *</label>
                 <input
+                  id="rideshare-seats-needed-input"
                   type="number"
                   min="1"
                   max="8"
                   value={newRide.seats_requested}
                   onChange={(e) => setNewRide({...newRide, seats_requested: parseInt(e.target.value)})}
-                  className="w-full border rounded-lg px-3 py-2"
+                  className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 text-fernhill-sand"
                   required
                 />
               </div>
             )}
 
             <div>
-              <label className="block text-sm font-medium mb-2">Notes</label>
+              <label className="block text-sm font-medium text-fernhill-cream mb-2">Notes</label>
               <textarea
                 value={newRide.notes}
                 onChange={(e) => setNewRide({...newRide, notes: e.target.value})}
                 placeholder="Additional details (optional)"
-                className="w-full border rounded-lg px-3 py-2 h-20"
+                className="w-full bg-fernhill-brown/50 border border-fernhill-earth/50 rounded-lg px-3 py-2 h-20 text-fernhill-sand placeholder:text-fernhill-sand/50"
               />
             </div>
 
             <div className="flex gap-3">
               <button
                 type="submit"
-                className="flex-1 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700"
+                className="flex-1 bg-fernhill-gold text-fernhill-dark py-2 rounded-lg hover:bg-fernhill-terracotta"
               >
                 Post Ride
               </button>
               <button
                 type="button"
                 onClick={() => setShowNewRide(false)}
-                className="px-6 py-2 border rounded-lg hover:bg-gray-50"
+                className="px-6 py-2 border border-fernhill-earth/50 rounded-lg text-fernhill-sand hover:bg-fernhill-brown/30"
               >
                 Cancel
               </button>
@@ -242,12 +245,12 @@ export default function RideShare() {
       {/* Rides List */}
       <div className="space-y-3">
         {rides.length === 0 ? (
-          <div className="bg-white rounded-lg shadow p-8 text-center text-gray-500">
+          <div className="bg-fernhill-charcoal rounded-lg shadow p-8 text-center text-fernhill-sand/70">
             No rides available. Post one to get started!
           </div>
         ) : (
           rides.map(ride => (
-            <div key={ride.id} className="bg-white rounded-lg shadow p-4">
+            <div key={ride.id} className="bg-fernhill-charcoal rounded-lg shadow p-4">
               <div className="flex items-start gap-4">
                 <div className={`p-3 rounded-full ${
                   ride.type === 'offer' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
@@ -266,7 +269,7 @@ export default function RideShare() {
                     {ride.type === 'offer' && (
                       <button
                         onClick={() => requestRide(ride.id)}
-                        className="bg-indigo-600 text-white px-4 py-1 rounded-lg text-sm hover:bg-indigo-700"
+                        className="bg-fernhill-gold text-fernhill-dark px-4 py-1 rounded-lg text-sm hover:bg-fernhill-terracotta"
                       >
                         Request Ride
                       </button>
@@ -274,34 +277,34 @@ export default function RideShare() {
                   </div>
 
                   <div className="space-y-2 mb-3">
-                    <div className="flex items-center gap-2 text-gray-700">
-                      <MapPin className="w-4 h-4 text-gray-400" />
+                    <div className="flex items-center gap-2 text-fernhill-sand">
+                      <MapPin className="w-4 h-4 text-fernhill-sand/60" />
                       <span className="font-medium">{ride.departure_location}</span>
                       <span>→</span>
                       <span className="font-medium">{ride.destination}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Clock className="w-4 h-4 text-gray-400" />
+                    <div className="flex items-center gap-2 text-fernhill-sand/80">
+                      <Clock className="w-4 h-4 text-fernhill-sand/60" />
                       {new Date(ride.departure_time).toLocaleString()}
                     </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Users className="w-4 h-4 text-gray-400" />
+                    <div className="flex items-center gap-2 text-fernhill-sand/80">
+                      <Users className="w-4 h-4 text-fernhill-sand/60" />
                       {ride.type === 'offer' ? `${ride.seats_available} seats available` : `${ride.seats_requested} seats needed`}
                     </div>
                   </div>
 
                   {ride.notes && (
-                    <p className="text-gray-700 text-sm mb-3 bg-gray-50 p-2 rounded">{ride.notes}</p>
+                    <p className="text-fernhill-sand text-sm mb-3 bg-fernhill-brown/50 p-2 rounded">{ride.notes}</p>
                   )}
 
                   {ride.events && (
-                    <div className="mb-3 px-3 py-1 bg-purple-100 text-purple-700 rounded inline-block text-sm">
+                    <div className="mb-3 px-3 py-1 bg-fernhill-gold/20 text-fernhill-gold rounded inline-block text-sm">
                       <Calendar className="w-3 h-3 inline mr-1" />
                       For: {ride.events.title}
                     </div>
                   )}
 
-                  <div className="text-sm text-gray-600 border-t pt-2">
+                  <div className="text-sm text-fernhill-sand/80 border-t border-fernhill-earth/50 pt-2">
                     Posted by {ride.profiles?.display_name || 'Unknown'} •{' '}
                     {new Date(ride.created_at).toLocaleDateString()}
                   </div>

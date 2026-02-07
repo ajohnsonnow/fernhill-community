@@ -48,29 +48,29 @@ type Comment = {
 };
 
 const FEATURE_STATUS_CONFIG: Record<FeatureStatus, { label: string; color: string; icon: typeof Clock }> = {
-  submitted: { label: 'Submitted', color: 'text-gray-500 bg-gray-100 dark:bg-gray-700', icon: Clock },
-  under_review: { label: 'Under Review', color: 'text-blue-500 bg-blue-100 dark:bg-blue-900/30', icon: Clock },
-  accepted: { label: 'Accepted', color: 'text-green-500 bg-green-100 dark:bg-green-900/30', icon: CheckCircle2 },
-  in_progress: { label: 'In Progress', color: 'text-amber-500 bg-amber-100 dark:bg-amber-900/30', icon: ArrowRight },
-  completed: { label: 'Completed', color: 'text-green-600 bg-green-100 dark:bg-green-900/30', icon: CheckCircle2 },
-  declined: { label: 'Declined', color: 'text-red-500 bg-red-100 dark:bg-red-900/30', icon: XCircle },
-  duplicate: { label: 'Duplicate', color: 'text-gray-500 bg-gray-100 dark:bg-gray-700', icon: XCircle }
+  submitted: { label: 'Submitted', color: 'text-fernhill-sand bg-fernhill-brown/50', icon: Clock },
+  under_review: { label: 'Under Review', color: 'text-fernhill-gold bg-fernhill-gold/20', icon: Clock },
+  accepted: { label: 'Accepted', color: 'text-green-400 bg-fernhill-moss/30', icon: CheckCircle2 },
+  in_progress: { label: 'In Progress', color: 'text-fernhill-terracotta bg-fernhill-terracotta/20', icon: ArrowRight },
+  completed: { label: 'Completed', color: 'text-green-400 bg-fernhill-moss/30', icon: CheckCircle2 },
+  declined: { label: 'Declined', color: 'text-red-400 bg-red-900/30', icon: XCircle },
+  duplicate: { label: 'Duplicate', color: 'text-fernhill-sand bg-fernhill-brown/50', icon: XCircle }
 };
 
 const BUG_SEVERITY_CONFIG: Record<BugSeverity, { label: string; color: string }> = {
-  low: { label: 'Low', color: 'text-gray-500 bg-gray-100 dark:bg-gray-700' },
-  medium: { label: 'Medium', color: 'text-yellow-600 bg-yellow-100 dark:bg-yellow-900/30' },
-  high: { label: 'High', color: 'text-orange-600 bg-orange-100 dark:bg-orange-900/30' },
-  critical: { label: 'Critical', color: 'text-red-600 bg-red-100 dark:bg-red-900/30' }
+  low: { label: 'Low', color: 'text-fernhill-sand bg-fernhill-brown/50' },
+  medium: { label: 'Medium', color: 'text-fernhill-gold bg-fernhill-gold/20' },
+  high: { label: 'High', color: 'text-fernhill-terracotta bg-fernhill-terracotta/20' },
+  critical: { label: 'Critical', color: 'text-red-400 bg-red-900/30' }
 };
 
 const BUG_STATUS_CONFIG: Record<BugStatus, { label: string; color: string }> = {
-  reported: { label: 'Reported', color: 'text-gray-500 bg-gray-100 dark:bg-gray-700' },
-  confirmed: { label: 'Confirmed', color: 'text-blue-500 bg-blue-100 dark:bg-blue-900/30' },
-  in_progress: { label: 'In Progress', color: 'text-amber-500 bg-amber-100 dark:bg-amber-900/30' },
-  fixed: { label: 'Fixed', color: 'text-green-600 bg-green-100 dark:bg-green-900/30' },
-  wont_fix: { label: "Won't Fix", color: 'text-gray-500 bg-gray-100 dark:bg-gray-700' },
-  cannot_reproduce: { label: 'Cannot Reproduce', color: 'text-gray-500 bg-gray-100 dark:bg-gray-700' }
+  reported: { label: 'Reported', color: 'text-fernhill-sand bg-fernhill-brown/50' },
+  confirmed: { label: 'Confirmed', color: 'text-fernhill-gold bg-fernhill-gold/20' },
+  in_progress: { label: 'In Progress', color: 'text-fernhill-terracotta bg-fernhill-terracotta/20' },
+  fixed: { label: 'Fixed', color: 'text-green-400 bg-fernhill-moss/30' },
+  wont_fix: { label: "Won't Fix", color: 'text-fernhill-sand bg-fernhill-brown/50' },
+  cannot_reproduce: { label: 'Cannot Reproduce', color: 'text-fernhill-sand bg-fernhill-brown/50' }
 };
 
 const CATEGORY_CONFIG: Record<FeatureCategory, { label: string; emoji: string }> = {
@@ -309,7 +309,7 @@ export default function FeatureRequestTracker() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-purple-500" />
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-fernhill-gold" />
       </div>
     );
   }
@@ -319,12 +319,12 @@ export default function FeatureRequestTracker() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="p-3 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl">
-            <Lightbulb className="w-6 h-6 text-white" />
+          <div className="p-3 bg-gradient-to-br from-fernhill-gold to-fernhill-terracotta rounded-2xl">
+            <Lightbulb className="w-6 h-6 text-fernhill-dark" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Feature Requests & Bugs</h1>
-            <p className="text-gray-600 dark:text-gray-400">Help us improve! Submit ideas or report issues.</p>
+            <h1 className="text-2xl font-bold text-fernhill-cream">Feature Requests & Bugs</h1>
+            <p className="text-fernhill-sand/70">Help us improve! Submit ideas or report issues.</p>
           </div>
         </div>
       </div>
@@ -335,8 +335,8 @@ export default function FeatureRequestTracker() {
           onClick={() => { setActiveTab('features'); setFilterStatus('all'); }}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
             activeTab === 'features'
-              ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+              ? 'bg-fernhill-gold/20 text-fernhill-gold'
+              : 'bg-fernhill-brown/50 text-fernhill-sand'
           }`}
         >
           <Lightbulb className="w-4 h-4" />
@@ -346,8 +346,8 @@ export default function FeatureRequestTracker() {
           onClick={() => { setActiveTab('bugs'); setFilterStatus('all'); }}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
             activeTab === 'bugs'
-              ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
-              : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+              ? 'bg-fernhill-terracotta/20 text-fernhill-terracotta'
+              : 'bg-fernhill-brown/50 text-fernhill-sand'
           }`}
         >
           <Bug className="w-4 h-4" />
@@ -358,13 +358,13 @@ export default function FeatureRequestTracker() {
       {/* Search and Filter */}
       <div className="flex flex-wrap gap-3 mb-6">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-fernhill-sand/50" />
           <input
             type="text"
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500"
+            className="w-full pl-10 pr-4 py-2 bg-fernhill-charcoal border border-fernhill-earth rounded-xl text-fernhill-cream placeholder:text-fernhill-sand/50 focus:ring-2 focus:ring-fernhill-gold"
           />
         </div>
         
@@ -372,7 +372,7 @@ export default function FeatureRequestTracker() {
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
           aria-label="Filter by status"
-          className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl"
+          className="px-4 py-2 bg-fernhill-charcoal border border-fernhill-earth rounded-xl text-fernhill-cream"
         >
           <option value="all">All Statuses</option>
           {activeTab === 'features' 
@@ -387,7 +387,7 @@ export default function FeatureRequestTracker() {
 
         <button
           onClick={() => activeTab === 'features' ? setShowNewFeature(true) : setShowNewBug(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-medium transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-fernhill-gold hover:bg-fernhill-terracotta text-fernhill-dark rounded-xl font-medium transition-colors"
         >
           <PlusCircle className="w-4 h-4" />
           {activeTab === 'features' ? 'New Feature' : 'Report Bug'}
@@ -398,9 +398,9 @@ export default function FeatureRequestTracker() {
       {activeTab === 'features' && (
         <div className="space-y-4">
           {filteredFeatures.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
-              <Lightbulb className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-              <p className="text-gray-500">No feature requests yet. Be the first to submit one!</p>
+            <div className="text-center py-12 bg-fernhill-charcoal rounded-xl">
+              <Lightbulb className="w-12 h-12 mx-auto mb-4 text-fernhill-sand/30" />
+              <p className="text-fernhill-sand/70">No feature requests yet. Be the first to submit one!</p>
             </div>
           ) : (
             filteredFeatures.map(feature => (
@@ -423,9 +423,9 @@ export default function FeatureRequestTracker() {
       {activeTab === 'bugs' && (
         <div className="space-y-4">
           {filteredBugs.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 dark:bg-gray-800/50 rounded-xl">
-              <Bug className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-              <p className="text-gray-500">No bug reports. The app is running smoothly! 🎉</p>
+            <div className="text-center py-12 bg-fernhill-charcoal rounded-xl">
+              <Bug className="w-12 h-12 mx-auto mb-4 text-fernhill-sand/30" />
+              <p className="text-fernhill-sand/70">No bug reports. The app is running smoothly! 🎉</p>
             </div>
           ) : (
             filteredBugs.map(bug => (
@@ -439,32 +439,32 @@ export default function FeatureRequestTracker() {
       {showNewFeature && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowNewFeature(false)} />
-          <div className="relative w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl p-6 animate-fadeIn max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-              <Lightbulb className="w-5 h-5 text-amber-500" />
+          <div className="relative w-full max-w-lg bg-fernhill-charcoal rounded-2xl p-6 animate-fadeIn max-h-[90vh] overflow-y-auto border border-fernhill-earth">
+            <h2 className="text-xl font-bold text-fernhill-cream mb-6 flex items-center gap-2">
+              <Lightbulb className="w-5 h-5 text-fernhill-gold" />
               Submit Feature Request
             </h2>
 
             <form onSubmit={handleSubmitFeature} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+                <label className="block text-sm font-medium text-fernhill-sand mb-1">Title</label>
                 <input
                   type="text"
                   required
                   value={newFeature.title}
                   onChange={(e) => setNewFeature(prev => ({ ...prev, title: e.target.value }))}
                   placeholder="Brief description of your idea"
-                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl text-fernhill-cream placeholder:text-fernhill-sand/50 focus:ring-2 focus:ring-fernhill-gold"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
+                <label className="block text-sm font-medium text-fernhill-sand mb-1">Category</label>
                 <select
                   value={newFeature.category}
                   onChange={(e) => setNewFeature(prev => ({ ...prev, category: e.target.value as FeatureCategory }))}
                   aria-label="Feature category"
-                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl"
+                  className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl text-fernhill-cream"
                 >
                   {Object.entries(CATEGORY_CONFIG).map(([key, config]) => (
                     <option key={key} value={key}>{config.emoji} {config.label}</option>
@@ -473,14 +473,14 @@ export default function FeatureRequestTracker() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                <label className="block text-sm font-medium text-fernhill-sand mb-1">Description</label>
                 <textarea
                   required
                   value={newFeature.description}
                   onChange={(e) => setNewFeature(prev => ({ ...prev, description: e.target.value }))}
                   placeholder="Describe the feature in detail. What problem does it solve? How should it work?"
                   rows={4}
-                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl resize-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl resize-none text-fernhill-cream placeholder:text-fernhill-sand/50 focus:ring-2 focus:ring-fernhill-gold"
                 />
               </div>
 
@@ -488,13 +488,13 @@ export default function FeatureRequestTracker() {
                 <button
                   type="button"
                   onClick={() => setShowNewFeature(false)}
-                  className="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium"
+                  className="flex-1 px-4 py-2 bg-fernhill-brown/50 text-fernhill-sand rounded-xl font-medium hover:bg-fernhill-brown"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-medium"
+                  className="flex-1 px-4 py-2 bg-fernhill-gold hover:bg-fernhill-terracotta text-fernhill-dark rounded-xl font-medium"
                 >
                   Submit Request
                 </button>
@@ -508,33 +508,33 @@ export default function FeatureRequestTracker() {
       {showNewBug && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowNewBug(false)} />
-          <div className="relative w-full max-w-lg bg-white dark:bg-gray-800 rounded-2xl p-6 animate-fadeIn max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-              <Bug className="w-5 h-5 text-red-500" />
+          <div className="relative w-full max-w-lg bg-fernhill-charcoal rounded-2xl p-6 animate-fadeIn max-h-[90vh] overflow-y-auto border border-fernhill-earth">
+            <h2 className="text-xl font-bold text-fernhill-cream mb-6 flex items-center gap-2">
+              <Bug className="w-5 h-5 text-fernhill-terracotta" />
               Report a Bug
             </h2>
 
             <form onSubmit={handleSubmitBug} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Title</label>
+                <label className="block text-sm font-medium text-fernhill-sand mb-1">Title</label>
                 <input
                   type="text"
                   required
                   value={newBug.title}
                   onChange={(e) => setNewBug(prev => ({ ...prev, title: e.target.value }))}
                   placeholder="Brief description of the bug"
-                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500"
+                  className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl text-fernhill-cream placeholder:text-fernhill-sand/50 focus:ring-2 focus:ring-fernhill-terracotta"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Severity</label>
+                  <label className="block text-sm font-medium text-fernhill-sand mb-1">Severity</label>
                   <select
                     value={newBug.severity}
                     onChange={(e) => setNewBug(prev => ({ ...prev, severity: e.target.value as BugSeverity }))}
                     aria-label="Bug severity"
-                    className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl"
+                    className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl text-fernhill-cream"
                   >
                     <option value="low">🟢 Low</option>
                     <option value="medium">🟡 Medium</option>
@@ -543,59 +543,59 @@ export default function FeatureRequestTracker() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Affected Page</label>
+                  <label className="block text-sm font-medium text-fernhill-sand mb-1">Affected Page</label>
                   <input
                     type="text"
                     value={newBug.affected_page}
                     onChange={(e) => setNewBug(prev => ({ ...prev, affected_page: e.target.value }))}
                     placeholder="e.g., /events"
-                    className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl"
+                    className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl text-fernhill-cream placeholder:text-fernhill-sand/50"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                <label className="block text-sm font-medium text-fernhill-sand mb-1">Description</label>
                 <textarea
                   required
                   value={newBug.description}
                   onChange={(e) => setNewBug(prev => ({ ...prev, description: e.target.value }))}
                   placeholder="What went wrong?"
                   rows={3}
-                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl resize-none"
+                  className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl resize-none text-fernhill-cream placeholder:text-fernhill-sand/50"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Steps to Reproduce (optional)</label>
+                <label className="block text-sm font-medium text-fernhill-sand mb-1">Steps to Reproduce (optional)</label>
                 <textarea
                   value={newBug.steps_to_reproduce}
                   onChange={(e) => setNewBug(prev => ({ ...prev, steps_to_reproduce: e.target.value }))}
                   placeholder="1. Go to...&#10;2. Click on...&#10;3. See error"
                   rows={3}
-                  className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl resize-none"
+                  className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl resize-none text-fernhill-cream placeholder:text-fernhill-sand/50"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Expected Behavior</label>
+                  <label className="block text-sm font-medium text-fernhill-sand mb-1">Expected Behavior</label>
                   <textarea
                     value={newBug.expected_behavior}
                     onChange={(e) => setNewBug(prev => ({ ...prev, expected_behavior: e.target.value }))}
                     placeholder="What should happen?"
                     rows={2}
-                    className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl resize-none"
+                    className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl resize-none text-fernhill-cream placeholder:text-fernhill-sand/50"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Actual Behavior</label>
+                  <label className="block text-sm font-medium text-fernhill-sand mb-1">Actual Behavior</label>
                   <textarea
                     value={newBug.actual_behavior}
                     onChange={(e) => setNewBug(prev => ({ ...prev, actual_behavior: e.target.value }))}
                     placeholder="What actually happened?"
                     rows={2}
-                    className="w-full px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl resize-none"
+                    className="w-full px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl resize-none text-fernhill-cream placeholder:text-fernhill-sand/50"
                   />
                 </div>
               </div>
@@ -604,13 +604,13 @@ export default function FeatureRequestTracker() {
                 <button
                   type="button"
                   onClick={() => setShowNewBug(false)}
-                  className="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium"
+                  className="flex-1 px-4 py-2 bg-fernhill-brown/50 text-fernhill-sand rounded-xl font-medium hover:bg-fernhill-brown"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium"
+                  className="flex-1 px-4 py-2 bg-fernhill-terracotta hover:bg-fernhill-gold text-fernhill-dark rounded-xl font-medium"
                 >
                   Submit Bug Report
                 </button>
@@ -624,17 +624,17 @@ export default function FeatureRequestTracker() {
       {selectedFeature && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setSelectedFeature(null)} />
-          <div className="relative w-full max-w-2xl bg-white dark:bg-gray-800 rounded-2xl p-6 animate-fadeIn max-h-[90vh] overflow-y-auto">
+          <div className="relative w-full max-w-2xl bg-fernhill-charcoal rounded-2xl p-6 animate-fadeIn max-h-[90vh] overflow-y-auto border border-fernhill-earth">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
                 <span className="text-2xl">{CATEGORY_CONFIG[selectedFeature.category].emoji}</span>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">{selectedFeature.title}</h2>
+                  <h2 className="text-xl font-bold text-fernhill-cream">{selectedFeature.title}</h2>
                   <div className="flex items-center gap-2 mt-1">
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${FEATURE_STATUS_CONFIG[selectedFeature.status].color}`}>
                       {FEATURE_STATUS_CONFIG[selectedFeature.status].label}
                     </span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-fernhill-sand/70">
                       by {selectedFeature.profiles?.display_name || 'Anonymous'}
                     </span>
                   </div>
@@ -642,48 +642,48 @@ export default function FeatureRequestTracker() {
               </div>
               <button
                 onClick={() => setSelectedFeature(null)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-fernhill-sand/50 hover:text-fernhill-sand"
               >
                 ✕
               </button>
             </div>
 
-            <p className="text-gray-600 dark:text-gray-300 mb-6 whitespace-pre-wrap">{selectedFeature.description}</p>
+            <p className="text-fernhill-sand mb-6 whitespace-pre-wrap">{selectedFeature.description}</p>
 
             {selectedFeature.admin_notes && (
-              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-xl p-4 mb-6">
-                <p className="text-sm font-medium text-purple-700 dark:text-purple-300 mb-1">Admin Response</p>
-                <p className="text-purple-600 dark:text-purple-400">{selectedFeature.admin_notes}</p>
+              <div className="bg-fernhill-gold/10 rounded-xl p-4 mb-6 border border-fernhill-gold/30">
+                <p className="text-sm font-medium text-fernhill-gold mb-1">Admin Response</p>
+                <p className="text-fernhill-sand">{selectedFeature.admin_notes}</p>
               </div>
             )}
 
             {/* Comments */}
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <div className="border-t border-fernhill-earth pt-6">
+              <h3 className="font-semibold text-fernhill-cream mb-4 flex items-center gap-2">
                 <MessageSquare className="w-4 h-4" />
                 Discussion ({comments.length})
               </h3>
 
               <div className="space-y-4 mb-4 max-h-60 overflow-y-auto">
                 {comments.length === 0 ? (
-                  <p className="text-sm text-gray-500 text-center py-4">No comments yet. Start the discussion!</p>
+                  <p className="text-sm text-fernhill-sand/70 text-center py-4">No comments yet. Start the discussion!</p>
                 ) : (
                   comments.map(comment => (
-                    <div key={comment.id} className={`p-3 rounded-xl ${comment.is_admin_response ? 'bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800' : 'bg-gray-50 dark:bg-gray-700'}`}>
+                    <div key={comment.id} className={`p-3 rounded-xl ${comment.is_admin_response ? 'bg-fernhill-gold/10 border border-fernhill-gold/30' : 'bg-fernhill-brown/50'}`}>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium text-sm text-gray-900 dark:text-white">
+                        <span className="font-medium text-sm text-fernhill-cream">
                           {comment.profiles?.display_name || 'Anonymous'}
                         </span>
                         {comment.is_admin_response && (
-                          <span className="text-xs px-2 py-0.5 bg-purple-200 dark:bg-purple-800 text-purple-700 dark:text-purple-300 rounded-full">
+                          <span className="text-xs px-2 py-0.5 bg-fernhill-gold/20 text-fernhill-gold rounded-full">
                             Team
                           </span>
                         )}
-                        <span className="text-xs text-gray-500 ml-auto">
+                        <span className="text-xs text-fernhill-sand/50 ml-auto">
                           {new Date(comment.created_at).toLocaleDateString()}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">{comment.content}</p>
+                      <p className="text-sm text-fernhill-sand">{comment.content}</p>
                     </div>
                   ))
                 )}
@@ -695,12 +695,12 @@ export default function FeatureRequestTracker() {
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                   placeholder="Add a comment..."
-                  className="flex-1 px-4 py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl"
+                  className="flex-1 px-4 py-2 bg-fernhill-brown/50 border border-fernhill-earth rounded-xl text-fernhill-cream placeholder:text-fernhill-sand/50"
                 />
                 <button
                   type="submit"
                   disabled={!newComment.trim()}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white rounded-xl font-medium"
+                  className="px-4 py-2 bg-fernhill-gold hover:bg-fernhill-terracotta disabled:opacity-50 text-fernhill-dark rounded-xl font-medium"
                 >
                   Post
                 </button>
@@ -730,7 +730,7 @@ function FeatureCard({
 
   return (
     <div 
-      className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-800 transition-all cursor-pointer"
+      className="bg-fernhill-charcoal rounded-xl p-4 shadow-sm border border-fernhill-earth hover:border-fernhill-gold/50 transition-all cursor-pointer"
       onClick={onSelect}
     >
       <div className="flex gap-4">
@@ -741,13 +741,13 @@ function FeatureCard({
             aria-label={`Upvote feature request: ${feature.title}`}
             className={`p-2 rounded-lg transition-all ${
               isVoted 
-                ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600' 
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-500 hover:bg-purple-50'
+                ? 'bg-fernhill-gold/20 text-fernhill-gold' 
+                : 'bg-fernhill-brown/50 text-fernhill-sand/70 hover:bg-fernhill-gold/10'
             }`}
           >
             <ChevronUp className="w-5 h-5" />
           </button>
-          <span className={`font-bold ${isVoted ? 'text-purple-600' : 'text-gray-700 dark:text-gray-300'}`}>
+          <span className={`font-bold ${isVoted ? 'text-fernhill-gold' : 'text-fernhill-sand'}`}>
             {feature.upvotes}
           </span>
         </div>
@@ -755,16 +755,16 @@ function FeatureCard({
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2 mb-2">
-            <h3 className="font-medium text-gray-900 dark:text-white">{feature.title}</h3>
+            <h3 className="font-medium text-fernhill-cream">{feature.title}</h3>
             <span className={`flex-shrink-0 px-2 py-0.5 rounded-full text-xs font-medium ${statusConfig.color}`}>
               {statusConfig.label}
             </span>
           </div>
           
-          <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-3">{feature.description}</p>
+          <p className="text-sm text-fernhill-sand/70 line-clamp-2 mb-3">{feature.description}</p>
           
-          <div className="flex items-center gap-3 text-xs text-gray-500">
-            <span className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full">
+          <div className="flex items-center gap-3 text-xs text-fernhill-sand/50">
+            <span className="inline-flex items-center gap-1 px-2 py-1 bg-fernhill-brown/50 rounded-full">
               {category.emoji} {category.label}
             </span>
             <span className="flex items-center gap-1">
@@ -788,11 +788,11 @@ function BugCard({ bug }: { bug: BugReport }) {
   const statusConfig = BUG_STATUS_CONFIG[bug.status];
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-sm border border-gray-100 dark:border-gray-700">
+    <div className="bg-fernhill-charcoal rounded-xl p-4 shadow-sm border border-fernhill-earth">
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex items-center gap-2">
-          <Bug className="w-4 h-4 text-red-500" />
-          <h3 className="font-medium text-gray-900 dark:text-white">{bug.title}</h3>
+          <Bug className="w-4 h-4 text-fernhill-terracotta" />
+          <h3 className="font-medium text-fernhill-cream">{bug.title}</h3>
         </div>
         <div className="flex items-center gap-2">
           <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${severityConfig.color}`}>
@@ -804,11 +804,11 @@ function BugCard({ bug }: { bug: BugReport }) {
         </div>
       </div>
       
-      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{bug.description}</p>
+      <p className="text-sm text-fernhill-sand/70 mb-3">{bug.description}</p>
       
-      <div className="flex items-center gap-3 text-xs text-gray-500">
+      <div className="flex items-center gap-3 text-xs text-fernhill-sand/50">
         {bug.affected_page && (
-          <span className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full">
+          <span className="flex items-center gap-1 px-2 py-1 bg-fernhill-brown/50 rounded-full">
             <ExternalLink className="w-3 h-3" />
             {bug.affected_page}
           </span>
@@ -822,7 +822,7 @@ function BugCard({ bug }: { bug: BugReport }) {
           {new Date(bug.created_at).toLocaleDateString()}
         </span>
         {bug.fixed_in_version && (
-          <span className="flex items-center gap-1 text-green-600">
+          <span className="flex items-center gap-1 text-green-400">
             <CheckCircle2 className="w-3 h-3" />
             Fixed in v{bug.fixed_in_version}
           </span>
@@ -830,9 +830,9 @@ function BugCard({ bug }: { bug: BugReport }) {
       </div>
 
       {bug.admin_notes && (
-        <div className="mt-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-          <p className="text-xs font-medium text-purple-700 dark:text-purple-300 mb-1">Admin Note</p>
-          <p className="text-sm text-purple-600 dark:text-purple-400">{bug.admin_notes}</p>
+        <div className="mt-3 p-3 bg-fernhill-gold/10 rounded-lg border border-fernhill-gold/30">
+          <p className="text-xs font-medium text-fernhill-gold mb-1">Admin Note</p>
+          <p className="text-sm text-fernhill-sand">{bug.admin_notes}</p>
         </div>
       )}
     </div>

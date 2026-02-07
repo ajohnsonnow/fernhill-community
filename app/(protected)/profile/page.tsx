@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
-import { LogOut, Settings as SettingsIcon, Edit3, Bug, Lightbulb, Heart, Camera, Loader2, X, Shield, Key, Bell, Eye, EyeOff, Smartphone, Monitor, Lock, Accessibility, TrendingUp, Database, Activity, Users } from 'lucide-react'
+import { LogOut, Settings as SettingsIcon, Edit3, Bug, Lightbulb, Heart, Camera, Loader2, X, Shield, Key, Bell, Eye, EyeOff, Smartphone, Monitor, Lock, Accessibility, TrendingUp, Database, Activity, Users, ChevronDown, ChevronUp } from 'lucide-react'
 import { toast } from 'sonner'
 import { compressAvatar } from '@/lib/image-utils'
 import NotificationManager from '@/components/notifications/NotificationManager'
@@ -34,6 +34,12 @@ export default function ProfilePage() {
   const [usageStats, setUsageStats] = useState<UserUsageStats | null>(null)
   const [communityAverages, setCommunityAverages] = useState<CommunityAverages | null>(null)
   const [loadingUsage, setLoadingUsage] = useState(true)
+  
+  // Collapsible sections for mobile-first design
+  const [showUsageStats, setShowUsageStats] = useState(false)
+  const [showConnectLinks, setShowConnectLinks] = useState(false)
+  const [showCommunityForms, setShowCommunityForms] = useState(false)
+  
   const supabase = createClient()
   const router = useRouter()
 
@@ -180,13 +186,29 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Usage Stats Card */}
+        {/* Usage Stats Card - Collapsible for mobile */}
         {!loadingUsage && usageStats && communityAverages && (
-          <div className="glass-panel rounded-2xl p-6 mb-4">
-            <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="w-5 h-5 text-fernhill-gold" />
-              <h3 className="text-xl font-bold text-white">Your Community Footprint</h3>
-            </div>
+          <div className="glass-panel rounded-2xl mb-4 overflow-hidden">
+            <button
+              onClick={() => setShowUsageStats(!showUsageStats)}
+              className="w-full flex items-center justify-between p-4 min-h-[56px]"
+            >
+              <div className="flex items-center gap-3">
+                <TrendingUp className="w-5 h-5 text-fernhill-gold" />
+                <div className="text-left">
+                  <h3 className="text-lg font-bold text-white">Your Community Footprint</h3>
+                  <p className="text-white/50 text-xs">{usageStats.activityLevel === 'quiet' ? '🤫 Quiet' : usageStats.activityLevel === 'moderate' ? '💬 Moderate' : usageStats.activityLevel === 'active' ? '🎉 Active' : '🔥 Very Active'} • {usageStats.totalPosts} posts</p>
+                </div>
+              </div>
+              {showUsageStats ? (
+                <ChevronUp className="w-5 h-5 text-fernhill-sand" />
+              ) : (
+                <ChevronDown className="w-5 h-5 text-fernhill-sand" />
+              )}
+            </button>
+            
+            {showUsageStats && (
+              <div className="px-6 pb-6 animate-fadeIn">
             
             <p className="text-white/60 text-sm mb-6">
               See how much space you're taking up in our community. Balance your voice to help amplify quieter members! 🌿
@@ -274,12 +296,12 @@ export default function ProfilePage() {
                   </div>
                   <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
                     <div 
-                      className={`h-full rounded-full transition-all ${
+                      className={`h-full rounded-full transition-all dynamic-width ${
                         usageStats.totalPosts > communityAverages.avgPosts * 1.5 ? 'bg-amber-500' :
                         usageStats.totalPosts > communityAverages.avgPosts ? 'bg-emerald-500' :
                         'bg-blue-500'
                       }`}
-                      style={{ width: `${Math.min((usageStats.totalPosts / communityAverages.avgPosts) * 50, 100)}%` }}
+                      style={{ '--dynamic-width': `${Math.min((usageStats.totalPosts / communityAverages.avgPosts) * 50, 100)}%` } as React.CSSProperties}
                     />
                   </div>
                 </div>
@@ -290,12 +312,12 @@ export default function ProfilePage() {
                   </div>
                   <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
                     <div 
-                      className={`h-full rounded-full transition-all ${
+                      className={`h-full rounded-full transition-all dynamic-width ${
                         usageStats.totalStorageBytes > communityAverages.avgStorage * 1.5 ? 'bg-amber-500' :
                         usageStats.totalStorageBytes > communityAverages.avgStorage ? 'bg-emerald-500' :
                         'bg-blue-500'
                       }`}
-                      style={{ width: `${Math.min((usageStats.totalStorageBytes / communityAverages.avgStorage) * 50, 100)}%` }}
+                      style={{ '--dynamic-width': `${Math.min((usageStats.totalStorageBytes / communityAverages.avgStorage) * 50, 100)}%` } as React.CSSProperties}
                     />
                   </div>
                 </div>
@@ -305,85 +327,121 @@ export default function ProfilePage() {
                 💡 <strong>Tip:</strong> If you're above average, consider taking a pause to listen and amplify voices that might be getting drowned out. Community balance helps everyone feel heard!
               </div>
             </div>
+              </div>
+            )}
           </div>
         )}
 
-        {/* Community Links */}
-        <div className="card-warm p-4 mb-4">
-          <h3 className="text-sm font-medium text-fernhill-sand/60 mb-3 uppercase tracking-wider">Connect</h3>
-          <div className="grid grid-cols-2 gap-2">
-            <a 
-              href="https://www.instagram.com/fernhill_dance_community/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
-            >
-              📸 Instagram
-            </a>
-            <a 
-              href="https://www.facebook.com/groups/pdxsundayedanceitp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
-            >
-              👥 Facebook
-            </a>
-            <a 
-              href="https://calendar.google.com/calendar/embed?src=fernhilldance%40gmail.com&ctz=America%2FLos_Angeles"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
-            >
-              📅 Calendar
-            </a>
-            <a 
-              href="https://venmo.com/u/fernhill"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
-            >
-              💚 Venmo
-            </a>
-          </div>
+        {/* Community Links - Collapsible */}
+        <div className="card-warm rounded-2xl mb-4 overflow-hidden">
+          <button
+            onClick={() => setShowConnectLinks(!showConnectLinks)}
+            className="w-full flex items-center justify-between p-4 min-h-[56px]"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-lg">🔗</span>
+              <span className="text-fernhill-cream font-medium">Connect</span>
+            </div>
+            {showConnectLinks ? (
+              <ChevronUp className="w-5 h-5 text-fernhill-sand" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-fernhill-sand" />
+            )}
+          </button>
+          {showConnectLinks && (
+            <div className="px-4 pb-4 animate-fadeIn">
+              <div className="grid grid-cols-2 gap-2">
+                <a 
+                  href="https://www.instagram.com/fernhill_dance_community/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
+                >
+                  📸 Instagram
+                </a>
+                <a 
+                  href="https://www.facebook.com/groups/pdxsundayedanceitp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
+                >
+                  👥 Facebook
+                </a>
+                <a 
+                  href="https://calendar.google.com/calendar/embed?src=fernhilldance%40gmail.com&ctz=America%2FLos_Angeles"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
+                >
+                  📅 Calendar
+                </a>
+                <a 
+                  href="https://venmo.com/u/fernhill"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
+                >
+                  💚 Venmo
+                </a>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Volunteer Forms */}
-        <div className="card-warm p-4 mb-4">
-          <h3 className="text-sm font-medium text-fernhill-sand/60 mb-3 uppercase tracking-wider">Community Forms</h3>
-          <div className="space-y-2">
-            <a 
-              href="https://docs.google.com/spreadsheets/d/1EcBHNAVFkNi79c1aAgaMMaQiqLjKhrewcTCWWgQGw1Q/edit?usp=sharing"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
-            >
-              🙋 Altar & Volunteer Sign-Up
-            </a>
-            <a 
-              href="https://forms.gle/cbwu6x3jdyAAio6A7"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
-            >
-              🎵 DJ / Artist Submission
-            </a>
-            <a 
-              href="https://forms.gle/9yXVS4MSwMP9CJnQ7"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
-            >
-              💬 General Feedback
-            </a>
-            <a 
-              href="https://docs.google.com/forms/d/e/1FAIpQLSeAGwROK9NUCzMaJlK4g-07p2KcRabBkzj7D9q62dgvCkPypA/viewform"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
-            >
-              🛡️ Boundary Violation Report
-            </a>
-          </div>
+        {/* Community Forms - Collapsible */}
+        <div className="card-warm rounded-2xl mb-4 overflow-hidden">
+          <button
+            onClick={() => setShowCommunityForms(!showCommunityForms)}
+            className="w-full flex items-center justify-between p-4 min-h-[56px]"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-lg">📋</span>
+              <span className="text-fernhill-cream font-medium">Community Forms</span>
+            </div>
+            {showCommunityForms ? (
+              <ChevronUp className="w-5 h-5 text-fernhill-sand" />
+            ) : (
+              <ChevronDown className="w-5 h-5 text-fernhill-sand" />
+            )}
+          </button>
+          {showCommunityForms && (
+            <div className="px-4 pb-4 animate-fadeIn">
+              <div className="space-y-2">
+                <a 
+                  href="https://docs.google.com/spreadsheets/d/1EcBHNAVFkNi79c1aAgaMMaQiqLjKhrewcTCWWgQGw1Q/edit?usp=sharing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
+                >
+                  🙋 Altar & Volunteer Sign-Up
+                </a>
+                <a 
+                  href="https://forms.gle/cbwu6x3jdyAAio6A7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
+                >
+                  🎵 DJ / Artist Submission
+                </a>
+                <a 
+                  href="https://forms.gle/9yXVS4MSwMP9CJnQ7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
+                >
+                  💬 General Feedback
+                </a>
+                <a 
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSeAGwROK9NUCzMaJlK4g-07p2KcRabBkzj7D9q62dgvCkPypA/viewform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 glass-panel-dark rounded-xl text-fernhill-sand hover:text-fernhill-gold transition-colors"
+                >
+                  🛡️ Boundary Violation Report
+                </a>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="space-y-3">

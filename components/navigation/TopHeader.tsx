@@ -154,7 +154,7 @@ export default function TopHeader({ profile }: TopHeaderProps) {
               onClick={() => setMenuOpen(!menuOpen)}
               className="sm:hidden p-2 rounded-xl bg-fernhill-charcoal hover:bg-fernhill-brown/50 transition-colors"
               aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={menuOpen}
+              {...{ 'aria-expanded': menuOpen ? 'true' : 'false' }}
             >
               {menuOpen ? (
                 <X className="w-5 h-5 text-fernhill-cream" />

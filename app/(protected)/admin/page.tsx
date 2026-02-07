@@ -9,7 +9,7 @@ import {
   Trash2, Eye, Filter, AlertTriangle, Clock, Activity,
   RefreshCw, Download, Upload, Lock, Unlock, Calendar,
   UserPlus, Loader2, Mail, ExternalLink, Sparkles,
-  Bug, Flag, VolumeX, Volume2
+  Bug, Flag, VolumeX, Volume2, ChevronUp
 } from 'lucide-react'
 import { formatDistanceToNow, format } from 'date-fns'
 import { BugSquasher, ContentModerator, DemoDataGenerator } from '@/components/admin'
@@ -101,6 +101,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<TabType>('users')
   const [loading, setLoading] = useState(true)
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
+  const [mobileTabMenuOpen, setMobileTabMenuOpen] = useState(false)
   
   // Data states
   const [users, setUsers] = useState<Profile[]>([])
@@ -704,30 +705,101 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Tabs - horizontally scrollable on mobile */}
-      <div className="overflow-x-auto no-scrollbar border-b border-fernhill-sand/10">
-        <div className="flex min-w-max px-2">
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as TabType)}
-              className={`flex items-center gap-1.5 px-3 py-3 text-sm font-medium whitespace-nowrap transition-colors flex-shrink-0 ${
-                activeTab === tab.id 
-                  ? 'text-fernhill-gold border-b-2 border-fernhill-gold' 
-                  : 'text-fernhill-sand/60 hover:text-fernhill-sand'
-              }`}
-            >
-              <tab.icon className="w-4 h-4 flex-shrink-0" />
-              <span className="hidden sm:inline">{tab.label}</span>
-              {tab.count !== undefined && (
-                <span className={`px-1.5 py-0.5 text-xs rounded-full ${
-                  tab.highlight ? 'bg-yellow-500/20 text-yellow-400' : 'bg-fernhill-sand/10'
-                }`}>
-                  {tab.count}
-                </span>
-              )}
-            </button>
-          ))}
+      {/* Mobile: Dropdown Tab Selector */}
+      <div className="md:hidden sticky top-0 z-30 bg-fernhill-charcoal border-b border-fernhill-earth/50">
+        <button
+          onClick={() => setMobileTabMenuOpen(!mobileTabMenuOpen)}
+          className="w-full flex items-center justify-between px-4 py-3 min-h-[52px]"
+        >
+          <div className="flex items-center gap-3">
+            {(() => {
+              const activeTabInfo = tabs.find(t => t.id === activeTab);
+              if (!activeTabInfo) return null;
+              return (
+                <>
+                  <activeTabInfo.icon className="w-5 h-5 text-fernhill-gold" />
+                  <span className="text-fernhill-cream font-medium">{activeTabInfo.label}</span>
+                  {activeTabInfo.count !== undefined && (
+                    <span className={`px-2 py-0.5 text-xs rounded-full ${
+                      activeTabInfo.highlight ? 'bg-yellow-500/20 text-yellow-400' : 'bg-fernhill-sand/10 text-fernhill-sand/70'
+                    }`}>
+                      {activeTabInfo.count}
+                    </span>
+                  )}
+                </>
+              );
+            })()}
+          </div>
+          {mobileTabMenuOpen ? (
+            <ChevronUp className="w-5 h-5 text-fernhill-sand" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-fernhill-sand" />
+          )}
+        </button>
+
+        {/* Mobile Dropdown Menu */}
+        {mobileTabMenuOpen && (
+          <div className="absolute top-full left-0 right-0 bg-fernhill-charcoal border-b border-fernhill-earth/50 shadow-xl max-h-[70vh] overflow-y-auto z-40">
+            <div className="grid grid-cols-2 gap-1 p-2">
+              {tabs.map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setActiveTab(tab.id as TabType);
+                    setMobileTabMenuOpen(false);
+                  }}
+                  className={`flex items-center gap-2 p-3 rounded-lg min-h-[56px] transition-all ${
+                    activeTab === tab.id
+                      ? 'bg-fernhill-gold text-fernhill-dark'
+                      : 'bg-fernhill-brown/50 text-fernhill-sand hover:bg-fernhill-brown'
+                  }`}
+                >
+                  <tab.icon className={`w-5 h-5 flex-shrink-0 ${activeTab === tab.id ? 'text-fernhill-dark' : 'text-fernhill-terracotta'}`} />
+                  <span className="text-sm font-medium truncate">{tab.label}</span>
+                  {tab.count !== undefined && (
+                    <span className={`ml-auto px-1.5 py-0.5 text-xs rounded-full ${
+                      tab.highlight 
+                        ? activeTab === tab.id ? 'bg-fernhill-dark/20 text-fernhill-dark' : 'bg-yellow-500/20 text-yellow-400' 
+                        : activeTab === tab.id ? 'bg-fernhill-dark/20 text-fernhill-dark' : 'bg-fernhill-sand/10 text-fernhill-sand/70'
+                    }`}>
+                      {tab.count}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Desktop: Wrapping Tab Bar */}
+      <div className="hidden md:block sticky top-0 z-20 bg-fernhill-charcoal border-b border-fernhill-earth/50">
+        <div className="max-w-7xl mx-auto px-4 py-2">
+          <div className="flex flex-wrap gap-1">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as TabType)}
+                className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all min-h-[44px] ${
+                  activeTab === tab.id 
+                    ? 'bg-fernhill-gold text-fernhill-dark shadow-md' 
+                    : 'bg-fernhill-brown/40 text-fernhill-sand hover:bg-fernhill-brown hover:text-fernhill-cream'
+                }`}
+              >
+                <tab.icon className={`w-4 h-4 flex-shrink-0 ${activeTab === tab.id ? 'text-fernhill-dark' : 'text-fernhill-terracotta'}`} />
+                <span>{tab.label}</span>
+                {tab.count !== undefined && (
+                  <span className={`px-1.5 py-0.5 text-xs rounded-full ${
+                    tab.highlight 
+                      ? activeTab === tab.id ? 'bg-fernhill-dark/20 text-fernhill-dark' : 'bg-yellow-500/20 text-yellow-400' 
+                      : activeTab === tab.id ? 'bg-fernhill-dark/20 text-fernhill-dark' : 'bg-fernhill-sand/10'
+                  }`}>
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -882,6 +954,7 @@ export default function AdminDashboard() {
                 value={userStatusFilter}
                 onChange={(e) => setUserStatusFilter(e.target.value)}
                 className="px-3 py-2 glass-panel-dark rounded-xl text-fernhill-cream focus:outline-none focus:ring-1 focus:ring-fernhill-gold/50"
+                aria-label="Filter users by status"
               >
                 <option value="all">All Status</option>
                 <option value="pending">Pending</option>
@@ -1012,6 +1085,7 @@ export default function AdminDashboard() {
                           value={user.status}
                           onChange={(e) => updateUserStatus(user.id, e.target.value, user.tribe_name || 'User')}
                           className="px-2 py-1 text-xs glass-panel-dark rounded-lg text-fernhill-cream focus:outline-none"
+                          aria-label={`Change status for ${user.tribe_name || 'User'}`}
                         >
                           <option value="active">Active</option>
                           <option value="facilitator">Facilitator</option>
@@ -1661,10 +1735,11 @@ function AddUserModal({ onClose, onAdd, loading }: AddUserModalProps) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-fernhill-sand/80 mb-2">
+            <label htmlFor="event-status-select" className="block text-sm font-medium text-fernhill-sand/80 mb-2">
               Status
             </label>
             <select
+              id="event-status-select"
               value={status}
               onChange={(e) => setStatus(e.target.value)}
               className="w-full px-4 py-3 rounded-xl glass-panel-dark border border-fernhill-sand/20 text-white focus:outline-none focus:ring-2 focus:ring-fernhill-gold/50"

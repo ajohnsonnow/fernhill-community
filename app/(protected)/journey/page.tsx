@@ -699,8 +699,9 @@ function SuggestTagModal({ onClose }: { onClose: () => void }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-fernhill-sand/80 mb-2">Category</label>
+            <label htmlFor="vibe-category-select" className="block text-sm font-medium text-fernhill-sand/80 mb-2">Category</label>
             <select
+              id="vibe-category-select"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               className="w-full px-4 py-3 rounded-xl glass-panel-dark border border-fernhill-sand/20 text-white focus:outline-none focus:ring-2 focus:ring-fernhill-gold/50"
