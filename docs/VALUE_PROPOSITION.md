@@ -13,7 +13,7 @@ The Fernhill Community PWA represents a paradigm shift in software development e
 
 ### Final Deliverable Stats
 
-- **51,542+ lines** of production TypeScript/TSX/CSS/SQL code
+- **51,541+ lines** of production TypeScript/TSX/CSS/SQL code
 - **175+ TypeScript files** created
 - **100+ React components**
 - **33 SQL migration files** (including user_mute and demo_tagging migrations)

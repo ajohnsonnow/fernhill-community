@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-02-07T09:21:36.685Z",
+  "timestamp": "2026-02-07T09:21:56.432Z",
   "version": "1.21.0",
   "codename": "Unnamed Release",
   "git": {
     "branch": "main",
-    "commit": "475071e",
-    "commitCount": "114"
+    "commit": "2fa2fe7",
+    "commitCount": "116"
   },
   "files": {
     "ts": 77,
@@ -15,7 +15,7 @@
     "sql": 34,
     "md": 14
   },
-  "linesOfCode": 51542,
+  "linesOfCode": 51541,
   "routes": [
     "/admin/events",
     "/admin",
@@ -160,5 +160,5 @@
     "music_sets",
     "custom_vibe_tags"
   ],
-  "lastDeploy": "2026-02-07T09:21:36.685Z"
+  "lastDeploy": "2026-02-07T09:21:56.432Z"
 }
