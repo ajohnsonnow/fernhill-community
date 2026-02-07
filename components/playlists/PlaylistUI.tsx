@@ -335,7 +335,6 @@ export function VibePicker({ selectedVibe, onChange }: VibePickerProps) {
             onChange(vibe.id)
           }}
           className={`
-          className={`
             flex items-center gap-2 px-3 py-2 rounded-full transition-all dynamic-gradient
             ${selectedVibe === vibe.id 
               ? 'ring-2 ring-white ring-offset-2 ring-offset-stone-900' 
