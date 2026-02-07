@@ -265,7 +265,7 @@ export default function Classifieds() {
                       toggleFavorite(listing.id);
                     }}
                     className="absolute top-2 right-2 p-2 bg-fernhill-charcoal/90 rounded-full hover:bg-fernhill-charcoal transition-colors"
-                    aria-label={favorites.has(listing.id) ? "Remove from favorites" : "Add to favorites"}
+                    aria-label={listing.is_favorited ? "Remove from favorites" : "Add to favorites"}
                   >
                     <Heart className={`w-4 h-4 ${listing.is_favorited ? 'fill-red-500 text-red-500' : 'text-fernhill-sand'}`} />
                   </button>

@@ -269,7 +269,7 @@ export default function BusinessDirectory() {
                       toggleFavorite(business.id);
                     }}
                     className="absolute top-2 right-2 p-2 bg-fernhill-charcoal/90 rounded-full hover:bg-fernhill-charcoal transition-colors"
-                    aria-label={favorites.has(business.id) ? "Remove from favorites" : "Add to favorites"}
+                    aria-label={business.is_favorited ? "Remove from favorites" : "Add to favorites"}
                   >
                     <Heart className={`w-5 h-5 ${business.is_favorited ? 'fill-red-500 text-red-500' : 'text-fernhill-sand'}`} />
                   </button>

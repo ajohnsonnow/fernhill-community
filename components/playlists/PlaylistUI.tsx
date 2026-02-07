@@ -335,13 +335,13 @@ export function VibePicker({ selectedVibe, onChange }: VibePickerProps) {
             onChange(vibe.id)
           }}
           className={`
-            flex items-center gap-2 px-3 py-2 rounded-full transition-all
+          className={`
+            flex items-center gap-2 px-3 py-2 rounded-full transition-all dynamic-gradient
             ${selectedVibe === vibe.id 
               ? 'ring-2 ring-white ring-offset-2 ring-offset-stone-900' 
               : ''
             }
           `}
-          className="dynamic-gradient"
           style={{
             '--gradient-from': vibe.gradient[0],
             '--gradient-to': vibe.gradient[1]
