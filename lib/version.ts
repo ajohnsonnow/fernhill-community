@@ -6,9 +6,9 @@
  */
 
 export const APP_VERSION = {
-  version: '1.21.0',
-  codename: 'Shadow & Light',
-  releaseDate: '2026-02-04',
+  version: '1.22.0',
+  codename: 'Crystal Clear',
+  releaseDate: '2026-02-07',
   buildTime: new Date().toISOString(),
 } as const
 

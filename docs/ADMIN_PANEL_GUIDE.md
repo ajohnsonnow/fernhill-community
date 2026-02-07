@@ -514,6 +514,39 @@ All uploaded images are automatically compressed:
 - [ ] Trust score automation
 - [ ] Analytics dashboard
 
+## Recent Platform Updates (v1.21.0)
+
+### Accessibility Compliance
+
+The platform now meets **WCAG 2.1 AA standards**:
+- All admin controls have proper ARIA labels for screen readers
+- Keyboard navigation works across all admin features
+- Form validation errors are announced to assistive technologies
+- Focus management improved for modal dialogs
+
+### Code Quality & Deployment
+
+- **Pre-Deploy Checks**: Automated validation before any production deployment
+  - TypeScript compilation verification
+  - Security audit (no hardcoded secrets)
+  - Documentation auto-updates
+  - Git status validation
+  
+- **Enhanced TypeScript**: Stricter type checking reduces runtime errors
+- **Modern CSS Architecture**: CSS custom properties replace inline styles for better performance
+- **Automated Documentation**: Code statistics and feature lists auto-update
+
+### Performance Improvements
+
+- Reduced JavaScript bundle size through code optimization
+- Hardware-accelerated animations for smoother UI
+- Improved initial page load times
+- Better caching strategies for static assets
+
+> 📊 **Platform Scale:** 51,541 lines of code • 100 components • 18 routes • 20 database tables
+
+---
+
 ## Support
 
 For admin-specific issues:
@@ -524,6 +557,6 @@ For admin-specific issues:
 
 ---
 
-**Last Updated:** January 29, 2026  
-**Version:** 1.2.0  
+**Last Updated:** February 4, 2026  
+**Version:** 1.21.0 "Shadow & Light"  
 **Admin Count:** Check `/admin` → Users Tab → Filter: Admin

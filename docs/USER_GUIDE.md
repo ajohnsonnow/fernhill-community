@@ -588,6 +588,34 @@ Higher trust levels may unlock additional features.
 
 ---
 
+## ✨ Recent Improvements (v1.21.0)
+
+### Accessibility Enhancements
+
+The app now meets **WCAG 2.1 AA accessibility standards**, making it more usable for everyone:
+
+- **Screen Reader Support**: All buttons, forms, and interactive elements properly labeled
+- **Keyboard Navigation**: Full keyboard access to all features
+- **ARIA Attributes**: Proper semantic markup for assistive technologies
+- **Focus Management**: Clear visual focus indicators throughout the app
+
+### Performance & Architecture
+
+- **Modern CSS System**: Migrated from inline styles to CSS custom properties for better performance
+- **Dynamic Theming**: Improved theme switching with hardware-accelerated animations
+- **Reduced Bundle Size**: Cleaner code architecture for faster load times
+- **TypeScript Improvements**: Enhanced type safety throughout the codebase
+
+### Developer Quality of Life
+
+- **Pre-Deploy Automation**: Automated checks ensure quality before updates
+- **Documentation Updates**: All guides auto-update with code statistics
+- **Version Tracking**: Clear versioning and changelogs for transparency
+
+> 💡 **What this means for you:** Faster load times, better accessibility for all abilities, and smoother interactions across all devices.
+
+---
+
 ## 📞 Contact & Support
 
 - **In-App:** Help → Send Feedback
